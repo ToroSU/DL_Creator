@@ -1,5 +1,6 @@
 import openpyxl
 from openpyxl.utils import get_column_letter
+from openpyxl.styles import Alignment
 
 def creat_list(list_info, os_info, data_input, data_all_input):
     ## Creat list and save as Excel
@@ -39,6 +40,11 @@ def creat_list(list_info, os_info, data_input, data_all_input):
     title_font = openpyxl.styles.Font(size=12, bold=False, name='Arial Unicode MS', color="FFFFFF")
     content_font = openpyxl.styles.Font(size=10, bold=False, name='Verdana', color="000000")
 
+    # Alignment define
+    content_align = Alignment(horizontal = "center")
+    content_column_non_align_list = [1, 2, 22] # column : [A, B, H, V] do not participate in alignment.
+    content_column_non_align_list = [temp - 1 for temp in content_column_non_align_list] # Do -1 for excel format in python for loop.
+
     # List title at excel cell:"A1"
     cell_A1_title = [str(list_info[1]), "Driver List -", str(os_info[0]), str(os_info[1]), "Version:", str(list_info[2]), "- Update Date:", str(list_info[3])]
     cell_A1_title = " ".join(cell_A1_title)
@@ -54,11 +60,18 @@ def creat_list(list_info, os_info, data_input, data_all_input):
         wb_1.cell(column=i+1, row=2).value = str(row2_column_title[i])
         wb_1.cell(column=i+1, row=2).font = title_font
 
-    # All list to excel  
-    for i in range(0, len(data_all_input)):
-        for j in range(0, len(data_all_input[i])):
-            wb_1.cell(column=i+1, row=j+3).value = str(data_all_input[i][j])
-            wb_1.cell(column=i+1, row=j+3).font = content_font
+    # All list to excel, modify font and alignment
+    for i in range(0, len(data_all_input)): # i = number of columns.
+        wb_1.cell(column=i+1, row=2).alignment = content_align
+        for j in range(0, len(data_all_input[i])): # j = number of rows.
+            if i in content_column_non_align_list:
+                wb_1.cell(column=i+1, row=j+3).value = str(data_all_input[i][j])
+                wb_1.cell(column=i+1, row=j+3).font = content_font
+            else:
+                wb_1.cell(column=i+1, row=j+3).value = str(data_all_input[i][j])
+                wb_1.cell(column=i+1, row=j+3).font = content_font
+                wb_1.cell(column=i+1, row=j+3).alignment = content_align
+
 
     # Set column width
     dims = {}
@@ -70,9 +83,12 @@ def creat_list(list_info, os_info, data_input, data_all_input):
         if value <= 13:
             wb_1.column_dimensions[col].width = 13
         else:
-            wb_1.column_dimensions[col].width = value
+            wb_1.column_dimensions[col].width = value + 5
 
-    wb_1.column_dimensions["A"].width = 35 # A column do not automatically adjust column width (Cause A1)
+    wb_1.column_dimensions["A"].width = 30 # A column do not automatically adjust column width (Cause A1)
 
-    wb.save(fn)
+    try:
+        wb.save(fn)
+    except:
+        print("\nExcel WARNING : Please try closing the excel file and RE-RUN the program.")
     
