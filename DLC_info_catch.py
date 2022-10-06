@@ -375,10 +375,39 @@ def appID_list_get(item_list_path, aumids_path_list):
 
 
 def appName_list_get(item_list_path, aumids_path_list):
-    # 目前不知道用啥方法自動填寫，以後再想
+    # complete by hard coding.
     appName_list = []
+    appName_check_list = ["graphics", "vga", "realtek", "icps", "dolby"] 
+
     for i in range(0, len(item_list_path)):
-        appName_list.append("")
+        path_split = item_list_path[i].split("\\")
+        folder_root_name = path_split[0]
+        name_split = folder_root_name.split("_")
+        if aumids_path_list[i]  != "NA":
+            for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
+                name_split[j] = name_split[j].lower()
+                if name_split[j] in appName_check_list[0:1]:
+                    appName_str = "Intel® Graphics Command Center"
+                    break
+
+                elif name_split[j] == appName_check_list[2]:
+                    appName_str = "Realtek Audio Console"
+                    break
+
+                elif name_split[j] == appName_check_list[3]:
+                    appName_str = "Intel® Connectivity Performance Suite"
+                    break
+
+                elif name_split[j] == appName_check_list[4]:
+                    appName_str = "Dolby Access"
+                    break
+
+                else:
+                    appName_str = "Error"
+        else:
+            appName_str = ""
+
+        appName_list.append(appName_str)
     
     return appName_list
 
@@ -456,7 +485,7 @@ def driverDate_list_get():
     pass
 
 def versionRegKey_list_get(item_list_path, software_path_list):
-    # for O column (2022/10/04), # 暫定寫死 (詳見 software_item_analysis)
+    # for O column (2022/10/04), # complete by hard coding. (can also check function: software_item_analysis)
     versionRegKey_list = []
     versionRegKey_check_list = ["inteligo", "litelligo", "igo", "dolby", "cardreader"] 
 
