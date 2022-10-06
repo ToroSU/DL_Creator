@@ -315,7 +315,7 @@ def description_ver_date_list_get(item_list_path):
 
 def software_item_analysis(item_list_path):
     software_item_path = []
-    versionregKey_list = [] # for O column (2022/10/04), # 目前是瑕疵品，暫時不知道怎麼完成 (詳見輸出結果)
+    versionregKey_list = [] # for O column (2022/10/04), # 目前是瑕疵品，暫時不知道怎麼完成，暫定寫死 (詳見輸出結果)
     folder_check_once = False
     for root_i in range(0, len(item_list_path)):
         for root, dirs, files in os.walk(item_list_path[root_i]):
