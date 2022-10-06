@@ -42,7 +42,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
 
     # Alignment define
     content_align = Alignment(horizontal = "center")
-    content_column_non_align_list = [1, 2, 22] # column : [A, B, H, V] do not participate in alignment.
+    content_column_non_align_list = [1, 2, 16, 17, 22] # column : [A, B, H, V] do not participate in alignment.
     content_column_non_align_list = [temp - 1 for temp in content_column_non_align_list] # Do -1 for excel format in python for loop.
 
     # List title at excel cell:"A1"
@@ -80,10 +80,10 @@ def creat_list(list_info, os_info, data_input, data_all_input):
             if cell.value:
                 dims[cell.column_letter] = max((dims.get(cell.column_letter, 0), len(str(cell.value))))
     for col, value in dims.items():
-        if value <= 13:
-            wb_1.column_dimensions[col].width = 13
+        if value <= 15:
+            wb_1.column_dimensions[col].width = 20
         else:
-            wb_1.column_dimensions[col].width = value + 5
+            wb_1.column_dimensions[col].width = value + 7
 
     wb_1.column_dimensions["A"].width = 30 # A column do not automatically adjust column width (Cause A1)
 
