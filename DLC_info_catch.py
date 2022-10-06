@@ -277,7 +277,7 @@ def description_ver_date_list_get(item_list_path):
 
 def software_item_analysis(item_list_path):
     software_item_path = []
-    versionregKey_list = [] # for O column (2022/10/04), # 目前是瑕疵品，不知道怎麼完成，暫定寫死 (詳見輸出結果)
+    # versionregKey_list = [] # for O column (2022/10/04), # 目前是瑕疵品，不知道怎麼完成，暫定寫死 (詳見輸出結果)
     folder_check_once = False
     for root_i in range(0, len(item_list_path)):
         for root, dirs, files in os.walk(item_list_path[root_i]):
@@ -288,18 +288,18 @@ def software_item_analysis(item_list_path):
                     for line in lines_: 
                         if "HKEY_LOCAL_MACHINE\\SOFTWARE\\" in line or "HKLM:\\SOFTWARE\\" in line:
                             folder_check_once = True
-                            versionregKey_temp = line.rstrip('\r\n') # remove newline 
+                            # versionregKey_temp = line.rstrip('\r\n') # remove newline 
                             break
 
         if folder_check_once:
             software_item_path.append(path_)
-            versionregKey_list.append(versionregKey_temp)
+            # versionregKey_list.append(versionregKey_temp)
             folder_check_once = False
         else:
             software_item_path.append("NA")
-            versionregKey_list.append("/")
+            # versionregKey_list.append("/")
 
-    return software_item_path, versionregKey_list
+    return software_item_path
 
 
 def provider_list_get(item_list_path): # 目前先定義全 Compal (2020/10/05)
@@ -455,10 +455,41 @@ def driverDate_list_get():
     # pending
     pass
 
-def versionRegKey_list_get():
-    # already get in function: software_item_analysis
-    pass
+def versionRegKey_list_get(item_list_path, software_path_list):
+    # for O column (2022/10/04), # 暫定寫死 (詳見 software_item_analysis)
+    versionRegKey_list = []
+    versionRegKey_check_list = ["inteligo", "litelligo", "igo", "dolby", "cardreader"] 
 
+    for i in range(0, len(item_list_path)):
+        path_split = item_list_path[i].split("\\")
+        folder_root_name = path_split[0]
+        name_split = folder_root_name.split("_")
+        if software_path_list[i]  != "NA":
+            for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
+                name_split[j] = name_split[j].lower()
+
+                if name_split[j] in versionRegKey_check_list[0:2]:
+                    versionRegKey_str = "SOFTWARE\\Intelligo\\APO_Component\\DisplayVersion"
+                    break
+
+                elif name_split[j] == versionRegKey_check_list[3]:
+                    versionRegKey_str = "SOFTWARE\\ASUS\\Dolby_Atmos_for_PC_driver\\DisplayVersion"
+                    break
+
+                elif name_split[j] == versionRegKey_check_list[4]:
+                    versionRegKey_str = "SOFTWARE\\Realtek\\Cardreader\\Version"
+                    break
+
+                else:
+                    versionRegKey_str = "Error"
+        else:
+            versionRegKey_str = "/"
+
+        versionRegKey_list.append(versionRegKey_str)
+    
+    return versionRegKey_list
+
+    
 
 def silentInstallCommand_list_get(item_list_path):
     silentInstallCommand_list = []
@@ -560,7 +591,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
 
     category_list = category_list_get(item_list)
     description_list, driverVersion_list_temp, driverDate_list_temp  = description_ver_date_list_get(item_list_path)
-    software_path_list, versionregKey_list_temp = software_item_analysis(item_list_path)
+    software_path_list = software_item_analysis(item_list_path)
 
     provider_list = provider_list_get(item_list_path)
     vendor_list = vendor_list_get(item_list_path)
@@ -577,7 +608,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     hardwareID_list = hardwareID_list_get(item_list_path)
     driverVersion_list = driverVersion_list_temp
     driverDate_list = driverDate_list_temp
-    versionRegKey_list = versionregKey_list_temp
+    versionRegKey_list = versionRegKey_list_get(item_list_path, software_path_list)
     silentInstallCommand_list = silentInstallCommand_list_get(item_list_path)
     matchFwVersion_list = matchFwVersion_list_get(item_list_path)
     needReboot_list = needReboot_list_get(item_list_path, aumids_path_list)
