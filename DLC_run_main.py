@@ -20,7 +20,6 @@ def list_diff(li1, li2):
     return (list(set(li1).symmetric_difference(set(li2))))
 
 
-# if __name__ == '__main__':
 start = time.time()
 ## Main
 # TO DO: GUI creat config.ini 
@@ -40,13 +39,12 @@ for i in range(0, len(root_folder)):
 
 
 # Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
+# TODO bat file exist (maybe todo ...)
 batch_in_folder_path_list = []  # Main output 1: list of bat file path .
 AUMIDs_in_folder_path_list = [] # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
 aumid_check = False # If aumid and bat file are in same folder, this para. will set as True.
-
-
-#TODO bat file exist (maybe todo ...)
 bat_check_list = ["SilentInstall.bat", "uninstall_all.bat"]
+
 for root_i in range(0, len(package_list)):
     for root, dirs, files in os.walk(package_list[root_i]):
         for file in files:
@@ -74,12 +72,12 @@ for root_i in range(0, len(package_list)):
 ## Analyze the folder name to choose catch method, then create item list of driver list.
 # We focus on WLANBT folder now. (Cause this item will add another item in driver list)
 # TODO VGA, Liteon WLANBT, MTK WLANBT 
-# Main output 1: item_list:  list all item which need be in category column
-# Main output 2: item_list_path 
 wlanbt_path_list = DLC_info_catch.wlanbt_analysis(batch_in_folder_path_list) # output format: [[intel wlan], [intel bt], [mtk wlan],
                                                                              #                 [mtk bt], [liteon wlan], [liteon bt]]
+
 # Detect wlanbt module (e.g ax201, ax211) amount and wlanbt folder amount
 # If wlan/bt folder of each vendor has different quantities, will create a Warning message : wlan bt Folder maybe had erred
+# item_list: list all item which need be in "Category column"
 item_list, item_list_path, aumids_path_list= DLC_info_catch.wlanbt_item_add(batch_in_folder_path_list, AUMIDs_in_folder_path_list, wlanbt_path_list, wlanbt_info)
 
 for i in range(0, len(wlanbt_path_list), 2):
@@ -87,7 +85,7 @@ for i in range(0, len(wlanbt_path_list), 2):
         print("WARNING: Folder {}, WLAN and BT path maybe had erred!".format(wlanbt_path_list[i][0].split("\\")[0]))
 
 
-## all list, ready for output to excel
+## Obtain all list, ready for output to excel.
 print("\n-------------v Message Text v-------------\n")
 all_list = DLC_info_catch.all_List_get(item_list, item_list_path, aumids_path_list, os_info)
 
