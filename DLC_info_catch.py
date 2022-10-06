@@ -24,44 +24,6 @@ def file_reader(file_):
 
     return lines_
 
-def catch_test(inf_file):
-    # Keyword
-    driver_ver='DriverVer'
-    catalog_file='CatalogFile'
-    FILE_NAME='Filename'
-
-    lines_ = file_reader(inf_file)
-
-    get_cataAndver_counter = 0
-    for line in lines_:
-        if FILE_NAME in line:
-            useless_info, driverName_1 = line.rsplit(':')
-            driverName_1 = re.sub(r"^\s+|\s+$", "", driverName_1)
-
-        if catalog_file in line:
-            useless_info, driverName = line.rsplit('=')
-            driverName = re.sub(r"^\s+|\s+$", "", driverName)
-            get_cataAndver_counter += 1
-
-        if driver_ver in line:
-            driver_ver_line = line
-            try:
-                useless_info, driver_ver_line = driver_ver_line.split('=')
-                date_, ver_ = driver_ver_line.split(',')
-                date_ = re.sub(r"^\s+|\s+$", "", date_)
-
-                if ';' in ver_:
-                    ver_1, bb =ver_.split(';')
-                else:
-                    ver_1 = ver_    
-                get_cataAndver_counter += 1
-            except:
-                continue
-
-            print(inf_file)
-            print(date_, ver_1)
-            return inf_file, date_, ver_1
-
 
 def ver_date_get(inf_file):
     driver_ver='DriverVer'
@@ -315,7 +277,7 @@ def description_ver_date_list_get(item_list_path):
 
 def software_item_analysis(item_list_path):
     software_item_path = []
-    versionregKey_list = [] # for O column (2022/10/04), # 目前是瑕疵品，暫時不知道怎麼完成，暫定寫死 (詳見輸出結果)
+    versionregKey_list = [] # for O column (2022/10/04), # 目前是瑕疵品，不知道怎麼完成，暫定寫死 (詳見輸出結果)
     folder_check_once = False
     for root_i in range(0, len(item_list_path)):
         for root, dirs, files in os.walk(item_list_path[root_i]):
@@ -363,7 +325,7 @@ def vendor_list_get(item_list_path):
 
 
 def listOfsupportModelName_list_get(item_list_path):
-    # 待釐清
+    # to be clarified
     listOfsupportModelName_list = []
     for i in range(0, len(item_list_path)):
         listOfsupportModelName_list.append("")
@@ -422,15 +384,16 @@ def appName_list_get(item_list_path, aumids_path_list):
 
 
 def supportSideLink_list_get(item_list_path):
-    # 待釐清
+    # to be clarified
     supportSideLink_list = []
     for i in range(0, len(item_list_path)):
         supportSideLink_list.append("")
     
     return supportSideLink_list
 
+
 def extensionID_list_get(item_list_path):
-    # 待釐清
+    # to be clarified
     extensionID_list = []
     for i in range(0, len(item_list_path)):
         extensionID_list.append("")
@@ -447,7 +410,7 @@ def supportOS_list_get(item_list_path, os_info):
 
 
 def whql_list_get(item_list_path, aumids_path_list, os_info):
-    # 待釐清
+    # to be clarified
     whql_list = []
     for i in range(0, len(item_list_path)):
         if aumids_path_list[i] != "NA":
@@ -475,7 +438,7 @@ def checkVersionMechanism_list_get(item_list_path, software_path_list, aumids_pa
 
 
 def hardwareID_list_get(item_list_path):
-    # 待釐清
+    # to be clarified
     hardwareID_list = []
     for i in range(0, len(item_list_path)):
         hardwareID_list.append("")
@@ -484,12 +447,12 @@ def hardwareID_list_get(item_list_path):
 
 
 def driverVersion_list_get():
-    # 稍後
+    # pending
     pass
 
 
 def driverDate_list_get():
-    # 稍後
+    # pending
     pass
 
 def versionRegKey_list_get():
@@ -510,7 +473,7 @@ def silentInstallCommand_list_get(item_list_path):
 
 
 def matchFwVersion_list_get(item_list_path):
-    # 待釐清
+    # to be clarified
     matchFwVersion_list = []
     for i in range(0, len(item_list_path)):
         matchFwVersion_list.append("")
@@ -550,91 +513,12 @@ def driverPackage_list_get(item_list_path):
 
 
 def remark_list_get(item_list_path):
-    # just to create excel now
+    # just for create excel now
     remark_list = []
     for i in range(0, len(item_list_path)):
         remark_list.append("")
     
     return remark_list
-
-
-def intel_chipset():
-    pass
-
-def intel_ME():
-    pass
-
-def intel_RST():
-    pass
-
-def intel_GPIO():
-    pass
-
-def intel_I2C():
-    pass
-
-def intel_DTT():
-    pass
-
-def intel_graphics():
-    pass
-
-def intel_SST():
-    pass
-
-def intel_LAN():
-    pass
-
-def intel_WLAN():
-    pass
-
-def intel_BT():
-    pass
-
-def intel_ICPS():
-    pass
-
-def intel_GNA():
-    pass
-
-def intel_ISH():
-    pass
-
-def amd_chipset():
-    pass
-
-def nvidia_graphics():
-    pass
-
-def realtek_audio():
-    pass
-
-def realtek_cardreader():
-    pass
-
-def realtek_camera():
-    pass
-
-def sonix_camera():
-    pass
-
-def elan_FP():
-    pass
-
-def intelligo_APO():
-    pass
-
-def asus_touchpad():
-    pass
-
-def dolby_APO():
-    pass
-
-def liteon_WLAN():
-    pass
-
-def liteon_BT():
-    pass
 
 
 def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
