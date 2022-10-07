@@ -74,7 +74,7 @@ def wlanbt_analysis(path_list):
     bt_list_Liteon = []
 
     for i in range(0, len(path_list)):
-        path_split, folder_root_name, name_split = name_split_get(path_list[i])
+        path_split, folder_root_name, name_split = name_split_get(path_list[i]) # see name_split_get define.
 
         for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
             name_split[j] = name_split[j].lower()
