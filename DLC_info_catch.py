@@ -487,7 +487,7 @@ def driverDate_list_get():
 def versionRegKey_list_get(item_list_path, software_path_list):
     # for O column (2022/10/04), # complete by hard coding. (can also check function: software_item_analysis)
     versionRegKey_list = []
-    versionRegKey_check_list = ["inteligo", "litelligo", "igo", "dolby", "cardreader"] 
+    versionRegKey_check_list = ["inteligo", "intelligo", "igo", "dolby", "cardreader"] 
 
     for i in range(0, len(item_list_path)):
         path_split = item_list_path[i].split("\\")
