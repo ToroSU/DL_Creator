@@ -81,7 +81,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
             if cell.value:
                 dims[cell.column_letter] = max((dims.get(cell.column_letter, 0), len(str(cell.value))))
     for col, value in dims.items():
-        if value <= 15:
+        if value <= 20:
             wb_1.column_dimensions[col].width = 20
         else:
             wb_1.column_dimensions[col].width = value + 7
