@@ -28,19 +28,18 @@ def file_reader(file_):
 def ver_date_get(inf_file):
     driver_ver='DriverVer'
     lines_ = file_reader(inf_file)
-    ver_str = "N"
-    date_str = "N"
 
     for line in lines_:
         if driver_ver in line:
-            driver_ver_line = line
+            driver_ver_line = line # e.g. DriverVer = 05/30/2022,22.150.0.6
             try:
-                useless_info, driver_ver_line = driver_ver_line.split('=')
+                driver_ver_line = driver_ver_line.split('=')[1] # e.g. 05/30/2022,22.150.0.6
                 date_, ver_ = driver_ver_line.split(',')
-                date_str = re.sub(r"^\s+|\s+$", "", date_)
+                date_str = re.sub(r"^\s+|\s+$", "", date_) # remove white-space
 
                 if ";" in ver_:
-                    ver_str, bb =ver_.split(';')
+                    print(ver_)
+                    ver_str = ver_.split(';')[0] 
                     ver_str = re.sub(r"^\s+|\s+$", "", ver_str)
                 else:
                     ver_str = re.sub(r"^\s+|\s+$", "", ver_)
