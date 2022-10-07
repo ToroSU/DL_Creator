@@ -42,7 +42,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
 
     # Alignment define
     content_align = Alignment(horizontal = "center")
-    content_column_non_align_list = [1, 2, 16, 17, 22] # column : [A, B, H, V] do not participate in alignment.
+    content_column_non_align_list = [1, 2, 16, 17, 22] # column : [A, B, P, Q, V] do not participate in alignment.
     content_column_non_align_list = [temp - 1 for temp in content_column_non_align_list] # Do -1 for excel format in python for loop.
 
     # List title at excel cell:"A1"
@@ -64,7 +64,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
     for i in range(0, len(data_all_input)): # i = number of columns.
         wb_1.cell(column=i+1, row=2).alignment = content_align
         for j in range(0, len(data_all_input[i])): # j = number of rows.
-            if i in content_column_non_align_list:
+            if i in content_column_non_align_list: # column which do not participate in alignment.
                 wb_1.cell(column=i+1, row=j+3).value = str(data_all_input[i][j])
                 wb_1.cell(column=i+1, row=j+3).font = content_font
             else:
