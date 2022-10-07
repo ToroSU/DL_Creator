@@ -1,6 +1,6 @@
 import openpyxl
-from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment
+
 
 def creat_list(list_info, os_info, data_input, data_all_input):
     ## Creat list and save as Excel
@@ -8,6 +8,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
     fn_temp = [list_info[1], os_info[0], os_info[1], "x64", "Drv", list_ver]
     fn_temp = "_".join(fn_temp)
     fn = fn_temp + ".xlsx"
+
     wb = openpyxl.Workbook()
     wb_1 = wb.create_sheet("The lastest release ", 0) # Add worksheet and specify location
     wb_2 = wb.create_sheet("Release note", 0)
@@ -87,6 +88,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
 
     wb_1.column_dimensions["A"].width = 30 # A column do not automatically adjust column width (Cause A1)
 
+    # Save to exccel file
     try:
         wb.save(fn)
     except:
