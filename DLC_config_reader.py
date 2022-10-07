@@ -1,7 +1,7 @@
-import configparser
-# Reference of ConfigParser
-# https://docs.python.org/3/library/configparser.html
 import os
+import configparser
+# Reference of ConfigParser https://docs.python.org/3/library/configparser.html
+
 
 def if_config_file_exist(file_name):
     config = configparser.ConfigParser()
@@ -36,8 +36,10 @@ def if_config_file_exist(file_name):
         wlanbt_info = config["WLANBT Info"]
         wlanbt_info_return = [wlanbt_info["Total"],
                               wlanbt_info["Intel"],
-                              wlanbt_info["MTK"],
-                              wlanbt_info["Liteon"]]
+                              wlanbt_info["Azwave_MTK"],
+                              wlanbt_info["Azwave_Realtek"],
+                              wlanbt_info["Liteon_Realtek"],
+                              wlanbt_info["Liteon_Qualcomm"]]
         # print(other_setting_return)
 
         return list_info_return, os_info_return, data_source_return, other_setting_return, wlanbt_info_return
@@ -47,11 +49,11 @@ def if_config_file_exist(file_name):
 
 def if_config_file_not_exits():
 
-    list_info_return = ["ASUS", "B5402CBA_FBA", "0.01", "2022/08/31"]
+    list_info_return = ["T", "Test_01T", "0.01", "1970/01/01"]
     os_info_return = ["Win11", "21H2R", "22000.318"]
     data_source_return = ["No", "Yes", ""]
     other_setting_return = ["Yes", "No", "No"]
-    wlanbt_info_return = ["4", "ax201, ax211", "mtk7921, mtk7922", ""]
+    wlanbt_info_return = ["4", "ax201", "", "", "", ""]
 
     return list_info_return, os_info_return, data_source_return, other_setting_return, wlanbt_info_return
 
