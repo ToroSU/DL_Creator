@@ -25,6 +25,14 @@ def file_reader(file_):
     return lines_
 
 
+def name_split_get(input):
+    path_split = (input.split("\\")) # e.g. ["14_WLANBT_Intel", "WLAN", "WiFi_Intel_22.150.0.3"]
+    folder_root_name = path_split[0] # e.g. 03_IRST_Intel
+    name_split = folder_root_name.split("_") # e.g. ['03', 'IRST', 'Intel']
+    
+    return path_split, folder_root_name, name_split
+
+
 def ver_date_get(inf_file):
     driver_ver='DriverVer'
     lines_ = file_reader(inf_file)
@@ -66,9 +74,8 @@ def wlanbt_analysis(path_list):
     bt_list_Liteon = []
 
     for i in range(0, len(path_list)):
-        path_split = (path_list[i].split("\\")) # e.g. ["14_WLANBT_Intel", "WLAN", "WiFi_Intel_22.150.0.3"]
-        folder_root_name = path_split[0] # e.g. 03_IRST_Intel
-        name_split = folder_root_name.split("_") # e.g. ['03', 'IRST', 'Intel']
+        path_split, folder_root_name, name_split = name_split_get(path_list[i])
+
         for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
             name_split[j] = name_split[j].lower()
 
@@ -136,9 +143,7 @@ def wlanbt_item_add(path_list_input, AUMIDs_list_input, wlanbt_path_list_input, 
     wlan_count_mtk = 0
     wlan_count_liteon = 0
     for i in range(0, len(path_list_input)):
-        path_split = (path_list_input[i].split("\\")) # e.g. ["14_WLANBT_Intel", "WLAN", "WiFi_Intel_22.150.0.3"]
-        folder_root_name = path_split[0] # e.g. 03_IRST_Intel
-        name_split = folder_root_name.split("_") # e.g. ['03', 'IRST', 'Intel']
+        path_split, folder_root_name, name_split = name_split_get(path_list_input[i])
         for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
             name_split[j] = name_split[j].lower()
 
@@ -312,9 +317,8 @@ def provider_list_get(item_list_path): # 目前先定義全 Compal (2020/10/05)
 def vendor_list_get(item_list_path):
     vendor_list = []
     for i in range(0, len(item_list_path)):
-        path_split = item_list_path[i].split("\\")
-        folder_root_name = path_split[0] # e.g. 03_IRST_Intel
-        name_split = folder_root_name.split("_")
+        path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
+
         if len(name_split) >= 3 :
             vendor_list.append(name_split[2])
         else:
@@ -345,9 +349,8 @@ def hsa_list_get(item_list_path, aumids_path_list):
     aumids_path_list.append("NA") # just for i+1 margin debug
     for i in range(0, len(item_list_path)):
         if aumids_path_list[i+1] != "NA":
-            path_split = aumids_path_list[i+1].split("\\")
-            folder_root_name = path_split[0]
-            name_split = folder_root_name.split("_")
+            path_split, folder_root_name, name_split = name_split_get(aumids_path_list[i+1])
+            
             name_split.pop(0)
             item = " ".join(name_split) # e.g. ICPS Intel UI
             hsa_temp_str = "YES, HSA " + item
@@ -379,9 +382,8 @@ def appName_list_get(item_list_path, aumids_path_list):
     appName_check_list = ["graphics", "vga", "realtek", "icps", "dolby"] 
 
     for i in range(0, len(item_list_path)):
-        path_split = item_list_path[i].split("\\")
-        folder_root_name = path_split[0]
-        name_split = folder_root_name.split("_")
+        path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
+
         if aumids_path_list[i]  != "NA":
             for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
                 name_split[j] = name_split[j].lower()
@@ -489,9 +491,8 @@ def versionRegKey_list_get(item_list_path, software_path_list):
     versionRegKey_check_list = ["inteligo", "intelligo", "igo", "dolby", "cardreader"] 
 
     for i in range(0, len(item_list_path)):
-        path_split = item_list_path[i].split("\\")
-        folder_root_name = path_split[0]
-        name_split = folder_root_name.split("_")
+        path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
+
         if software_path_list[i]  != "NA":
             for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
                 name_split[j] = name_split[j].lower()
@@ -544,9 +545,8 @@ def needReboot_list_get(item_list_path, aumids_path_list):
     needReboot_list = []
     default_needReboot_item = ["graphics", "sst", "isst", "audio", "intelligo"]
     for i in range(0, len(item_list_path)):
-        path_split = item_list_path[i].split("\\")
-        folder_root_name = path_split[0]
-        name_split = folder_root_name.split("_")
+        path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
+
         for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
             name_split[j] = name_split[j].lower()
             if name_split[j] in default_needReboot_item and aumids_path_list[i] == "NA":
