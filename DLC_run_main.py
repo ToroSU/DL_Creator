@@ -27,7 +27,7 @@ dir_path = os.getcwd() # get current path (as know as driver package path)
 list_info, os_info, date_source, other_setting, wlanbt_info = DLC_config_reader_main()
 
 
-# Serach all folder at root_folder # Use folder to detect.
+# Serach all folder at root_folder, Use folder to detect.
 root_folder = os.listdir(dir_path) # all file and folder under current path
 package_list = [] # list of root foder
 for i in range(0, len(root_folder)): 
