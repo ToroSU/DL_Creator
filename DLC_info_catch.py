@@ -1,9 +1,9 @@
 import re
 import os
 
-# Function read_line :
-# Open the .inf file. If open faild, try to use "utf-16" decode and ignore the error.
+
 def file_reader(file_):
+    # Open the .inf file. If open faild, try to use "utf-16" decode and ignore the error.
     try:  #utf-8 & utf-16 
         f = open(file_, encoding="utf-8")
         lines_ = f.readlines()
@@ -633,6 +633,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     driverPackage_list = driverPackage_list_get(item_list_path)
     remark_list = remark_list_get(item_list_path)
     
+    # List append to tuple, format:[[category list], [description list], [provider list]...] sorting by excel column spec.
     all_list.append(category_list)
     all_list.append(description_list)
     all_list.append(provider_list)
