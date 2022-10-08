@@ -1,8 +1,5 @@
-from cmath import exp
-from email.policy import default
 import re
 import os
-from turtle import st
 
 # Function read_line :
 # Open the .inf file. If open faild, try to use "utf-16" decode and ignore the error.
@@ -55,13 +52,6 @@ def ver_date_get(inf_file):
                 continue
 
             return ver_str, date_str
-
-
-# def path_name_analysis(path_):
-#     temp = path_.split("\\")
-#     folder_root_name = temp[0] # e.g. 03_IRST_Intel
-#     name_split = folder_root_name.split("_") 
-#     return name_split
 
 
 def wlanbt_analysis(path_list):
