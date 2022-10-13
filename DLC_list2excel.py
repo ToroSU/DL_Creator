@@ -88,6 +88,9 @@ def creat_list(list_info, os_info, data_input, data_all_input):
 
     wb_1.column_dimensions["A"].width = 30 # A column do not automatically adjust column width (Cause A1)
 
+    # Delete default sheet which name is "Sheet"
+    del wb["Sheet"]
+
     # Save to exccel file
     try:
         wb.save(fn)
