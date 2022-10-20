@@ -1,9 +1,9 @@
-![image](picture or gif url)
+![image](https://github.com/ToroSU/DL_Creator/blob/main/LOGO1.PNG)
 
 # Introduction
 Create driver list for Customer
 
 # Development  Environment
-Main = Python, version:3.10.0/n
-GUI = PyQt5, version:5.15.6/n
+Main = Python, version:3.10.0\n
+GUI = PyQt5, version:5.15.6\n
 Excel = openpyxl
