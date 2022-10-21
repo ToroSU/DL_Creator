@@ -1,9 +1,8 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QFileDialog, QMessageBox, QDockWidget, QListWidget
+from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QDockWidget, QListWidget
 from PyQt5.QtGui import *
-
 from Ui_DLC_GUI import Ui_Form
 
 class mywindow(QtWidgets.QMainWindow, Ui_Form):
@@ -18,6 +17,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 if __name__ == '__main__': #如果整個程式是主程式
     # QApplication相當於main函式，也就是整個程式（很多檔案）的主入口函式。
     # 對於GUI程式必須至少有一個這樣的例項來讓程式執行。
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling) # for high dpi scaling auto resize 
     app = QtWidgets.QApplication(sys.argv)
     #生成 mywindow 類的例項。
     window = mywindow()
