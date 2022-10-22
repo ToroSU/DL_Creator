@@ -1,3 +1,4 @@
+from genericpath import isfile
 import sys
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -5,6 +6,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QDockWidget, QListWidget
 from PyQt5.QtGui import *
 from Ui_DLC_GUI import Ui_Form
+
+# Set config file name and settings (global)
+config_filename = "DLC_config.ini" 
+settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 
 class mywindow(QtWidgets.QMainWindow, Ui_Form):
     #__init__:解構函式，也就是類被建立後就會預先載入的專案。
@@ -14,7 +19,13 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         super(mywindow, self).__init__()
         self.setupUi(self)
 
+        # if config file is exist, load config to GUI
+        if os.path.isfile(config_filename):
+            self.read_config_to_GUI()
+
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
+
+        # save button click
         self.save_pushButton.clicked.connect(self.when_save_puchButton_click)
 
     def when_run_pushButton_click(self):
@@ -22,9 +33,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         print(s)
 
     def when_save_puchButton_click(self):
-        config_filename = "DLC_config.ini"
-        settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
-
         customer_content = self.customer_comboBox.currentText()
         projectName_content = self.projectName_lineEdit.text()
         listVersion_content = self.listVersion_lineEdit.text()
@@ -48,7 +56,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("OS_Info/OSEdition", osEdition_content)
         settings.setValue("OS_Info/OSVersion", osVersion_content)
         settings.setValue("OS_Info/OSBuild", osBuild_content)
-        settings.setValue("OS_Info/OSEdition", osEdition_content)
         settings.setValue("Other_Setting/ExportDriverList", exportDriverList_bool_content)
         settings.setValue("Other_Setting/ListChecking", listChecking_bool_content)
         settings.setValue("Other_Setting/Package2Zip", package2zip_bool_content)
@@ -57,22 +64,26 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("WLANBT_Info/AzwaveRTK", wlanbt_azwaveRTK_content)
         settings.setValue("WLANBT_Info/LiteonRTK", wlanbt_liteonRTK_content)
         settings.setValue("WLANBT_Info/LiteonQualc", wlanbt_liteonQualc_content)
-        print(config_filename, " Save Successfully")
+        QMessageBox.about(self, "Save", "Save Successfully")
 
-
+    def read_config_to_GUI(self):
+        self.projectName_lineEdit.setText(settings.value("List_Info/ProjectName"))
+        self.listVersion_lineEdit.setText(settings.value("List_Info/ListVersion"))
+        self.updateDate_lineEdit.setText(settings.value("List_Info/UpdateDate"))
+        self.osEdition_lineEdit.setText(settings.value("OS_Info/OSEdition"))
+        self.osVersion_lineEdit.setText(settings.value("OS_Info/OSVersion"))
+        self.osBuild_lineEdit.setText(settings.value("OS_Info/OSBuild"))
+        self.wlanbt_intel_lineEdit.setText(settings.value("WLANBT_Info/Intel"))
+        self.wlanbt_AzwaveMTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveMTK"))
+        self.wlanbt_AzwaveRTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveRTK"))
+        self.wlanbt_liteonRTK_lineEdit.setText(settings.value("WLANBT_Info/LiteonRTK"))
+        self.wlanbt_liteonQualc_lineEdit.setText(settings.value("WLANBT_Info/LiteonQualc"))
 
  
 if __name__ == '__main__': #如果整個程式是主程式
-    config_filename = "DLC_config.ini"
-
-    settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
-    if os.path.isfile(config_filename):
-        print("config file is exist")
-
-    else:
-        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-        app = QtWidgets.QApplication(sys.argv)
-        window = mywindow()
-        window.show()
-        sys.exit(app.exec_())
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+    app = QtWidgets.QApplication(sys.argv)
+    window = mywindow()
+    window.show()
+    sys.exit(app.exec_())
 

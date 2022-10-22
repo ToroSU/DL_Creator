@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>658</width>
+    <width>673</width>
     <height>564</height>
    </rect>
   </property>
@@ -85,7 +85,7 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>310</x>
      <y>280</y>
      <width>161</width>
      <height>41</height>
@@ -106,7 +106,7 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>310</x>
      <y>20</y>
      <width>221</width>
      <height>41</height>
@@ -228,7 +228,7 @@
     <rect>
      <x>140</x>
      <y>110</y>
-     <width>111</width>
+     <width>141</width>
      <height>22</height>
     </rect>
    </property>
@@ -243,7 +243,7 @@
     <rect>
      <x>140</x>
      <y>150</y>
-     <width>111</width>
+     <width>141</width>
      <height>22</height>
     </rect>
    </property>
@@ -258,7 +258,7 @@
     <rect>
      <x>140</x>
      <y>190</y>
-     <width>111</width>
+     <width>141</width>
      <height>22</height>
     </rect>
    </property>
@@ -336,7 +336,7 @@
     <rect>
      <x>140</x>
      <y>330</y>
-     <width>111</width>
+     <width>141</width>
      <height>22</height>
     </rect>
    </property>
@@ -351,7 +351,7 @@
     <rect>
      <x>140</x>
      <y>370</y>
-     <width>111</width>
+     <width>141</width>
      <height>22</height>
     </rect>
    </property>
@@ -366,7 +366,7 @@
     <rect>
      <x>140</x>
      <y>410</y>
-     <width>111</width>
+     <width>141</width>
      <height>22</height>
     </rect>
    </property>
@@ -420,7 +420,7 @@
   <widget class="QCheckBox" name="exportDriverList_checkBox">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>330</x>
      <y>330</y>
      <width>181</width>
      <height>21</height>
@@ -442,7 +442,7 @@
   <widget class="QCheckBox" name="listChecking_checkBox">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>330</x>
      <y>370</y>
      <width>181</width>
      <height>21</height>
@@ -464,7 +464,7 @@
   <widget class="QCheckBox" name="package2zip_checkBox">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>330</x>
      <y>410</y>
      <width>181</width>
      <height>21</height>
@@ -486,7 +486,7 @@
   <widget class="QLabel" name="label_15">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>330</x>
      <y>60</y>
      <width>141</width>
      <height>41</height>
@@ -507,7 +507,7 @@
   <widget class="QLabel" name="label_16">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>330</x>
      <y>100</y>
      <width>141</width>
      <height>41</height>
@@ -528,7 +528,7 @@
   <widget class="QLabel" name="label_17">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>330</x>
      <y>140</y>
      <width>141</width>
      <height>41</height>
@@ -549,7 +549,7 @@
   <widget class="QLabel" name="label_18">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>330</x>
      <y>180</y>
      <width>141</width>
      <height>41</height>
@@ -570,7 +570,7 @@
   <widget class="QLabel" name="label_19">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>330</x>
      <y>220</y>
      <width>141</width>
      <height>41</height>
@@ -591,7 +591,7 @@
   <widget class="QLineEdit" name="wlanbt_intel_lineEdit">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>430</x>
      <y>70</y>
      <width>221</width>
      <height>22</height>
@@ -606,7 +606,7 @@
   <widget class="QLineEdit" name="wlanbt_AzwaveMTK_lineEdit">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>430</x>
      <y>110</y>
      <width>221</width>
      <height>22</height>
@@ -621,7 +621,7 @@
   <widget class="QLineEdit" name="wlanbt_AzwaveRTK_lineEdit">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>430</x>
      <y>150</y>
      <width>221</width>
      <height>22</height>
@@ -636,7 +636,7 @@
   <widget class="QLineEdit" name="wlanbt_liteonRTK_lineEdit">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>430</x>
      <y>190</y>
      <width>221</width>
      <height>22</height>
@@ -651,7 +651,7 @@
   <widget class="QLineEdit" name="wlanbt_liteonQualc_lineEdit">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>430</x>
      <y>230</y>
      <width>221</width>
      <height>22</height>
@@ -666,7 +666,7 @@
   <widget class="QPushButton" name="run_pushButton">
    <property name="geometry">
     <rect>
-     <x>500</x>
+     <x>510</x>
      <y>500</y>
      <width>111</width>
      <height>51</height>
@@ -687,7 +687,7 @@
   <widget class="QPushButton" name="save_pushButton">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>360</x>
      <y>500</y>
      <width>111</width>
      <height>51</height>
