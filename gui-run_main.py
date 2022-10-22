@@ -7,6 +7,12 @@ from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QDockWidget,
 from PyQt5.QtGui import *
 from Ui_DLC_GUI import Ui_Form
 
+import DLC_info_catch
+from DLC_list2excel import creat_list
+from DLC_config_reader import DLC_config_reader_main
+import os
+import time
+
 # Set config file name and settings (global)
 config_filename = "DLC_config.ini" 
 settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
