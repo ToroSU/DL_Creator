@@ -1,4 +1,5 @@
 import sys
+import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QDockWidget, QListWidget
@@ -12,21 +13,66 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         #這裡需要過載一下mywindow，同時也包含了QtWidgets.QMainWindow的預載入項。
         super(mywindow, self).__init__()
         self.setupUi(self)
- 
+
+        self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
+        self.save_pushButton.clicked.connect(self.when_save_puchButton_click)
+
+    def when_run_pushButton_click(self):
+        s = self.listChecking_checkBox.isChecked()
+        print(s)
+
+    def when_save_puchButton_click(self):
+        config_filename = "DLC_config.ini"
+        settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
+
+        customer_content = self.customer_comboBox.currentText()
+        projectName_content = self.projectName_lineEdit.text()
+        listVersion_content = self.listVersion_lineEdit.text()
+        updateDate_content = self.updateDate_lineEdit.text()
+        osEdition_content = self.osEdition_lineEdit.text()
+        osVersion_content = self.osVersion_lineEdit.text()
+        osBuild_content = self.osBuild_lineEdit.text()
+        wlanbt_intel_content = self.wlanbt_intel_lineEdit.text()
+        wlanbt_azwaveMTK_content = self.wlanbt_AzwaveMTK_lineEdit.text()
+        wlanbt_azwaveRTK_content = self.wlanbt_AzwaveRTK_lineEdit.text()
+        wlanbt_liteonRTK_content = self.wlanbt_liteonRTK_lineEdit.text()
+        wlanbt_liteonQualc_content = self.wlanbt_liteonQualc_lineEdit.text()
+        exportDriverList_bool_content = self.exportDriverList_checkBox.isChecked()
+        listChecking_bool_content = self.listChecking_checkBox.isChecked()
+        package2zip_bool_content = self.package2zip_checkBox.isChecked()
+
+        settings.setValue("List_Info/Customer", customer_content)
+        settings.setValue("List_Info/ProjectName", projectName_content)
+        settings.setValue("List_Info/ListVersion", listVersion_content)
+        settings.setValue("List_Info/UpdateDate", updateDate_content)
+        settings.setValue("OS_Info/OSEdition", osEdition_content)
+        settings.setValue("OS_Info/OSVersion", osVersion_content)
+        settings.setValue("OS_Info/OSBuild", osBuild_content)
+        settings.setValue("OS_Info/OSEdition", osEdition_content)
+        settings.setValue("Other_Setting/ExportDriverList", exportDriverList_bool_content)
+        settings.setValue("Other_Setting/ListChecking", listChecking_bool_content)
+        settings.setValue("Other_Setting/Package2Zip", package2zip_bool_content)
+        settings.setValue("WLANBT_Info/Intel", wlanbt_intel_content)
+        settings.setValue("WLANBT_Info/AzwaveMTK", wlanbt_azwaveMTK_content)
+        settings.setValue("WLANBT_Info/AzwaveRTK", wlanbt_azwaveRTK_content)
+        settings.setValue("WLANBT_Info/LiteonRTK", wlanbt_liteonRTK_content)
+        settings.setValue("WLANBT_Info/LiteonQualc", wlanbt_liteonQualc_content)
+        print(config_filename, " Save Successfully")
+
+
+
  
 if __name__ == '__main__': #如果整個程式是主程式
-    # QApplication相當於main函式，也就是整個程式（很多檔案）的主入口函式。
-    # 對於GUI程式必須至少有一個這樣的例項來讓程式執行。
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling) # for high dpi scaling auto resize 
-    app = QtWidgets.QApplication(sys.argv)
-    #生成 mywindow 類的例項。
-    window = mywindow()
-    #有了例項，就得讓它顯示，show()是QWidget的方法，用於顯示視窗。
-    window.show()
+    config_filename = "DLC_config.ini"
 
-        
+    settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
+    if os.path.isfile(config_filename):
+        print("config file is exist")
 
-    # 呼叫sys庫的exit退出方法，條件是app.exec_()，也就是整個視窗關閉。
-    # 有時候退出程式後，sys.exit(app.exec_())會報錯，改用app.exec_()就沒事
-    # https://stackoverflow.com/questions/25719524/difference-between-sys-exitapp-exec-and-app-exec
-    sys.exit(app.exec_())
+    else:
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+        app = QtWidgets.QApplication(sys.argv)
+        window = mywindow()
+        window.show()
+        sys.exit(app.exec_())
+

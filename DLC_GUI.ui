@@ -417,7 +417,7 @@
     </property>
    </item>
   </widget>
-  <widget class="QCheckBox" name="exportDriverList_checkBos">
+  <widget class="QCheckBox" name="exportDriverList_checkBox">
    <property name="geometry">
     <rect>
      <x>320</x>
