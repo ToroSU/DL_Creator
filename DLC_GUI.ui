@@ -208,7 +208,7 @@
     <string>Update Date :</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="customer_comboBox">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -223,7 +223,7 @@
     </property>
    </item>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="projectName_lineEdit">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -238,7 +238,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="listVersion_lineEdit">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -253,7 +253,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_3">
+  <widget class="QLineEdit" name="updateDate_lineEdit">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -331,7 +331,7 @@
     <string>OS Build :</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_4">
+  <widget class="QLineEdit" name="osEdition_lineEdit">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -346,7 +346,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_5">
+  <widget class="QLineEdit" name="osVersion_lineEdit">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -361,7 +361,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_6">
+  <widget class="QLineEdit" name="osBuild_lineEdit">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -397,7 +397,7 @@
     <string>Data Source : </string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_2">
+  <widget class="QComboBox" name="dataSource_comboBox">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -417,7 +417,7 @@
     </property>
    </item>
   </widget>
-  <widget class="QCheckBox" name="checkBox">
+  <widget class="QCheckBox" name="exportDriverList_checkBos">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -439,7 +439,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox_2">
+  <widget class="QCheckBox" name="listChecking_checkBox">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -461,7 +461,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox_3">
+  <widget class="QCheckBox" name="package2zip_checkBox">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -588,7 +588,7 @@
     <string>Liteon Qualc. :</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_8">
+  <widget class="QLineEdit" name="wlanbt_intel_lineEdit">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -603,7 +603,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_9">
+  <widget class="QLineEdit" name="wlanbt_AzwaveMTK_lineEdit">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -618,7 +618,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_10">
+  <widget class="QLineEdit" name="wlanbt_AzwaveRTK_lineEdit">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -633,7 +633,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_11">
+  <widget class="QLineEdit" name="wlanbt_liteonRTK_lineEdit">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -648,7 +648,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_12">
+  <widget class="QLineEdit" name="wlanbt_liteonQualc_lineEdit">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -663,7 +663,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="run_pushButton">
    <property name="geometry">
     <rect>
      <x>500</x>
@@ -684,7 +684,7 @@
     <string>Run</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="save_pushButton">
    <property name="geometry">
     <rect>
      <x>350</x>
