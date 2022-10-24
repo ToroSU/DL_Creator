@@ -6,24 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>673</width>
-    <height>564</height>
+    <width>755</width>
+    <height>545</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <family>Verdana</family>
-    <pointsize>10</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
-   <string>DL_Creator</string>
+   <string>DL Creator</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>0</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -33,7 +27,9 @@
      <family>Verdana</family>
      <pointsize>12</pointsize>
      <weight>75</weight>
+     <italic>false</italic>
      <bold>true</bold>
+     <underline>true</underline>
     </font>
    </property>
    <property name="text">
@@ -44,7 +40,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>280</y>
+     <y>250</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -55,6 +51,7 @@
      <pointsize>12</pointsize>
      <weight>75</weight>
      <bold>true</bold>
+     <underline>true</underline>
     </font>
    </property>
    <property name="text">
@@ -65,28 +62,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>470</y>
-     <width>151</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Data Source</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>280</y>
+     <y>430</y>
      <width>161</width>
      <height>41</height>
     </rect>
@@ -97,18 +73,19 @@
      <pointsize>12</pointsize>
      <weight>75</weight>
      <bold>true</bold>
+     <underline>true</underline>
     </font>
    </property>
    <property name="text">
-    <string>Other Setting</string>
+    <string>Data Source</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
+  <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>20</y>
-     <width>221</width>
+     <x>360</x>
+     <y>0</y>
+     <width>201</width>
      <height>41</height>
     </rect>
    </property>
@@ -118,17 +95,40 @@
      <pointsize>12</pointsize>
      <weight>75</weight>
      <bold>true</bold>
+     <underline>true</underline>
     </font>
    </property>
    <property name="text">
-    <string>WLAN/BT Module</string>
+    <string>WlanBT Module</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>250</y>
+     <width>201</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+     <underline>true</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>Other Settings</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>60</y>
+     <y>40</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -138,19 +138,21 @@
      <family>Verdana</family>
      <pointsize>10</pointsize>
      <weight>50</weight>
+     <italic>false</italic>
      <bold>false</bold>
+     <underline>false</underline>
     </font>
    </property>
    <property name="text">
-    <string>Customer :</string>
+    <string>Customer:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>100</y>
-     <width>141</width>
+     <y>80</y>
+     <width>131</width>
      <height>41</height>
     </rect>
    </property>
@@ -159,7 +161,9 @@
      <family>Verdana</family>
      <pointsize>10</pointsize>
      <weight>50</weight>
+     <italic>false</italic>
      <bold>false</bold>
+     <underline>false</underline>
     </font>
    </property>
    <property name="text">
@@ -170,8 +174,8 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>140</y>
-     <width>141</width>
+     <y>120</y>
+     <width>131</width>
      <height>41</height>
     </rect>
    </property>
@@ -180,18 +184,227 @@
      <family>Verdana</family>
      <pointsize>10</pointsize>
      <weight>50</weight>
+     <italic>false</italic>
      <bold>false</bold>
+     <underline>false</underline>
     </font>
    </property>
    <property name="text">
-    <string>List Version :</string>
+    <string>List Version:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>180</y>
+     <y>160</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>Update Date:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>290</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>OS Edition:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>330</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>OS Version:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>370</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>OS Build:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>480</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>Source:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>40</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>Intel:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_15">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>80</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>AzWave MTK:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_16">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>120</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>AzWave RTK</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>160</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>Liteon RTK:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_18">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>200</y>
      <width>141</width>
      <height>41</height>
     </rect>
@@ -201,21 +414,29 @@
      <family>Verdana</family>
      <pointsize>10</pointsize>
      <weight>50</weight>
+     <italic>false</italic>
      <bold>false</bold>
+     <underline>false</underline>
     </font>
    </property>
    <property name="text">
-    <string>Update Date :</string>
+    <string>Liteon Qualc.:</string>
    </property>
   </widget>
   <widget class="QComboBox" name="customer_comboBox">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>70</y>
-     <width>71</width>
+     <x>170</x>
+     <y>50</y>
+     <width>151</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
+    </font>
    </property>
    <item>
     <property name="text">
@@ -226,185 +447,113 @@
   <widget class="QLineEdit" name="projectName_lineEdit">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>110</y>
-     <width>141</width>
+     <x>170</x>
+     <y>90</y>
+     <width>151</width>
      <height>22</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
     </font>
    </property>
   </widget>
   <widget class="QLineEdit" name="listVersion_lineEdit">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>150</y>
-     <width>141</width>
+     <x>170</x>
+     <y>130</y>
+     <width>151</width>
      <height>22</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
     </font>
    </property>
   </widget>
   <widget class="QLineEdit" name="updateDate_lineEdit">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>190</y>
-     <width>141</width>
+     <x>170</x>
+     <y>170</y>
+     <width>151</width>
      <height>22</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_10">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>320</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
      <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
+     <pointsize>8</pointsize>
     </font>
-   </property>
-   <property name="text">
-    <string>OS Edition :</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>360</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>OS Version :</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_12">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>400</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>OS Build :</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="osEdition_lineEdit">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>330</y>
-     <width>141</width>
+     <x>170</x>
+     <y>300</y>
+     <width>151</width>
      <height>22</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
     </font>
    </property>
   </widget>
   <widget class="QLineEdit" name="osVersion_lineEdit">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>370</y>
-     <width>141</width>
+     <x>170</x>
+     <y>340</y>
+     <width>151</width>
      <height>22</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
     </font>
    </property>
   </widget>
   <widget class="QLineEdit" name="osBuild_lineEdit">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>410</y>
-     <width>141</width>
+     <x>170</x>
+     <y>380</y>
+     <width>151</width>
      <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_13">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>510</y>
-     <width>141</width>
-     <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
+     <pointsize>8</pointsize>
     </font>
    </property>
-   <property name="text">
-    <string>Data Source : </string>
-   </property>
   </widget>
-  <widget class="QComboBox" name="dataSource_comboBox">
+  <widget class="QComboBox" name="comboBox_2">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>520</y>
-     <width>141</width>
+     <x>170</x>
+     <y>490</y>
+     <width>161</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
+    </font>
    </property>
    <item>
     <property name="text">
@@ -417,13 +566,93 @@
     </property>
    </item>
   </widget>
+  <widget class="QLineEdit" name="wlanbt_intel_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>50</y>
+     <width>221</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="wlanbt_AzwaveMTK_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>90</y>
+     <width>221</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="wlanbt_AzwaveRTK_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>130</y>
+     <width>221</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="wlanbt_liteonRTK_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>170</y>
+     <width>221</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="wlanbt_liteonQualc_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>210</y>
+     <width>221</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+  </widget>
   <widget class="QCheckBox" name="exportDriverList_checkBox">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>330</y>
-     <width>181</width>
-     <height>21</height>
+     <x>390</x>
+     <y>310</y>
+     <width>201</width>
+     <height>19</height>
     </rect>
    </property>
    <property name="font">
@@ -435,17 +664,14 @@
    <property name="text">
     <string>Export Driver List</string>
    </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
   </widget>
   <widget class="QCheckBox" name="listChecking_checkBox">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>370</y>
-     <width>181</width>
-     <height>21</height>
+     <x>390</x>
+     <y>350</y>
+     <width>201</width>
+     <height>19</height>
     </rect>
    </property>
    <property name="font">
@@ -457,17 +683,14 @@
    <property name="text">
     <string>List Checking</string>
    </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
   </widget>
   <widget class="QCheckBox" name="package2zip_checkBox">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>410</y>
-     <width>181</width>
-     <height>21</height>
+     <x>390</x>
+     <y>390</y>
+     <width>191</width>
+     <height>19</height>
     </rect>
    </property>
    <property name="font">
@@ -479,217 +702,13 @@
    <property name="text">
     <string>Package 2 Zip</string>
    </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_15">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>60</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Intel :</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_16">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>100</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>AzWave MTK :</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_17">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>140</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>AzWave RTK :</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_18">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>180</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Liteon RTK :</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_19">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>220</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Liteon Qualc. :</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_intel_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>70</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_AzwaveMTK_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>110</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_AzwaveRTK_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>150</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_liteonRTK_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>190</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_liteonQualc_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>230</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="run_pushButton">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>500</y>
-     <width>111</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Run</string>
-   </property>
   </widget>
   <widget class="QPushButton" name="save_pushButton">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>500</y>
-     <width>111</width>
+     <x>400</x>
+     <y>470</y>
+     <width>141</width>
      <height>51</height>
     </rect>
    </property>
@@ -703,6 +722,27 @@
    </property>
    <property name="text">
     <string>Save</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="run_pushButton">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>470</y>
+     <width>141</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Run</string>
    </property>
   </widget>
  </widget>
