@@ -54,8 +54,8 @@ def ver_date_get(inf_file):
             return ver_str, date_str
 
 
-def wlanbt_analysis(path_list, wlanbt_info):
-    # wlanbt_module_name_list = ["Intel", "AzuWave MTK", "AzuWave RTK", "Liteon RTK", "Liteon Qualc"]
+def obtain_used_module(wlanbt_info):
+    # get used wlanbt module : output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
     wlanbt_module_list = []
     for i in range(0, len(wlanbt_info)):
         temp_ = wlanbt_info[i].replace('"', '') #去掉雙引號 這邊很78要注意用單引號框起來

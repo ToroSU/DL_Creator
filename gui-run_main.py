@@ -65,9 +65,12 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # Main output 1: list of bat file path.
         # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
         batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list) 
-        used_wlanbt_module = DLC_info_catch.wlanbt_analysis(batch_in_folder_path_list, wlanbt_info)
-        for i in range(0, len(used_wlanbt_module)):
-            print(used_wlanbt_module[i])
+
+        # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
+        used_wlanbt_module = DLC_info_catch.obtain_used_module(wlanbt_info)
+
+        # for i in range(0, len(used_wlanbt_module)):
+        #     print(used_wlanbt_module[i])
 
 
 
