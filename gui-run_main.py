@@ -5,7 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QDockWidget, QListWidget
 from PyQt5.QtGui import *
-from Ui_DLC_GUI import Ui_Form
+from Ui_GUI_ import Ui_Form
 
 import DLC_info_catch
 from DLC_list2excel import creat_list
@@ -13,9 +13,41 @@ from DLC_config_reader import DLC_config_reader_main
 import os
 import time
 
+
+## def function
+def str2bool(v):
+    return str(v).lower() in ("yes", "true", "t")
+
+def list_diff(li1, li2): 
+    # https://magic-panda-engineer.github.io/Python/python-compare-two-lists
+    return (list(set(li1).symmetric_difference(set(li2))))
+
+
 # Set config file name and settings (global)
 config_filename = "DLC_config.ini" 
 settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
+
+
+dir_path = os.getcwd() # get current path (as know as driver package path)
+list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
+
+
+# Serach all folder at root_folder, Use folder to detect.
+root_folder = os.listdir(dir_path) # all file and folder under current path
+package_list = [] # list of root foder
+for i in range(0, len(root_folder)): 
+    realpath_root = os.path.join(dir_path, root_folder[i])
+    # detect is it driverPackage folder or others.(to do fix check function)
+    if os.path.isdir(realpath_root):
+        if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
+            package_list.append(root_folder[i])
+
+# Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
+# TODO bat file exist (maybe todo ...)
+# Main output 1: list of bat file path.
+# Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
+batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list) 
+
 
 class mywindow(QtWidgets.QMainWindow, Ui_Form):
     #__init__:解構函式，也就是類被建立後就會預先載入的專案。
@@ -29,16 +61,21 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         if os.path.isfile(config_filename):
             self.read_config_to_GUI()
 
+        # run button click
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
-
         # save button click
         self.save_pushButton.clicked.connect(self.when_save_puchButton_click)
 
+
     def when_run_pushButton_click(self):
-        s = self.listChecking_checkBox.isChecked()
-        print(s)
+        pass
+        # s = self.listChecking_checkBox.isChecked()
+        # print(s)
+
+
 
     def when_save_puchButton_click(self):
+        # when save button click, save the file as DLC_config.ini 
         customer_content = self.customer_comboBox.currentText()
         projectName_content = self.projectName_lineEdit.text()
         listVersion_content = self.listVersion_lineEdit.text()
@@ -73,6 +110,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         QMessageBox.about(self, "Save", "Save Successfully")
 
     def read_config_to_GUI(self):
+        # if has DLC_config.ini file, load setting in GUI
         self.projectName_lineEdit.setText(settings.value("List_Info/ProjectName"))
         self.listVersion_lineEdit.setText(settings.value("List_Info/ListVersion"))
         self.updateDate_lineEdit.setText(settings.value("List_Info/UpdateDate"))
