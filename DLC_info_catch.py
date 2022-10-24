@@ -54,50 +54,29 @@ def ver_date_get(inf_file):
             return ver_str, date_str
 
 
-def wlanbt_analysis(path_list):
-    wlanbt_list = []
-    wlan_list_Intel = []
-    wlan_list_MTK = []
-    wlan_list_Liteon = []
-    bt_list_Intel = []
-    bt_list_MTK = []
-    bt_list_Liteon = []
-
-    for i in range(0, len(path_list)):
-        path_split, folder_root_name, name_split = name_split_get(path_list[i]) # see name_split_get define.
-
-        for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
-            name_split[j] = name_split[j].lower()
-
-        if "wlanbt" in name_split and "intel" in name_split:
-            if path_split[1].lower() == "bt":
-                bt_list_Intel.append(path_list[i])
-
-            if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                wlan_list_Intel.append(path_list[i])
-
-        if "wlanbt" in name_split and "mtk" in name_split:
-            if path_split[1].lower() == "bt":
-                bt_list_MTK.append(path_list[i])
-
-            if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                wlan_list_MTK.append(path_list[i])
-
-        if "wlanbt" in name_split and "liteon" in name_split:
-            if path_split[1].lower() == "bt":
-                bt_list_Liteon.append(path_list[i])
+def wlanbt_analysis(path_list, wlanbt_info):
+    # wlanbt_module_name_list = ["Intel", "AzuWave MTK", "AzuWave RTK", "Liteon RTK", "Liteon Qualc"]
+    wlanbt_module_list = []
+    for i in range(0, len(wlanbt_info)):
+        temp_ = wlanbt_info[i].replace('"', '') #去掉雙引號 這邊很78要注意用單引號框起來
+        temp_ = temp_.replace(" ", "")
+        temp_ = temp_.split(",")
+        for j in range(0, len(temp_)):
+            for wlan_bt_ in ["Wlan", "Bluetooth"]:
+                temp_list = []
+                temp_list.append(i)
+                temp_list.append(wlan_bt_)
+                temp_list.append(temp_[j])
+                wlanbt_module_list.append(temp_list)
                 
-            if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                wlan_list_Liteon.append(path_list[i])
-
-    wlanbt_list.append(wlan_list_Intel)
-    wlanbt_list.append(bt_list_Intel)
-    wlanbt_list.append(wlan_list_MTK)
-    wlanbt_list.append(bt_list_MTK)
-    wlanbt_list.append(wlan_list_Liteon)
-    wlanbt_list.append(bt_list_Liteon)
-    
-    return wlanbt_list
+    wlanbt_total_count = 0
+    use_wlanbt_list = []
+    for item_ in (wlanbt_module_list): # wlanbt_module_list format:[wlanbt_i, wlanbt_j, module(e.g.Ax201)]
+        if item_[2] != "":  # wlanbt_i=0~4, 0:intel, 1:AzwveMTK... also see config.ini file
+            wlanbt_total_count += 1
+            use_wlanbt_list.append(item_)
+        
+    return use_wlanbt_list
 
 
 def wlanbt_item_add(path_list_input, AUMIDs_list_input, wlanbt_path_list_input, wlan_info_input):

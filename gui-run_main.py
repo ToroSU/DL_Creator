@@ -29,25 +29,6 @@ settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 
 
 dir_path = os.getcwd() # get current path (as know as driver package path)
-list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
-
-
-# Serach all folder at root_folder, Use folder to detect.
-root_folder = os.listdir(dir_path) # all file and folder under current path
-package_list = [] # list of root foder
-for i in range(0, len(root_folder)): 
-    realpath_root = os.path.join(dir_path, root_folder[i])
-    # detect is it driverPackage folder or others.(to do fix check function)
-    if os.path.isdir(realpath_root):
-        if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
-            package_list.append(root_folder[i])
-
-# Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
-# TODO bat file exist (maybe todo ...)
-# Main output 1: list of bat file path.
-# Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
-batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list) 
-
 
 class mywindow(QtWidgets.QMainWindow, Ui_Form):
     #__init__:解構函式，也就是類被建立後就會預先載入的專案。
@@ -66,11 +47,27 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # save button click
         self.save_pushButton.clicked.connect(self.when_save_puchButton_click)
 
-
+    # main button
     def when_run_pushButton_click(self):
-        pass
-        # s = self.listChecking_checkBox.isChecked()
-        # print(s)
+        list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
+        # Serach all folder at root_folder, Use folder to detect.
+        root_folder = os.listdir(dir_path) # all file and folder under current path
+        package_list = [] # list of root foder
+        for i in range(0, len(root_folder)): 
+            realpath_root = os.path.join(dir_path, root_folder[i])
+            # detect is it driverPackage folder or others.(to do fix check function)
+            if os.path.isdir(realpath_root):
+                if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
+                    package_list.append(root_folder[i])
+
+        # Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
+        # TODO bat file exist (maybe todo ...)
+        # Main output 1: list of bat file path.
+        # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
+        batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list) 
+        used_wlanbt_module = DLC_info_catch.wlanbt_analysis(batch_in_folder_path_list, wlanbt_info)
+        for i in range(0, len(used_wlanbt_module)):
+            print(used_wlanbt_module[i])
 
 
 
