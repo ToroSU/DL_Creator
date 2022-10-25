@@ -43,7 +43,6 @@ def ver_date_get(inf_file):
                 date_str = re.sub(r"^\s+|\s+$", "", date_) # remove white-space
 
                 if ";" in ver_:
-                    print(ver_)
                     ver_str = ver_.split(';')[0] 
                     ver_str = re.sub(r"^\s+|\s+$", "", ver_str)
                 else:
@@ -88,18 +87,54 @@ def search_wlanbt(package_list_):
     return wlanbt_list_for_gui
 
 
-def wlanbt_item_sort(path_list_input, AUMIDs_list_input, wlanbt_path_list_input, wlan_info_input):
-    pass
-    # return item_list, item_list_path, aumids_list_path
+def final_list_sort(raw_path_list_input, raw_AUMIDs_list_input, wlan_final_item_list, wlan_final_path_list, wlan_info):
+    # 先以相同規則創建出 item_list
+    raw_item_list = []
+    for i in range(0, len(raw_path_list_input)):
+        path_split, folder_root_name, name_split = name_split_get(raw_path_list_input[i]) # name_split : e.g. ['03', 'IRST', 'Intel']
+        name_split.pop(0) # pop up the item first split:"00"~"xx"
+        item_str = " ".join(name_split) # e.g. IRST Intel
+        raw_item_list.append(item_str)
+
+    # 尋找 raw_path_list_input 中含有 "WLANBT" 關鍵字的項目，並記錄index
+    keyword_ = "wlanbt"
+    indexes_of_path_with_the_keyword = [] # find index of path with keyword:"WLANBT" e.g. [6, 7, 8, 9, 10]
+    for i in range(0, len(raw_path_list_input)):
+        if keyword_ in raw_path_list_input[i].lower():
+            indexes_of_path_with_the_keyword.append(i)
+
+    first_index = indexes_of_path_with_the_keyword[0] # the index of the first found keyword (這個要放在前面，不然會有reverse的奇怪bug，懶得解)
+    del_i = indexes_of_path_with_the_keyword
+    del_i.reverse() # reverse the index list to remove found target (first_index 放在這行後面會被 reverse)
+
+    # 同步刪除 raw_path_list_input, raw_AUMIDs_list_input, raw_item_list，因為這三個 list 為對應關係
+    for i in del_i:
+        del raw_path_list_input[i]
+        del raw_AUMIDs_list_input[i]
+        del raw_item_list[i]
+    # print(len(raw_path_list_input))
+    # print(len(raw_AUMIDs_list_input))
+    # print(len(raw_item_list))
+
+    # 插入由使用者在 wlanbt select GUI 選定的 driver path, 及當時自動生成的 item string (item string: e.g. Bluetooth (Ax201)), AUMIDS 插入"NA"
+    raw_item_list[first_index:first_index] = wlan_final_item_list # 插入 wlanbt item
+    raw_path_list_input[first_index:first_index] = wlan_final_path_list # 插入 wlanbt path
+        # 計算wlanbt 的數量，加入同等數量的"NA"
+    aumids_insert_NA_list = []
+    for i in range(0, len(wlan_final_item_list)):
+        aumids_insert_NA_list.append("NA") 
+    
+    raw_AUMIDs_list_input[first_index:first_index] = aumids_insert_NA_list
+
+    final_item_list = raw_item_list
+    final_bat_path_list = raw_path_list_input
+    final_aumids_path_list = raw_AUMIDs_list_input
+
+    return final_item_list, final_bat_path_list, final_aumids_path_list
 
 
 def category_list_get(item_list):
-    category_list = []
-    for i in range(0, len(item_list)):
-        item_split = item_list[i].split("_")
-        item_split.pop(0) # pop up the item first split:"00"~"xx"
-        category_str = " ".join(item_split)
-        category_list.append(category_str)
+    category_list = item_list
     
     return category_list
 
@@ -110,15 +145,26 @@ def description_ver_date_list_get(item_list_path):
     description_list = []
     driverVersion_list = []
     driverDate_list = []
-
+    file_break = False
+    aumids_break = False
     for root_i in range(0, len(item_list_path)):
-        for root, dirs, files in  os.walk(item_list_path[root_i]):
+        for root, dirs, files in os.walk(item_list_path[root_i]):
             for file in files:
-                if file[-4:] == ".inf":
+                if file[-4:].lower() == ".inf": # 轉換小寫，因為intel wlan的是愚蠢的大寫INF 除錯超久可悲
                     inf_file_path = os.path.join(root, file)
                     driverVersion_str, driverDate_str = ver_date_get(inf_file_path)
                     file_str = file
+                    file_break = True
                     break
+
+                elif file == "AUMIDs.txt":
+                    file_str = "AUMIDs"
+                    aumids_break = True
+                    break
+            if file_break or aumids_break:
+                file_break = False
+                aumids_break = False
+                break
 
         description_list.append(file_str)
         driverVersion_list.append(driverVersion_str)
