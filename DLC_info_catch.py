@@ -76,142 +76,21 @@ def obtain_used_module(wlanbt_info):
             wlanbt_total_count += 1
             use_wlanbt_list.append(item_)
         
-    return use_wlanbt_list
+    return use_wlanbt_list, wlanbt_total_count
 
 
-def wlanbt_item_add(path_list_input, AUMIDs_list_input, wlanbt_path_list_input, wlan_info_input):
-    item_list = []
-    item_list_path = []
-    aumids_list_path = []
-    wlanbt_module_intel = []
-    wlanbt_module_mtk = []
-    wlanbt_module_liteon = []
+def search_wlanbt(package_list_):
+    wlanbt_list_for_gui = []
+    for i in range(0, len(package_list_)):
+        path_split, folder_root_name, name_split = name_split_get(package_list_[i])
+        if "WLANBT" in name_split:
+            wlanbt_list_for_gui.append(package_list_[i])
+    return wlanbt_list_for_gui
 
-    for i in range(1, len(wlan_info_input)):
-        if wlan_info_input[i] == "" :
-            if i == 1:
-                wlanbt_module_intel = []
-            if i == 2:
-                wlanbt_module_mtk = []
-            if i == 3:
-                wlanbt_module_liteon = []
-        else:
-            temp_split = wlan_info_input[i].split(",")
-            for j in range(0, len(temp_split)):
-                if i == 1:
-                    wlanbt_module_intel.append(re.sub(r"^\s+|\s+$", "", temp_split[j]))
-                if i == 2:
-                    wlanbt_module_mtk.append(re.sub(r"^\s+|\s+$", "", temp_split[j]))
-                if i == 3:
-                    wlanbt_module_liteon.append(re.sub(r"^\s+|\s+$", "", temp_split[j]))
 
-    bt_count_intel = 0
-    bt_count_mtk = 0
-    bt_count_liteon = 0
-    wlan_count_intel = 0
-    wlan_count_mtk = 0
-    wlan_count_liteon = 0
-    for i in range(0, len(path_list_input)):
-        path_split, folder_root_name, name_split = name_split_get(path_list_input[i])
-        for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
-            name_split[j] = name_split[j].lower()
-
-        # intel
-        if "wlanbt" in name_split and "intel" in name_split:
-            if len(wlanbt_path_list_input[0]) < len(wlanbt_module_intel): # wlanbt_path_list_input[0]: intel driver wlan amount
-                for count_i in range(0, len(wlanbt_module_intel)):
-                    if path_split[1].lower() == "bt":
-                        module_display = "(" + wlanbt_module_intel[bt_count_intel] + ")" # e.g. (ax201)
-                        item_list.append("_".join(["XX_Bluetooth", module_display])) # "XX" is ready for category column of excel, program will delete "XX".
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        bt_count_intel += 1
-
-                    if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                        module_display = "(" + wlanbt_module_intel[wlan_count_intel] + ")"
-                        item_list.append("_".join(["XX_Wlan", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        wlan_count_intel += 1
-            else: 
-                if path_split[1].lower() == "bt":
-                    module_display = "(" + wlanbt_module_intel[bt_count_intel] + ")" # e.g. (ax201)
-                    item_list.append("_".join(["XX_Bluetooth", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-                if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                    module_display = "(" + wlanbt_module_intel[wlan_count_intel] + ")"
-                    item_list.append("_".join(["XX_Wlan", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-        # mtk
-        elif "wlanbt" in name_split and "mtk" in name_split:
-            if len(wlanbt_path_list_input[2]) < len(wlanbt_module_mtk): # wlanbt_path_list_input[2]: mtk driver wlan amount
-                for count_i in range(0, len(wlanbt_module_mtk)):
-                    if path_split[1].lower() == "bt":
-                        module_display = "(" + wlanbt_module_mtk[bt_count_mtk] + ")"
-                        item_list.append("_".join(["XX_Bluetooth", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        bt_count_mtk += 1
-
-                    if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                        module_display = "(" + wlanbt_module_mtk[wlan_count_mtk] + ")"
-                        item_list.append("_".join(["XX_Wlan", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        wlan_count_mtk += 1
-            else: 
-                if path_split[1].lower() == "bt":
-                    module_display = "(" + wlanbt_module_mtk[bt_count_mtk] + ")"
-                    item_list.append("_".join(["XX_Bluetooth", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-                if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                    module_display = "(" + wlanbt_module_mtk[wlan_count_mtk] + ")"
-                    item_list.append("_".join(["XX_Wlan", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-        # liteon
-        elif "wlanbt" in name_split and "liteon" in name_split:
-            if len(wlanbt_path_list_input[4]) < len(wlanbt_module_liteon): # wlanbt_path_list_input[4]: liteon driver wlan amount
-                for count_i in range(0, len(wlanbt_module_liteon)):
-                    if path_split[1].lower() == "bt":
-                        module_display = "(" + wlanbt_module_liteon[bt_count_liteon] + ")" # e.g. (ax201)
-                        item_list.append("_".join(["XX_Bluetooth", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        bt_count_liteon += 1
-
-                    if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                        module_display = "(" + wlanbt_module_liteon[wlan_count_liteon] + ")"
-                        item_list.append("_".join(["XX_Wlan", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        wlan_count_liteon += 1
-            else: 
-                if path_split[1].lower() == "bt":
-                    module_display = "(" + wlanbt_module_liteon[bt_count_liteon] + ")"
-                    item_list.append("_".join(["XX_Bluetooth", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-                if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                    module_display = "(" + wlanbt_module_liteon[bt_count_liteon] + ")"
-                    item_list.append("_".join(["XX_Wlan", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-        else:
-            item_list.append(folder_root_name)
-            item_list_path.append(path_list_input[i])
-            aumids_list_path.append(AUMIDs_list_input[i])
-
-    return item_list, item_list_path, aumids_list_path
+def wlanbt_item_sort(path_list_input, AUMIDs_list_input, wlanbt_path_list_input, wlan_info_input):
+    pass
+    # return item_list, item_list_path, aumids_list_path
 
 
 def category_list_get(item_list):
