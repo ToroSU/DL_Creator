@@ -36,6 +36,8 @@ package_list = []
 wlanbt_module_name_list = ["Intel", "AzuWave MTK", "AzuWave RTK", "Liteon RTK", "Liteon Qualc."]
 wlanbt_total_count = 0
 batch_in_folder_path_list = []
+wlan_final_item_list = []
+wlan_final_path_list = []
 
 
 class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
@@ -53,8 +55,8 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.tempList = []
         # initial settings of select_pushButton click 
         self.wlanbt_button_clicked_count = 0 # for click button countdown
-        self.wlan_final_item_list = []
-        self.wlan_final_path_list = []
+        # self.wlan_final_item_list = []
+        # self.wlan_final_path_list = []
 
     
     def loaddata(self):
@@ -66,9 +68,11 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
 
     def when_loadData_Button_click(self):
         # if click "Load Data" button, reset settings of select_pushButton 
+        global wlan_final_item_list
+        global wlan_final_path_list
         self.wlanbt_button_clicked_count = 0
-        self.wlan_final_item_list = []
-        self.wlan_final_path_list = []
+        wlan_final_item_list = []
+        wlan_final_path_list = []
         self.loaddata()
         # set label
         # used_wlanbt_module e.g. [[0, 0, 'Ax201'], [0, 1, 'Ax211'], [1, 0, 'MT7921'], [1, 1, 'MT7922']]
@@ -78,10 +82,13 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.module_label.setText(self.used_wlanbt_module[0][2])
 
     def when_selectButton_click(self):
+        global wlan_final_item_list
+        global wlan_final_path_list
+
         if self.wlanbt_button_clicked_count == 0:
             final_item_name = self.used_wlanbt_module[self.wlanbt_button_clicked_count][1] + "({})".format(self.used_wlanbt_module[self.wlanbt_button_clicked_count][2])
-            self.wlan_final_item_list.append(final_item_name)
-            self.wlan_final_path_list.append(self.temp_string)
+            wlan_final_item_list.append(final_item_name)
+            wlan_final_path_list.append(self.temp_string)
 
         if  self.wlanbt_button_clicked_count > 0 and self.wlanbt_button_clicked_count < self.wlanbt_total_count : # 用來檢查是否點完module 
             # self.tempList.append(self.temp_string)
@@ -89,14 +96,14 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             # used_wlanbt_module e.g. [[0, 0, 'Ax201'], [0, 1, 'Ax211'], [1, 0, 'MT7921'], [1, 1, 'MT7922']]
 
             final_item_name = self.used_wlanbt_module[self.wlanbt_button_clicked_count][1] + "({})".format(self.used_wlanbt_module[self.wlanbt_button_clicked_count][2])
-            self.wlan_final_item_list.append(final_item_name)
-            self.wlan_final_path_list.append(self.temp_string)
+            wlan_final_item_list.append(final_item_name)
+            wlan_final_path_list.append(self.temp_string)
 
             #最後一個module按完後 關閉wlanbt選擇視窗, 並return 0 結束函數 (同時避免做接下來的setText)
             if self.wlanbt_button_clicked_count == self.wlanbt_total_count-1: # -1 cause counter is 0 to 7
                 QMessageBox.about(self, "WlanBT Save", "Save Successfully")
-                for i in range(0, len(self.wlan_final_path_list)):
-                    print(self.wlan_final_item_list[i], " ", self.wlan_final_path_list[i])
+                for i in range(0, len(wlan_final_path_list)):
+                    print(wlan_final_item_list[i], " ", wlan_final_path_list[i])
                 self.close()
                 return 0 
 
