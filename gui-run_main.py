@@ -33,7 +33,7 @@ dir_path = os.getcwd() # get current path (as know as driver package path)
 package_list = []
 # for wlanbt set
 first_click_loaddate = True
-wlanbt_module_name_list = ["Intel", "AzuWave MTK", "AzuWave RTK", "Liteon RTK", "Liteon Qualc."]
+wlanbt_module_name_list = ["Intel", "AzureWave MTK", "AzureWave RTK", "Liteon RTK", "Liteon Qualc."]
 wlanbt_total_count = 0
 batch_in_folder_path_list = []
 AUMIDs_in_folder_path_list = []
@@ -45,7 +45,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
     def __init__(self):
         super(wlanbtSelectWindos, self).__init__()
         self.setupUi(self)
-        self.tableWidget.setColumnWidth(0, 800)
+        self.tableWidget.setColumnWidth(0, 780)
         self.tableWidget.cellClicked.connect(self.cell_was_clicked)
         self.select_pushButton.clicked.connect(self.when_selectButton_click)
         self.loadData_pushButton.clicked.connect(self.when_loadData_Button_click)
@@ -87,6 +87,8 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         if first_click_loaddate:
             self.loaddata()
             first_click_loaddate = False
+        else:
+            print("Reset")
             
         # set label
         # used_wlanbt_module e.g. [[0, 0, 'Ax201'], [0, 1, 'Ax211'], [1, 0, 'MT7921'], [1, 1, 'MT7922']]
@@ -250,6 +252,9 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.wlanbt_AzwaveRTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveRTK"))
         self.wlanbt_liteonRTK_lineEdit.setText(settings.value("WLANBT_Info/LiteonRTK"))
         self.wlanbt_liteonQualc_lineEdit.setText(settings.value("WLANBT_Info/LiteonQualc"))
+        self.exportDriverList_checkBox.setChecked(str2bool(settings.value("Other_Setting/ExportDriverList")))
+        self.listChecking_checkBox.setChecked(str2bool(settings.value("Other_Setting/ListChecking")))
+        self.package2zip_checkBox.setChecked(str2bool(settings.value("Other_Setting/Package2Zip")))
 
 
 if __name__ == '__main__': #如果整個程式是主程式

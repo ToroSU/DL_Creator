@@ -43,7 +43,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
 
     # Alignment define
     content_align = Alignment(horizontal = "center")
-    content_column_non_align_list = [1, 2, 16, 17, 22] # column : [A, B, P, Q, V] do not participate in alignment.
+    content_column_non_align_list = [1, 2, 16, 17, 22, 23] # column : [A, B, P, Q, V] do not participate in alignment.
     content_column_non_align_list = [temp - 1 for temp in content_column_non_align_list] # Do -1 for excel format in python for loop.
 
     # List title at excel cell:"A1"
@@ -90,6 +90,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
 
     # Save to exccel file
     try:
+        del wb["Sheet"] # Delete default sheet which name is "Sheet"
         wb.save(fn)
     except:
         print("\nExcel WARNING : Please try closing the excel file and RE-RUN the program.")

@@ -139,10 +139,10 @@ def category_list_get(item_list):
     return category_list
 
 
-def description_ver_date_list_get(item_list_path):
+def infFile_ver_date_list_get(item_list_path):
     # 待完成指定inf功能，目前是選程式找到的其中一個inf來使用
     # Description 搜尋功能未完成
-    description_list = []
+    infFile_lsit = []
     driverVersion_list = []
     driverDate_list = []
     file_break = False
@@ -166,11 +166,11 @@ def description_ver_date_list_get(item_list_path):
                 aumids_break = False
                 break
 
-        description_list.append(file_str)
+        infFile_lsit.append(file_str)
         driverVersion_list.append(driverVersion_str)
         driverDate_list.append(driverDate_str)
 
-    return description_list, driverVersion_list, driverDate_list
+    return infFile_lsit, driverVersion_list, driverDate_list
 
 
 def software_item_analysis(item_list_path):
@@ -512,7 +512,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     all_list = []
 
     category_list = category_list_get(item_list)
-    description_list, driverVersion_list_temp, driverDate_list_temp  = description_ver_date_list_get(item_list_path)
+    infFile_list, driverVersion_list_temp, driverDate_list_temp  = infFile_ver_date_list_get(item_list_path)
     software_path_list = software_item_analysis(item_list_path)
 
     provider_list = provider_list_get(item_list_path)
@@ -539,7 +539,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     
     # List append to tuple, format:[[category list], [description list], [provider list]...] sorting by excel column spec.
     all_list.append(category_list)
-    all_list.append(description_list)
+    all_list.append(remark_list) # 先預設空白 先用remark list填充(空白)，後續以inf回填 見remark
     all_list.append(provider_list)
     all_list.append(vendor_list)
     all_list.append(listOfsupportModelName_list)
@@ -560,6 +560,6 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     all_list.append(matchFwVersion_list)
     all_list.append(needReboot_list)
     all_list.append(driverPackage_list)
-    all_list.append(remark_list)
+    all_list.append(infFile_list) # 用以檢查inf 回填用
 
     return all_list 
