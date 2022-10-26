@@ -10,7 +10,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
     fn = fn_temp + ".xlsx"
 
     wb = openpyxl.Workbook()
-    wb_1 = wb.create_sheet("The lastest release ", 0) # Add worksheet and specify location
+    wb_1 = wb.create_sheet("The lastest release", 0) # Add worksheet and specify location
     wb_2 = wb.create_sheet("Release note", 0)
 
     # Define cell color and fill it
