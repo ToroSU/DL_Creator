@@ -24,6 +24,12 @@ def list_diff(li1, li2):
     # https://magic-panda-engineer.github.io/Python/python-compare-two-lists
     return (list(set(li1).symmetric_difference(set(li2))))
 
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
+
+
+# Start 
+print("Please wait...")
 
 # Set config file name and settings (global)
 config_filename = "DLC_config.ini" 
@@ -166,6 +172,10 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         super(mywindow, self).__init__()
         self.setupUi(self)
         self.wlanbtSelectWindos_ = wlanbtSelectWindos()
+
+        # welcome
+        cls()
+        print("--Program startup--")
 
         # if config file is exist, load config to GUI
         if os.path.isfile(config_filename):
