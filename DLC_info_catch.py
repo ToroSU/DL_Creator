@@ -1,5 +1,12 @@
 import re
 import os
+# check list, Used to check if there is a preferred inf file
+inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPSS2_GPIO2_ADL.inf', 
+                'iaLPSS2_I2C_ADL.inf', 'ipf_acpi.inf', 'iigd_dch.inf', 'iigd_dch_d.inf', 'IntcSST.inf', 
+                'HDXSSTASUS.inf', 'e1d.inf', 'HidEventFilter.inf', 'gna.inf', 'ISH.inf', 'Netwtw08.INF', 
+                'ibtusb.inf', 'ICPSComponent.inf', 'mtkwl6ex.inf', 'mtkbtfilter.inf', 'RtsUer.inf', 
+                'RtAsus.inf', 'snDMFT.inf', 'WbfUsbDriver.inf', 'IgoApo.inf', 'AsusNUMPADFilter.inf', 
+                'AsusPTPFilter.inf', 'dax3_ext_rtk.inf']
 
 
 def file_reader(file_):
@@ -159,10 +166,60 @@ def infFile_ver_date_list_get(item_list_path):
                     file_str = "AUMIDs"
                     aumids_break = True
                     break
+
             if file_break or aumids_break: # 有拿到inf或aumids就跳出
                 file_break = False
                 aumids_break = False
                 break
+
+        infFile_lsit.append(file_str)
+        driverVersion_list.append(driverVersion_str)
+        driverDate_list.append(driverDate_str)
+
+    return infFile_lsit, driverVersion_list, driverDate_list
+
+
+def infFile_ver_date_list_get_with_checklist(item_list_path):
+    # 配合check list 優化inf正確性
+    # Description 搜尋功能未完成
+    infFile_lsit = []
+    driverVersion_list = []
+    driverDate_list = []
+    # file_break = False
+    # aumids_break = False
+    for root_i in range(0, len(item_list_path)):
+        infFile_lsit_root = []
+        driverVersion_list_root = []
+        driverDate_list_root = []
+        for root, dirs, files in os.walk(item_list_path[root_i]):
+            for file in files:
+                # TODO 加入check list的小判斷，後續可以改掉或優化，
+                # 先把所有inf 列出，再看列出的inf有無在check中，若有:紀錄後跳出，若無則使用list第一項
+                if file[-4:].lower() == ".inf": # 轉換小寫，因為intel wlan的是愚蠢的大寫INF 除錯超久可悲
+                    inf_file_path = os.path.join(root, file)
+                    driverVersion_str, driverDate_str = ver_date_get(inf_file_path)
+                    driverVersion_list_root.append(driverVersion_str)
+                    driverDate_list_root.append(driverDate_str)
+                    infFile_lsit_root.append(file)
+
+                elif file == "AUMIDs.txt":
+                    file_str = "AUMIDs"
+                    driverVersion_str = ""
+                    driverDate_str = ""
+                    break
+
+        for i in range(0, len(infFile_lsit_root)):
+            if infFile_lsit_root[i] in inf_check_list:
+                file_str = infFile_lsit_root[i]
+                driverVersion_str = driverVersion_list_root[i]
+                driverDate_str = driverDate_list_root[i]
+                break
+            
+            else:
+                file_str = infFile_lsit_root[0]
+                driverVersion_str = driverVersion_list_root[0]
+                driverDate_str = driverDate_list_root[0]
+                        
 
         infFile_lsit.append(file_str)
         driverVersion_list.append(driverVersion_str)
@@ -510,7 +567,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     all_list = []
 
     category_list = category_list_get(item_list)
-    infFile_list, driverVersion_list_temp, driverDate_list_temp  = infFile_ver_date_list_get(item_list_path)
+    infFile_list, driverVersion_list_temp, driverDate_list_temp  = infFile_ver_date_list_get_with_checklist(item_list_path)
     software_path_list = software_item_analysis(item_list_path)
 
     provider_list = provider_list_get(item_list_path)
