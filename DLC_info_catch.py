@@ -23,6 +23,7 @@ def file_reader(file_):
 
 
 def name_split_get(input):
+    # Split folder name for subsequent analysis
     path_split = (input.split("\\")) # e.g. ["14_WLANBT_Intel", "WLAN", "WiFi_Intel_22.150.0.3"]
     folder_root_name = path_split[0] # e.g. 03_IRST_Intel
     name_split = folder_root_name.split("_") # e.g. ['03', 'IRST', 'Intel']
@@ -33,7 +34,6 @@ def name_split_get(input):
 def ver_date_get(inf_file):
     driver_ver='DriverVer'
     lines_ = file_reader(inf_file)
-
     for line in lines_:
         if driver_ver in line:
             driver_ver_line = line # e.g. DriverVer = 05/30/2022,22.150.0.6
@@ -112,20 +112,18 @@ def final_list_sort(raw_path_list_input, raw_AUMIDs_list_input, wlan_final_item_
         del raw_path_list_input[i]
         del raw_AUMIDs_list_input[i]
         del raw_item_list[i]
-    # print(len(raw_path_list_input))
-    # print(len(raw_AUMIDs_list_input))
-    # print(len(raw_item_list))
 
     # 插入由使用者在 wlanbt select GUI 選定的 driver path, 及當時自動生成的 item string (item string: e.g. Bluetooth (Ax201)), AUMIDS 插入"NA"
     raw_item_list[first_index:first_index] = wlan_final_item_list # 插入 wlanbt item
     raw_path_list_input[first_index:first_index] = wlan_final_path_list # 插入 wlanbt path
-        # 計算wlanbt 的數量，加入同等數量的"NA"
     aumids_insert_NA_list = []
+    # 計算wlanbt 的數量，加入同等數量的"NA"
     for i in range(0, len(wlan_final_item_list)):
         aumids_insert_NA_list.append("NA") 
     
     raw_AUMIDs_list_input[first_index:first_index] = aumids_insert_NA_list
 
+    # 單純改變數名稱
     final_item_list = raw_item_list
     final_bat_path_list = raw_path_list_input
     final_aumids_path_list = raw_AUMIDs_list_input
@@ -161,7 +159,7 @@ def infFile_ver_date_list_get(item_list_path):
                     file_str = "AUMIDs"
                     aumids_break = True
                     break
-            if file_break or aumids_break:
+            if file_break or aumids_break: # 有拿到inf或aumids就跳出
                 file_break = False
                 aumids_break = False
                 break
