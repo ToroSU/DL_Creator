@@ -94,4 +94,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
         wb.save(fn)
     except:
         print("\nExcel WARNING : Please try closing the excel file and RE-RUN the program.")
-    
+
+
+def list_checking():
+    pass
