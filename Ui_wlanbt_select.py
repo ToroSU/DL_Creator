@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\EddieYW_Su\Desktop\DL_Creator_current\test\wlanbt_select.ui'
+# Form implementation generated from reading ui file 'c:\Users\EddieYW_Su\Desktop\DL_Creator_current\Main_Repo\GUI_branch\DL_Creator\wlanbt_select.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.5
 #
@@ -37,14 +37,14 @@ class Ui_wlanbt_select_Form(object):
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.label_3 = QtWidgets.QLabel(Form)
-        self.label_3.setGeometry(QtCore.QRect(350, 80, 101, 41))
+        self.label_3.setGeometry(QtCore.QRect(340, 80, 101, 41))
         font = QtGui.QFont()
         font.setFamily("Verdana")
         font.setPointSize(14)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
         self.vendor_label = QtWidgets.QLabel(Form)
-        self.vendor_label.setGeometry(QtCore.QRect(140, 20, 171, 41))
+        self.vendor_label.setGeometry(QtCore.QRect(140, 20, 241, 41))
         font = QtGui.QFont()
         font.setFamily("Verdana")
         font.setPointSize(14)
@@ -67,7 +67,7 @@ class Ui_wlanbt_select_Form(object):
         self.function_label.setFont(font)
         self.function_label.setObjectName("function_label")
         self.module_label = QtWidgets.QLabel(Form)
-        self.module_label.setGeometry(QtCore.QRect(450, 80, 171, 41))
+        self.module_label.setGeometry(QtCore.QRect(440, 80, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Verdana")
         font.setPointSize(14)
