@@ -2,7 +2,7 @@ import re
 import os
 # check list, Used to check if there is a preferred inf file
 inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPSS2_GPIO2_ADL.inf', 
-                'iaLPSS2_I2C_ADL.inf', 'ipf_acpi.inf', 'iigd_dch.inf', 'iigd_dch_d.inf', 'IntcSST.inf', 
+                'iaLPSS2_I2C_ADL.inf', 'ipf_acpi.inf', 'iigd_dch.inf', 'iigd_dch_d.inf', 'intcaudiobus.inf', 
                 'HDXSSTASUS.inf', 'e1d.inf', 'HidEventFilter.inf', 'gna.inf', 'ISH.inf', 'Netwtw08.INF', 
                 'ibtusb.inf', 'ICPSComponent.inf', 'mtkwl6ex.inf', 'mtkbtfilter.inf', 'RtsUer.inf', 
                 'RtAsus.inf', 'snDMFT.inf', 'WbfUsbDriver.inf', 'IgoApo.inf', 'AsusNUMPADFilter.inf', 
