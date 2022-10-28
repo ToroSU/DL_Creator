@@ -95,7 +95,7 @@ def list_checking_main():
     sys_inf_chk_file = "syschecklist.txt"
 
     # create sys inf check list
-    # os.system('cmd /c "pnputil.exe /enum-devices /drivers /ids >{}"'.format(sys_inf_chk_file))
+    os.system('cmd /c "pnputil.exe /enum-devices /drivers /ids >{}"'.format(sys_inf_chk_file))
     print("Creating...")
 
     if os.path.isfile(sys_inf_chk_file):
@@ -271,21 +271,35 @@ def list_checking_main():
         
         # checking description and fill it
         if description_in_driver_list_cell != None:
-            # 若無重複，即添加一行
-            temp_string = description_in_driver_list_cell + checking_description + "\n"
+            temp_split = description_in_driver_list_cell.split("\n")
+            if checking_description not in temp_split:
+                # 若無重複，即添加一行
+                temp_string = description_in_driver_list_cell + checking_description + "\n"
+                sheet_driver_list.cell(row=index_i+1, column=description_column).value = str(temp_string)
+                # sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(wrapText=True)
+                # sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(vertical= "center")
+                sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(wrapText=True)
+            else:
+                pass
         else:
             temp_string = checking_description + "\n"
+            sheet_driver_list.cell(row=index_i+1, column=description_column).value = str(temp_string)
 
-        sheet_driver_list.cell(row=index_i+1, column=description_column).value = str(temp_string)
 
         # checking hardwareID and fill it
         if hardwareID_in_driver_list_cell != None:
+            temp_split = hardwareID_in_driver_list_cell.split("\n")
+            if checking_hardwareID not in temp_split:
             # 若無重複，即添加一行
-            temp_string = hardwareID_in_driver_list_cell + checking_hardwareID + "\n"
+                temp_string = hardwareID_in_driver_list_cell + checking_hardwareID + "\n" 
+                sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).value = str(temp_string)
+                sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).alignment = Alignment(wrapText=True)
+                # sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).alignment = Alignment(horizontal = "center", vertical= "center")
         else:
             temp_string = checking_hardwareID + "\n"
+            sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).value = str(temp_string)
 
-        sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).value = str(temp_string)
+
 
     rd_wb.save(excel_file_name)
     print("BBQ")
