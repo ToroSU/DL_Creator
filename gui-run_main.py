@@ -191,26 +191,36 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         global batch_in_folder_path_list
         global AUMIDs_in_folder_path_list
         
-        # list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
-        # Serach all folder at root_folder, Use folder to detect.
-        root_folder = os.listdir(dir_path) # all file and folder under current path
-        # self.package_list = [] # list of root foder
-        for i in range(0, len(root_folder)): 
-            realpath_root = os.path.join(dir_path, root_folder[i])
-            # detect is it driverPackage folder or others.(to do fix check function)
-            if os.path.isdir(realpath_root):
-                if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
-                    # self.package_list.append(root_folder[i])
-                    package_list.append(root_folder[i])
+        # after click run button load all config settings 
+        self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
+        # if list checking is True
+        if str2bool(self.other_setting[1]):
+            self.when_listChecking_is_enable()
 
-        # Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
-        # TODO bat file exist (maybe todo ...)
-        # Main output 1: list of bat file path.
-        # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
-        # batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(self.package_list) 
-        batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list) 
+        else:
+            # list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
+            # Serach all folder at root_folder, Use folder to detect.
+            root_folder = os.listdir(dir_path) # all file and folder under current path
+            # self.package_list = [] # list of root foder
+            for i in range(0, len(root_folder)): 
+                realpath_root = os.path.join(dir_path, root_folder[i])
+                # detect is it driverPackage folder or others.(to do fix check function)
+                if os.path.isdir(realpath_root):
+                    if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
+                        # self.package_list.append(root_folder[i])
+                        package_list.append(root_folder[i])
 
-        self.wlanbtSelectWindos_.show()
+            # Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
+            # TODO bat file exist (maybe todo ...)
+            # Main output 1: list of bat file path.
+            # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
+            # batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(self.package_list) 
+            batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list) 
+            self.wlanbtSelectWindos_.show()
+
+
+    def when_listChecking_is_enable(self):
+        print("enter")
 
 
     def when_save_puchButton_click(self):
