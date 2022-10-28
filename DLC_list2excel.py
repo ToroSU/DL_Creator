@@ -1,7 +1,6 @@
 import openpyxl
 from openpyxl.styles import Alignment
 
-
 def creat_list(list_info, os_info, data_input, data_all_input):
     ## Creat list and save as Excel
     list_ver = "v" + list_info[2]
@@ -95,6 +94,3 @@ def creat_list(list_info, os_info, data_input, data_all_input):
     except:
         print("\nExcel WARNING : Please try closing the excel file and RE-RUN the program.")
 
-
-def list_checking():
-    pass
