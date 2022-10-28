@@ -95,6 +95,7 @@ def list_checking_main():
     sys_inf_chk_file = "syschecklist.txt"
 
     # create sys inf check list
+    # TODO from system and from package can use it
     os.system('cmd /c "pnputil.exe /enum-devices /drivers /ids >{}"'.format(sys_inf_chk_file))
     print("Creating...")
 
