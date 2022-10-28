@@ -2,6 +2,7 @@ import os
 import time
 import openpyxl
 from openpyxl.styles import Alignment
+import shutil
 
 def excel_reader():
     # 若有複數個 excel檔案，回傳第一個檔名
@@ -300,7 +301,12 @@ def list_checking_main():
             temp_string = checking_hardwareID + "\n"
             sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).value = str(temp_string)
 
-
-
     rd_wb.save(excel_file_name)
+
+    try:
+        shutil.rmtree(sys_inf_chk_file)
+    except OSError as e:
+        print(e)
+    else:
+        print("The directory is deleted successfully")
     print("BBQ")
