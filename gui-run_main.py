@@ -54,6 +54,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.tableWidget.cellClicked.connect(self.cell_was_clicked)
         self.select_pushButton.clicked.connect(self.when_selectButton_click)
         self.loadData_pushButton.clicked.connect(self.when_loadData_Button_click)
+        self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Please click Load Data button"))
         # initial settings of select_pushButton click 
         self.wlanbt_button_clicked_count = 0 # for click button countdown
 
@@ -77,6 +78,11 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[0][0]])
         self.function_label.setText(self.used_wlanbt_module[0][1])
         self.module_label.setText(self.used_wlanbt_module[0][2])
+        
+        while self.tableWidget.rowCount() > 1: # clear tablewidget
+            self.tableWidget.removeRow(0)
+
+        self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Please click Load Data button"))
         print("Reset variable")
 
 
