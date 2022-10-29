@@ -36,11 +36,11 @@ config_filename = "DLC_config.ini"
 settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 
 dir_path = os.getcwd() # get current path (as know as driver package path)
-package_list = []
+# package_list = []
 # for wlanbt set
 first_click_loaddate = True
 wlanbt_module_name_list = ["Intel", "AzureWave MTK", "AzureWave RTK", "Liteon RTK", "Liteon Qualc."]
-wlanbt_total_count = 0
+# wlanbt_total_count = 0
 batch_in_folder_path_list = []
 AUMIDs_in_folder_path_list = []
 wlan_final_item_list = []
@@ -144,6 +144,17 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
                 else:
                     QMessageBox.about(self, "Export List", "\nExportDriverList= {}, do not export excel files.".format(self.other_setting[0]))
                 
+                # reset variable, reset select window label
+                self.wlanbt_button_clicked_count = 0
+                batch_in_folder_path_list = []
+                AUMIDs_in_folder_path_list = []
+                wlan_final_item_list = []
+                wlan_final_path_list = []
+                self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[0][0]])
+                self.function_label.setText(self.used_wlanbt_module[0][1])
+                self.module_label.setText(self.used_wlanbt_module[0][2])
+                print("Reset variable")
+
                 self.close() # close wlanbt select window
                 return 0  # 返回並結束
 
@@ -202,6 +213,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             # list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
             # Serach all folder at root_folder, Use folder to detect.
             root_folder = os.listdir(dir_path) # all file and folder under current path
+            package_list = []
             # self.package_list = [] # list of root foder
             for i in range(0, len(root_folder)): 
                 realpath_root = os.path.join(dir_path, root_folder[i])
@@ -217,6 +229,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
             # batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(self.package_list) 
             batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list) 
+
             self.wlanbtSelectWindos_.show()
 
 
