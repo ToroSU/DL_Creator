@@ -111,8 +111,9 @@ def final_list_sort(raw_path_list_input, raw_AUMIDs_list_input, wlan_final_item_
             indexes_of_path_with_the_keyword.append(i)
 
     first_index = indexes_of_path_with_the_keyword[0] # the index of the first found keyword (這個要放在前面，不然會有reverse的奇怪bug，懶得解)
-    del_i = indexes_of_path_with_the_keyword
+    del_i = indexes_of_path_with_the_keyword # 解惑下一行，python 中list, dict, class這類型態使用=會指向同一個list, dict, class，因此需要進行額外處理。
     del_i.reverse() # reverse the index list to remove found target (first_index 放在這行後面會被 reverse)
+    
 
     # 同步刪除 raw_path_list_input, raw_AUMIDs_list_input, raw_item_list，因為這三個 list 為對應關係
     for i in del_i:
