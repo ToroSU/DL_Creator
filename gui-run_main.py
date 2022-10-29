@@ -12,7 +12,6 @@ from DLC_list_checking import list_checking_main
 from DLC_config_reader import DLC_config_reader_main
 import os
 import time
-
 from Ui_wlanbt_select import Ui_wlanbt_select_Form
 
 
@@ -55,18 +54,32 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.tableWidget.cellClicked.connect(self.cell_was_clicked)
         self.select_pushButton.clicked.connect(self.when_selectButton_click)
         self.loadData_pushButton.clicked.connect(self.when_loadData_Button_click)
-        # # after click run button load all config settings 
-        # self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
-        # # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
-        # self.used_wlanbt_module, self.wlanbt_total_count = DLC_info_catch.obtain_used_module(self.wlanbt_info)
-
-        self.tempList = []
         # initial settings of select_pushButton click 
         self.wlanbt_button_clicked_count = 0 # for click button countdown
-        # self.wlan_final_item_list = []
-        # self.wlan_final_path_list = []
 
-    
+
+    def reset_all(self):
+        global batch_in_folder_path_list
+        global AUMIDs_in_folder_path_list
+        global wlan_final_item_list
+        global wlan_final_path_list
+        global first_click_loaddate
+
+        # initial settings of select_pushButton click 
+        self.wlanbt_button_clicked_count = 0 # for click button countdown
+        # reset variable, reset select window label
+        first_click_loaddate = True
+        batch_in_folder_path_list = []
+        AUMIDs_in_folder_path_list = []
+        wlan_final_item_list = []
+        wlan_final_path_list = []
+        self.wlanbt_button_clicked_count = 0
+        self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[0][0]])
+        self.function_label.setText(self.used_wlanbt_module[0][1])
+        self.module_label.setText(self.used_wlanbt_module[0][2])
+        print("Reset variable")
+
+
     def loaddata(self):
         global batch_in_folder_path_list
         self.wlanbt_list_for_gui = DLC_info_catch.search_wlanbt(batch_in_folder_path_list)
@@ -120,7 +133,6 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             wlan_final_path_list.append(self.temp_string)
 
         if  self.wlanbt_button_clicked_count > 0 and self.wlanbt_button_clicked_count < self.wlanbt_total_count : # 用來檢查是否點完module 
-            # self.tempList.append(self.temp_string)
             # print(used_wlanbt_module[self.wlanbt_button_clicked_count] ,self.temp_string)
             # used_wlanbt_module e.g. [[0, 0, 'Ax201'], [0, 1, 'Ax211'], [1, 0, 'MT7921'], [1, 1, 'MT7922']]
 
@@ -129,7 +141,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             wlan_final_path_list.append(self.temp_string)
 
             #最後一個module按完後 關閉wlanbt選擇視窗, 並return 0 結束函數 (同時避免做接下來的setText)
-            if self.wlanbt_button_clicked_count == self.wlanbt_total_count-1: # -1 cause counter is 0 to 7
+            if self.wlanbt_button_clicked_count == self.wlanbt_total_count-1: # -1 cause counter is 0 to odd end
                 QMessageBox.about(self, "WlanBT Save", "Save Successfully")
                 # for i in range(0, len(wlan_final_path_list)):
                 #     print(wlan_final_item_list[i], " ", wlan_final_path_list[i])
@@ -144,19 +156,10 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
                 else:
                     QMessageBox.about(self, "Export List", "\nExportDriverList= {}, do not export excel files.".format(self.other_setting[0]))
                 
-                # reset variable, reset select window label
-                self.wlanbt_button_clicked_count = 0
-                batch_in_folder_path_list = []
-                AUMIDs_in_folder_path_list = []
-                wlan_final_item_list = []
-                wlan_final_path_list = []
-                self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[0][0]])
-                self.function_label.setText(self.used_wlanbt_module[0][1])
-                self.module_label.setText(self.used_wlanbt_module[0][2])
-                print("Reset variable")
-
+                # reset all
+                self.reset_all()
                 self.close() # close wlanbt select window
-                return 0  # 返回並結束
+                return 0  # exit
 
         # 按下按鈕執行完後，計數+1，並設置下一個vendor/ module label      
         self.wlanbt_button_clicked_count += 1

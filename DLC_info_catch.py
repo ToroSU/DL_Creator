@@ -77,7 +77,7 @@ def obtain_used_module(wlanbt_info):
                 
     wlanbt_total_count = 0
     use_wlanbt_list = []
-    for item_ in (wlanbt_module_list): # wlanbt_module_list format:[wlanbt_i, wlanbt_j, module(e.g.Ax201)]
+    for item_ in (wlanbt_module_list): # wlanbt_module_list format:[wlanbt_i, ["Wlan", "Bluetooth"], module(e.g.Ax201)]
         if item_[2] != "":  # wlanbt_i=0~4, 0:intel, 1:AzwveMTK... also see config.ini file
             wlanbt_total_count += 1
             use_wlanbt_list.append(item_)
