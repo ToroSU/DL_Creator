@@ -35,11 +35,9 @@ config_filename = "DLC_config.ini"
 settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 
 dir_path = os.getcwd() # get current path (as know as driver package path)
-# package_list = []
 # for wlanbt set
 first_click_loaddate = True
 wlanbt_module_name_list = ["Intel", "AzureWave MTK", "AzureWave RTK", "Liteon RTK", "Liteon Qualc."]
-# wlanbt_total_count = 0
 batch_in_folder_path_list = []
 AUMIDs_in_folder_path_list = []
 wlan_final_item_list = []
@@ -149,8 +147,6 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             #最後一個module按完後 關閉wlanbt選擇視窗, 並return 0 結束函數 (同時避免做接下來的setText)
             if self.wlanbt_button_clicked_count == self.wlanbt_total_count-1: # -1 cause counter is 0 to odd end
                 QMessageBox.about(self, "WlanBT Save", "Save Successfully")
-                # for i in range(0, len(wlan_final_path_list)):
-                #     print(wlan_final_item_list[i], " ", wlan_final_path_list[i])
 
                 # TODO 暫時將程式結尾放在這邊，後續換好一點的位置，海景第一排
                 final_item_list, final_bat_path_list, final_aumids_path_list = DLC_info_catch.final_list_sort(batch_in_folder_path_list, AUMIDs_in_folder_path_list, wlan_final_item_list, wlan_final_path_list, self.wlanbt_info)
@@ -182,11 +178,9 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.temp_string = item.text()
 
 
-
-
 class mywindow(QtWidgets.QMainWindow, Ui_Form):
-    #__init__:解構函式，也就是類被建立後就會預先載入的專案。
-    # 馬上執行，這個方法可以用來對你的物件做一些你希望的初始化。
+    #__init__:解構函式，Class被建立後就會預先載入的專案。
+    # 馬上執行，這個方法可以用來對物件做一些希望的初始化。
     def __init__(self):
         #這裡需要過載一下mywindow，同時也包含了QtWidgets.QMainWindow的預載入項。
         super(mywindow, self).__init__()
@@ -222,8 +216,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             # list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
             # Serach all folder at root_folder, Use folder to detect.
             root_folder = os.listdir(dir_path) # all file and folder under current path
-            package_list = []
-            # self.package_list = [] # list of root foder
+            package_list = [] # list of root foder
+
             for i in range(0, len(root_folder)): 
                 realpath_root = os.path.join(dir_path, root_folder[i])
                 # detect is it driverPackage folder or others.(to do fix check function)
