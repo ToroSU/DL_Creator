@@ -1,8 +1,7 @@
 import os
 import openpyxl
 from openpyxl.styles import Alignment
-from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QDockWidget, QListWidget
-import sys
+from PyQt5.QtWidgets import QApplication, QMessageBox
 
 def excel_reader():
     # 若有複數個 excel檔案，回傳第一個檔名
