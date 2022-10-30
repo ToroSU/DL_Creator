@@ -2,6 +2,7 @@ import os
 import openpyxl
 from openpyxl.styles import Alignment
 from PyQt5.QtWidgets import QApplication, QMessageBox
+import sys
 
 def excel_reader():
     # 若有複數個 excel檔案，回傳第一個檔名
@@ -21,7 +22,6 @@ def excel_reader():
         return 0
     
     
-
 def version_checking(ver_1, ver_2):
     ver_1_split = ver_1.split(".")
     ver_2_split = ver_2.split(".")
@@ -56,12 +56,12 @@ def file_reader(file_):
         f.close()
     except:
         try :
-            f = open(file_, encoding="iso_8859_1") # UTF16-LE  
+            f = open(file_, encoding="iso_8859_1")  # ANSI
             # print(file_, " not utf-8 encode")
             lines_ = f.readlines()
             f.close()
         except :
-            f = open(file_, encoding="utf-16-le") # ANSI
+            f = open(file_, encoding="utf-16-le") # UTF16-LE 
             lines_ = f.readlines()
             f.close()
 
@@ -86,7 +86,7 @@ def get_description(description_line):
 
 
 def get_hardwareID(hardwareID_line):
-    if "Hardware IDs:" in hardwareID_line:
+    if "Hardware IDs:" in hardwareID_line or "硬體識別碼" in hardwareID_line:
         content_ = hardwareID_line.split(":")[1]
         content_ = content_.strip("\n")
         hardwareID_return = content_.strip(" ")
@@ -99,7 +99,6 @@ def get_hardwareID(hardwareID_line):
 
 def list_checking_main():
     ## Main start
-
     sys_inf_chk_file = "syschecklist.txt"
 
     # create sys inf check list
@@ -121,11 +120,31 @@ def list_checking_main():
 
     lines = file_reader(sys_inf_chk_file)
 
+    print(lines[0])
+    if "公用程式" in lines[0]:
+        print("The current client system is Chinese")
+        instanceID_str = "執行個體識別碼"
+        originalName_str = "原始名稱"
+        driverVersion_str = "驅動程式版本"
+        deviceDesc_str = "裝置描述"
+        hardwareIDs_str = "硬體識別碼"
+        compatibleIDs = "相容識別碼"
+        matchingDrivers = "相符的驅動程式"
+
+    else:
+        instanceID_str = "Instance ID"
+        originalName_str = "Original Name"
+        driverVersion_str = "Driver Version"
+        deviceDesc_str = "Device Description"
+        hardwareIDs_str = "Hardware IDs"
+        compatibleIDs = "Compatible IDs"
+        matchingDrivers = "Matching Drivers"
+    
     ins_ID_index = []
 
     # 紀錄 Instance_ID 的位置
     for i in range(0, len(lines)):
-        if "Instance ID" in lines[i]:
+        if instanceID_str in lines[i]:
             ins_ID_index.append(i)
 
     # 將 sys_inf_check_list 分成一個個block
@@ -140,7 +159,7 @@ def list_checking_main():
 
     for i in range(0, len(block_list)): 
         for line in block_list[i]:
-            if "Original Name" in line: # 有Original Name 代表他有 oem ，至少目前觀察到是這樣
+            if originalName_str in line: # 有Original Name 代表他有 oem ，至少目前觀察到是這樣
                 index_for_del.remove(i)
                 break
 
@@ -213,16 +232,16 @@ def list_checking_main():
                 # sub_block_start = block_line_i
                 find_current_inf = True # 讀到有 current_inf 後才開始偵測 "Driver Version" ，才會是剛好對應的 version/date
 
-            if find_current_inf and "Driver Version" in block_list[block_index_i][block_line_i]:
+            if find_current_inf and driverVersion_str in block_list[block_index_i][block_line_i]:
                 date_version_line = block_list[block_index_i][block_line_i]
                 find_current_inf = False
             
-            if "Device Description" in block_list[block_index_i][block_line_i]:
+            if deviceDesc_str in block_list[block_index_i][block_line_i]:
                 description_line = block_list[block_index_i][block_line_i]
 
             # 這邊取第二條 HWID，注意某些地方可能只有一條，如此她們的下一行應該會有"Matching Drivers:" or "Compatible IDs:"，寫個判斷式避開就好
-            if "Hardware IDs:" in block_list[block_index_i][block_line_i]:
-                if "Compatible IDs:" in block_list[block_index_i][block_line_i + 1] or "Matching Drivers:" in block_list[match_block_index[i]][block_line_i+1]:
+            if hardwareIDs_str in block_list[block_index_i][block_line_i]:
+                if compatibleIDs in block_list[block_index_i][block_line_i + 1] or matchingDrivers in block_list[match_block_index[i]][block_line_i+1]:
                     hardwareID_line = block_list[block_index_i][block_line_i]
                 else:
                     hardwareID_line = block_list[block_index_i][block_line_i + 1]
