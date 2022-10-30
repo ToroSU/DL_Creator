@@ -73,9 +73,11 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         wlan_final_item_list = []
         wlan_final_path_list = []
         self.wlanbt_button_clicked_count = 0
-        self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[0][0]])
-        self.function_label.setText(self.used_wlanbt_module[0][1])
-        self.module_label.setText(self.used_wlanbt_module[0][2])
+
+        if self.wlanbt_total_count != 0: # reset label when config file have Wlan/BT module
+            self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[0][0]])
+            self.function_label.setText(self.used_wlanbt_module[0][1])
+            self.module_label.setText(self.used_wlanbt_module[0][2])
         
         while self.tableWidget.rowCount() > 1: # clear tablewidget
             self.tableWidget.removeRow(0)
@@ -102,7 +104,12 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
         # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
         self.used_wlanbt_module, self.wlanbt_total_count = DLC_info_catch.obtain_used_module(self.wlanbt_info)
-            
+        
+        # case: without wlanbt module, call function complete_and_create_list, create list, return 0
+        if self.wlanbt_total_count == 0:
+            QMessageBox.about(self, "WARNING", "No Wlan/BT module in config.ini")
+            self.complete_and_create_list()
+            return 0 
 
         self.wlanbt_button_clicked_count = 0
         wlan_final_item_list = []
@@ -151,6 +158,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
 
                 # TODO 暫時將程式結尾放在這邊，後續換好一點的位置，海景第一排
                 self.complete_and_create_list()
+                return 0
 
         # 按下按鈕執行完後，計數+1，並設置下一個vendor/ module label      
         self.wlanbt_button_clicked_count += 1
@@ -178,7 +186,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             QMessageBox.about(self, "Export List", "File output completed, path is: \n{}".format(dir_path))
 
         else:
-            QMessageBox.about(self, "Export List", "\nExportDriverList= {}, do not export excel files.".format(self.other_setting[0]))
+            QMessageBox.about(self, "Export List", "\nExportDriverList= {},\ndo not export excel files.".format(self.other_setting[0]))
         
         # reset all
         self.reset_all()
