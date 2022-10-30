@@ -1,18 +1,26 @@
 import os
-import time
 import openpyxl
 from openpyxl.styles import Alignment
+from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QDockWidget, QListWidget
+import sys
 
 def excel_reader():
     # 若有複數個 excel檔案，回傳第一個檔名
     excels = []
     dir_path = os.getcwd() 
     files = os.listdir(dir_path)
-    for file in files:
-        if ".xlsx" in file:
-            excels.append(file)
+    try:
+        for file in files:
+            if ".xlsx" in file:
+                excels.append(file)
+        return excels[0]
+
+    # 無 Driver list file, 強制結束
+    except:
+        app = QApplication(sys.argv)
+        QMessageBox.about(None, "WARNING", "No Driver List in current path")
+        return 0
     
-    return excels[0]
     
 
 def version_checking(ver_1, ver_2):
