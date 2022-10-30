@@ -18,7 +18,6 @@ def excel_reader():
 def version_checking(ver_1, ver_2):
     ver_1_split = ver_1.split(".")
     ver_2_split = ver_2.split(".")
-
     try:
         ver_checking_status = 0
         for i in range(0, len(ver_1_split)):
@@ -34,6 +33,7 @@ def version_checking(ver_1, ver_2):
         ckecking_status_return = False
 
     return ckecking_status_return
+
 
 def set_all_row_font(font_input, max_col, index_i, sheet_driver_list):
     for i in range(0, max_col):
@@ -59,6 +59,7 @@ def file_reader(file_):
             f.close()
 
     return lines_
+
 
 def get_date_ver(date_ver_line):
     content_ = date_ver_line.split(":")[1]
@@ -120,8 +121,6 @@ def list_checking_main():
         if "Instance ID" in lines[i]:
             ins_ID_index.append(i)
 
-    # print(ins_ID_index)
-
     # 將 sys_inf_check_list 分成一個個block
     block_list = []
     for i in range(0, len(ins_ID_index)-1):
@@ -129,7 +128,7 @@ def list_checking_main():
         block_list.append(temp_list)
 
     # 篩選出含有 OEM inf 及 origin inf 的block
-    # 將不包含關鍵字的block存成index，之後用倒序刪除
+    # 將不包含關鍵字的block存成index，再倒序刪除
     index_for_del = [x for x in range(0, len(block_list))] # 預備索引[0 ~ block 數量] 的list
 
     for i in range(0, len(block_list)): 
@@ -139,20 +138,16 @@ def list_checking_main():
                 break
 
     
-        # 刪除無original name block
+    # 刪除無original name block
     index_for_del.reverse() # 索引倒序
     for i in index_for_del:
         del block_list[i]
-
-    # print(len(block_list))
-    end = time.time()
 
 
     # 開讀 excel
     excel_file_name = excel_reader()
     print(excel_file_name)
     rd_wb = openpyxl.load_workbook(excel_file_name)
-    # rd_wb = workbook_.active
 
     sheet_release_note = rd_wb[rd_wb.sheetnames[0]]
     sheet_driver_list = rd_wb[rd_wb.sheetnames[1]] # [1] list sheet 目前用這個就好
@@ -165,7 +160,6 @@ def list_checking_main():
     for row_i in range(0, max_row):
         temp = sheet_driver_list.cell(row = row_i+1, column = 23)
         remark_column_rows.append(temp.value)
-
 
 
     # 找 driver list 中存在的inf 及其對應的指標 match_inf_index
@@ -192,8 +186,6 @@ def list_checking_main():
                 have_one_match = False
                 break
 
-    # print(match_inf_index)
-    # print(match_block_index)
 
     ## 在有找到inf的前提下(match_inf_index)，尋找description/HWID/Date/Ver
     date_list = []
@@ -239,10 +231,9 @@ def list_checking_main():
         hardwardID_list.append(hardwardID_str)
 
 
-
     # font define
-    checking_fail_font = openpyxl.styles.Font(size=12, bold=False, name='Arial Unicode MS', color="FF0000") # red
-    checking_success_font = openpyxl.styles.Font(size=12, bold=False, name='Arial Unicode MS', color="00B050") # green
+    checking_fail_font = openpyxl.styles.Font(size=10, bold=False, name='Verdana', color="FF0000") # red
+    checking_success_font = openpyxl.styles.Font(size=10, bold=False, name='Verdana', color="00B050") # green
 
     ## 在有找到inf的前提下(match_inf_index)，date/Ver 錯誤 標紅色
     # 找到的description / HWID 填入指定格子內
@@ -308,4 +299,3 @@ def list_checking_main():
         print(e)
     else:
         print("The directory is deleted successfully")
-    print("BBQ")
