@@ -8,7 +8,7 @@ from PyQt5.QtGui import *
 from Ui_GUI_ import Ui_Form
 import DLC_info_catch
 from DLC_list2excel import creat_list
-from DLC_list_checking import list_checking_main
+from DLC_list_checking import list_checking_main, list_checking_main_test
 from DLC_config_reader import DLC_config_reader_main
 import os
 import time
@@ -253,7 +253,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
 
     def when_listChecking_is_enable(self):
-        list_checking_main()
+        list_checking_main_test()
 
 
     def when_save_puchButton_click(self):
