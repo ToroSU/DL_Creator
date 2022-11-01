@@ -524,10 +524,10 @@ def list_checking_main_test():
         
         # checking description and fill it
         if description_in_driver_list_cell != None:
-            temp_split = description_in_driver_list_cell.split("\n") # e.g. ["HWID1"] ~ ["HWID1", "HWID2", "HWID3"]        
+            temp_split = description_in_driver_list_cell.split("\n") # e.g. ["Desc.1"] ~ ["Desc.1", "Desc.2", "Desc.3"]        
             if checking_description not in temp_split:
                 # 若無重複，即添加一行
-                temp_split = temp_split.append(checking_description)
+                temp_split.append(checking_description)
                 temp_string = "\n".join(temp_split)
                 sheet_driver_list.cell(row=index_i+1, column=description_column).value = str(temp_string)
                 # sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(wrapText=True)
@@ -542,10 +542,10 @@ def list_checking_main_test():
 
         # checking hardwareID and fill it
         if hardwareID_in_driver_list_cell != None:
-            temp_split = hardwareID_in_driver_list_cell.split("\n")
+            temp_split = hardwareID_in_driver_list_cell.split("\n") # e.g. ["HWID1"] ~ ["HWID1", "HWID2", "HWID3"] 
             if checking_hardwareID not in temp_split:
             # 若無重複，即添加一行
-                temp_split = temp_split.append(checking_hardwareID)
+                temp_split.append(checking_hardwareID)
                 temp_string = "\n".join(temp_split) 
                 sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).value = str(temp_string)
                 sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).alignment = Alignment(wrapText=True)
