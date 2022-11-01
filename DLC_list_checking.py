@@ -518,17 +518,17 @@ def list_checking_main_test():
             sheet_driver_list.cell(row=index_i+1, column=checkCounter_column).value = str(temp_string)
         else:
             if checkCounter == 0:
-                set_all_row_font(checking_fail_font, max_col, index_i, sheet_driver_list) # 若 Date ver 不對，但checkcounter == None  
-        
+                set_all_row_font(checking_fail_font, max_col, index_i, sheet_driver_list) # 若 Date ver 不對，但checkcounter == 0 (Ori None)  
         
         
         
         # checking description and fill it
         if description_in_driver_list_cell != None:
-            temp_split = description_in_driver_list_cell.split("\n")
+            temp_split = description_in_driver_list_cell.split("\n") # e.g. ["HWID1"] ~ ["HWID1", "HWID2", "HWID3"]        
             if checking_description not in temp_split:
                 # 若無重複，即添加一行
-                temp_string = description_in_driver_list_cell + checking_description + "\n"
+                temp_split = temp_split.append(checking_description)
+                temp_string = "\n".join(temp_split)
                 sheet_driver_list.cell(row=index_i+1, column=description_column).value = str(temp_string)
                 # sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(wrapText=True)
                 # sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(vertical= "center")
@@ -536,7 +536,7 @@ def list_checking_main_test():
             else:
                 pass
         else:
-            temp_string = checking_description + "\n"
+            temp_string = checking_description
             sheet_driver_list.cell(row=index_i+1, column=description_column).value = str(temp_string)
 
 
@@ -545,12 +545,13 @@ def list_checking_main_test():
             temp_split = hardwareID_in_driver_list_cell.split("\n")
             if checking_hardwareID not in temp_split:
             # 若無重複，即添加一行
-                temp_string = hardwareID_in_driver_list_cell + checking_hardwareID + "\n" 
+                temp_split = temp_split.append(checking_hardwareID)
+                temp_string = "\n".join(temp_split) 
                 sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).value = str(temp_string)
                 sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).alignment = Alignment(wrapText=True)
                 # sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).alignment = Alignment(horizontal = "center", vertical= "center")
         else:
-            temp_string = checking_hardwareID + "\n"
+            temp_string = checking_hardwareID
             sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).value = str(temp_string)
 
     rd_wb.save(excel_file_name)
