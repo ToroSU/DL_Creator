@@ -224,7 +224,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # after click run button load all config settings 
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
         # if list checking is True
-        if str2bool(self.other_setting[1]):
+        if str2bool(self.other_setting[1]): # ListChecking=true
             self.when_listChecking_is_enable()
             QMessageBox.about(self, "List checking", "Checking Complete")
 
