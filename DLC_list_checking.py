@@ -3,6 +3,7 @@ import openpyxl
 from openpyxl.styles import Alignment
 from PyQt5.QtWidgets import QApplication, QMessageBox
 import sys
+import logging
 
 def excel_reader():
     # 若有複數個 excel檔案，回傳第一個檔名
@@ -364,6 +365,8 @@ def list_checking_main():
 
 # 測試中: 多設一個欄位"Check counter"讓list可以持續被檢查，不會因為換sku，之前測過的list還被改變顏色
 def list_checking_main_test():
+    FORMAT = '%(asctime)s %(levelname)s: %(message)s' # for logging setting
+    logging.basicConfig(level=logging.DEBUG, filename='Checking.log', filemode='a', format=FORMAT)
     ## Main start
     sys_inf_chk_file = "syschecklist.txt"
 
@@ -525,7 +528,7 @@ def list_checking_main_test():
     # 只要有找到inf 對應的check counter+1
     # 找到的description / HWID 填入指定格子內
     # 若 excel cell 中已有相同 dexcription/ HWID 不填入, 若無，添加進去
-    for i in range(0, len(match_inf_index)):
+    for i in range(0, len(match_inf_index)): 
         index_i = match_inf_index[i] # 在 list 中的指標
         current_inf = remark_column_rows[index_i]
 
@@ -536,6 +539,7 @@ def list_checking_main_test():
         checking_hardwareID = hardwardID_list[i]
 
         # 來自 driver list 的答案
+        category_str = sheet_driver_list.cell(row = index_i+1, column = 1).value # for logging message
         date_in_driver_list_cell = sheet_driver_list.cell(row = index_i+1, column = date_column).value
         ver_in_driver_list_cell = sheet_driver_list.cell(row = index_i+1, column = version_column).value
         description_in_driver_list_cell = sheet_driver_list.cell(row = index_i+1, column = description_column).value
@@ -554,7 +558,10 @@ def list_checking_main_test():
         if date_in_driver_list_cell == checking_date and ver_check_status: 
             set_all_row_font(checking_success_font, max_col, index_i, sheet_driver_list) # 設定第 index_i 列顏色
             sheet_driver_list.cell(row=index_i+1, column=checkCounter_column).value = str(temp_string)
+
         else:
+            dateVerChecking_message = "{0} Date/Ver error, Inf Name:{1}, Expect:{2}{3}, Detected:{4}{5}".format(category_str, current_inf, date_in_driver_list_cell, ver_in_driver_list_cell, checking_date, checking_ver)
+            logging.warning(dateVerChecking_message)
             if checkCounter == 0:
                 set_all_row_font(checking_fail_font, max_col, index_i, sheet_driver_list) # 若 Date ver 不對，但checkcounter == 0 (Ori None)  
         
@@ -568,7 +575,6 @@ def list_checking_main_test():
                 temp_split.append(checking_description)
                 temp_string = "\n".join(temp_split)
                 sheet_driver_list.cell(row=index_i+1, column=description_column).value = str(temp_string)
-                # sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(wrapText=True)
             else:
                 pass
         else:
