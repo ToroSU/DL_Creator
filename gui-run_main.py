@@ -1,17 +1,17 @@
 from genericpath import isfile
 import sys
 import os
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QDockWidget, QListWidget
+from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtGui import *
 from Ui_GUI_ import Ui_Form
 import DLC_info_catch
 from DLC_list2excel import creat_list
-from DLC_list_checking import list_checking_main, list_checking_main_test
+from DLC_list_checking import list_checking_main_test
 from DLC_config_reader import DLC_config_reader_main
 import os
-import time
+# import time
 from Ui_wlanbt_select import Ui_wlanbt_select_Form
 
 
