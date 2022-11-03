@@ -47,6 +47,41 @@ def set_all_row_font(font_input, max_col, index_i, sheet_driver_list):
         sheet_driver_list.cell(row=index_i+1, column=i+1).font = font_input
 
 
+def excel_typesetting_and_save(current_sheet, workbook, excel_file_name):
+    # Set column width
+    dims = {}
+    for row in current_sheet.rows:
+        for cell in row:
+            if cell.value:
+                dims[cell.column_letter] = max((dims.get(cell.column_letter, 0), len(str(cell.value))))
+    for col, value in dims.items():
+        if value <= 20:
+            current_sheet.column_dimensions[col].width = 20
+        else:
+            current_sheet.column_dimensions[col].width = value + 7
+
+    current_sheet.column_dimensions["A"].width = 30 # A column do not automatically adjust column width (Cause A1)
+
+    # Set alignment
+    # Alignment define
+    content_align_vertical = Alignment(wrap_text = True, vertical = "center")
+    content_align_center = Alignment(horizontal = "center", vertical= "center")
+    content_column_non_align_horizontal_list = [1, 2, 15, 16, 17, 22, 23] # column : [A, B, P, Q, V] do not participate in alignment horizontal.
+    content_column_non_align_horizontal_list = [temp - 1 for temp in content_column_non_align_horizontal_list] # Do -1 for excel format in python for loop.
+
+        # All list to excel, modify font and alignment
+    for i in range(0, current_sheet.max_column): # i = number of columns.
+        current_sheet.cell(column=i+1, row=2).alignment = content_align_center # row2 (title row)
+        for j in range(0, current_sheet.max_row): # j = number of rows.
+            if i in content_column_non_align_horizontal_list: # column which do not participate in alignment.
+                current_sheet.cell(column=i+1, row=j+3).alignment = content_align_vertical
+            else:
+                current_sheet.cell(column=i+1, row=j+3).alignment = content_align_center
+
+    #save
+    workbook.save(excel_file_name)
+
+
 #另外用一個file reader 來開 sys_inf_check_list.txt 編碼問題 機歪
 def file_reader(file_):
     # Open the .inf file. If open faild, try to use "utf-16" decode and ignore the error.
@@ -416,21 +451,24 @@ def list_checking_main_test():
     # 得到 "有在系統中找到的inf" ， 與block的對應關係 (match_inf, match_block) 
     for i in range(2, len(remark_column_rows)-1):
         current_inf = remark_column_rows[i]
-        for block_i in range(0, len(block_list)):
-            
-            for block_i_line in block_list[block_i]:
-                if current_inf.lower() in block_i_line.lower():
-                    have_one_match = True
-                    break
+        try:
+            for block_i in range(0, len(block_list)):
+                for block_i_line in block_list[block_i]:
+                    if current_inf.lower() in block_i_line.lower():
+                        have_one_match = True
+                        break
 
-                else:
+                    else:
+                        have_one_match = False
+
+                if have_one_match:
+                    match_inf_index.append(i)
+                    match_block_index.append(block_i)
                     have_one_match = False
-
-            if have_one_match:
-                match_inf_index.append(i)
-                match_block_index.append(block_i)
-                have_one_match = False
-                break
+                    break
+        except:
+            print(current_inf) # bug waive : search until none 
+            break
 
 
     ## 在有找到inf的前提下(match_inf_index)，尋找description/HWID/Date/Ver
@@ -531,8 +569,6 @@ def list_checking_main_test():
                 temp_string = "\n".join(temp_split)
                 sheet_driver_list.cell(row=index_i+1, column=description_column).value = str(temp_string)
                 # sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(wrapText=True)
-                # sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(vertical= "center")
-                sheet_driver_list.cell(row=index_i+1, column=description_column).alignment = Alignment(wrapText=True)
             else:
                 pass
         else:
@@ -548,13 +584,14 @@ def list_checking_main_test():
                 temp_split.append(checking_hardwareID)
                 temp_string = "\n".join(temp_split) 
                 sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).value = str(temp_string)
-                sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).alignment = Alignment(wrapText=True)
-                # sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).alignment = Alignment(horizontal = "center", vertical= "center")
+                # sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).alignment = Alignment(wrapText=True)
         else:
             temp_string = checking_hardwareID
             sheet_driver_list.cell(row=index_i+1, column=hardwardID_column).value = str(temp_string)
 
-    rd_wb.save(excel_file_name)
+    # save
+    # rd_wb.save(excel_file_name)
+    excel_typesetting_and_save(sheet_driver_list, rd_wb, excel_file_name)
 
     try:
         os.remove(sys_inf_chk_file)
