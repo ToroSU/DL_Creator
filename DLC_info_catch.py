@@ -8,6 +8,8 @@ inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPS
                 'RtAsus.inf', 'snDMFT.inf', 'WbfUsbDriver.inf', 'IgoApo.inf', 'AsusNUMPADFilter.inf', 
                 'AsusPTPFilter.inf', 'dax3_ext_rtk.inf']
 
+inf_check_list_lower = [temp.lower() for temp in inf_check_list] # Convert inf_check_list to lowercase
+
 
 def file_reader(file_):
     # Open the .inf file. If open faild, try to use "utf-16" decode and ignore the error.
@@ -209,8 +211,8 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
                     driverDate_str = ""
                     break
 
-        for i in range(0, len(inf_File_list_root)):
-            if inf_File_list_root[i] in inf_check_list:
+        for i in range(0, len(inf_File_list_root)): # TODO reverse detect method, from inf_check_list_lower for loop name.
+            if inf_File_list_root[i].lower() in inf_check_list_lower:
                 file_str = inf_File_list_root[i]
                 driverVersion_str = driverVersion_list_root[i]
                 driverDate_str = driverDate_list_root[i]
