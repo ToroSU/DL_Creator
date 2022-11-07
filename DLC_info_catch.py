@@ -183,25 +183,25 @@ def infFile_ver_date_list_get(item_list_path):
 def infFile_ver_date_list_get_with_checklist(item_list_path):
     # 配合check list 優化inf正確性
     # Description 搜尋功能未完成
-    infFile_lsit = []
+    inf_File_list_root = []
     driverVersion_list = []
     driverDate_list = []
     # file_break = False
     # aumids_break = False
     for root_i in range(0, len(item_list_path)):
-        infFile_lsit_root = []
+        inf_File_list_root = []
         driverVersion_list_root = []
         driverDate_list_root = []
         for root, dirs, files in os.walk(item_list_path[root_i]):
             for file in files:
                 # TODO 加入check list的小判斷，後續可以改掉或優化，
-                # 先把所有inf 列出，再看列出的inf有無在check中，若有:紀錄後跳出，若無則使用list第一項
+                # 先把所有inf 列出，再看列出的inf有無在check中，若有:紀錄後跳出，若無:則使用list第一項
                 if file[-4:].lower() == ".inf": # 轉換小寫，因為intel wlan的是愚蠢的大寫INF 除錯超久可悲
                     inf_file_path = os.path.join(root, file)
                     driverVersion_str, driverDate_str = ver_date_get(inf_file_path)
                     driverVersion_list_root.append(driverVersion_str)
                     driverDate_list_root.append(driverDate_str)
-                    infFile_lsit_root.append(file)
+                    inf_File_list_root.append(file)
 
                 elif file == "AUMIDs.txt":
                     file_str = "AUMIDs"
@@ -209,24 +209,24 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
                     driverDate_str = ""
                     break
 
-        for i in range(0, len(infFile_lsit_root)):
-            if infFile_lsit_root[i] in inf_check_list:
-                file_str = infFile_lsit_root[i]
+        for i in range(0, len(inf_File_list_root)):
+            if inf_File_list_root[i] in inf_check_list:
+                file_str = inf_File_list_root[i]
                 driverVersion_str = driverVersion_list_root[i]
                 driverDate_str = driverDate_list_root[i]
                 break
             
             else:
-                file_str = infFile_lsit_root[0]
+                file_str = inf_File_list_root[0]
                 driverVersion_str = driverVersion_list_root[0]
                 driverDate_str = driverDate_list_root[0]
                         
 
-        infFile_lsit.append(file_str)
+        inf_File_list_root.append(file_str)
         driverVersion_list.append(driverVersion_str)
         driverDate_list.append(driverDate_str)
 
-    return infFile_lsit, driverVersion_list, driverDate_list
+    return inf_File_list_root, driverVersion_list, driverDate_list
 
 
 def software_item_analysis(item_list_path):
