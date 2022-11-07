@@ -598,6 +598,7 @@ def list_checking_main_test():
     # save
     # rd_wb.save(excel_file_name)
     excel_typesetting_and_save(sheet_driver_list, rd_wb, excel_file_name)
+    logging.info("Checking Complete.\n")
 
     try:
         os.remove(sys_inf_chk_file)
