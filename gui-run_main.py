@@ -260,6 +260,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
             self.wlanbtSelectWindos_.show()
 
+
     def when_exportList_checkBox_checked(self):
         # exportDriverList_checkBox is checked
         if self.exportDriverList_checkBox.isChecked():
@@ -271,6 +272,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             self.listChecking_checkBox.setEnabled(True)
             self.package2zip_checkBox.setEnabled(True)
 
+
     def when_listChecking_checkBox_checked(self):
         if self.listChecking_checkBox.isChecked():
             self.exportDriverList_checkBox.setEnabled(False)
@@ -281,6 +283,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             self.exportDriverList_checkBox.setEnabled(True)
             self.package2zip_checkBox.setEnabled(True)
 
+
     def when_package2zip_checkBox_checked(self):
         if self.package2zip_checkBox.isChecked():
             self.exportDriverList_checkBox.setEnabled(False)
@@ -290,7 +293,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         else: 
             self.exportDriverList_checkBox.setEnabled(True)
             self.listChecking_checkBox.setEnabled(True)      
-
 
 
     def when_listChecking_is_enable(self):
