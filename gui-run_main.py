@@ -51,6 +51,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.tableWidget.setColumnWidth(0, 780)
         self.tableWidget.cellClicked.connect(self.cell_was_clicked)
         self.select_pushButton.clicked.connect(self.when_selectButton_click)
+        self.select_pushButton.setEnabled(False) # disable select button until loaddata
         self.loadData_pushButton.clicked.connect(self.when_loadData_Button_click)
         self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Please click Load Data button"))
         # initial settings of select_pushButton click 
@@ -73,6 +74,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         wlan_final_item_list = []
         wlan_final_path_list = []
         self.wlanbt_button_clicked_count = 0
+        self.select_pushButton.setEnabled(False)
 
         if self.wlanbt_total_count != 0: # reset label when config file have Wlan/BT module
             self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[0][0]])
@@ -99,6 +101,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         global wlan_final_item_list
         global wlan_final_path_list
         global first_click_loaddate
+        self.select_pushButton.setEnabled(True) 
 
         # after click run button load all config settings 
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
