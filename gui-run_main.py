@@ -197,6 +197,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         return 0  # exit
 
 
+# Main Window
 class mywindow(QtWidgets.QMainWindow, Ui_Form):
     #__init__:解構函式，Class被建立後就會預先載入的專案。
     # 馬上執行，這個方法可以用來對物件做一些希望的初始化。
@@ -206,7 +207,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.setupUi(self)
         self.wlanbtSelectWindos_ = wlanbtSelectWindos()
 
-        # welcome
+        # greeting message
         cls()
         print("--Program startup--")
 
