@@ -197,6 +197,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         return 0  # exit
 
 
+# Main Window
 class mywindow(QtWidgets.QMainWindow, Ui_Form):
     #__init__:解構函式，Class被建立後就會預先載入的專案。
     # 馬上執行，這個方法可以用來對物件做一些希望的初始化。
@@ -206,7 +207,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.setupUi(self)
         self.wlanbtSelectWindos_ = wlanbtSelectWindos()
 
-        # welcome
+        # greeting message
         cls()
         print("--Program startup--")
 
@@ -222,6 +223,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # behavior of if checkBox checked/unchecked
         self.exportDriverList_checkBox.toggled.connect(self.when_exportList_checkBox_checked)
         self.listChecking_checkBox.toggled.connect(self.when_listChecking_checkBox_checked)
+        self.package2zip_checkBox.toggled.connect(self.when_package2zip_checkBox_checked)
 
     # main button
     def when_run_pushButton_click(self):
@@ -259,19 +261,36 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             self.wlanbtSelectWindos_.show()
 
     def when_exportList_checkBox_checked(self):
+        # exportDriverList_checkBox is checked
         if self.exportDriverList_checkBox.isChecked():
             self.listChecking_checkBox.setEnabled(False)
             self.listChecking_checkBox.setChecked(False)
-        else:
-            self.listChecking_checkBox.setEnabled(True) 
-
+            self.package2zip_checkBox.setEnabled(False)
+            self.package2zip_checkBox.setChecked(False)
+        else: 
+            self.listChecking_checkBox.setEnabled(True)
+            self.package2zip_checkBox.setEnabled(True)
 
     def when_listChecking_checkBox_checked(self):
         if self.listChecking_checkBox.isChecked():
             self.exportDriverList_checkBox.setEnabled(False)
             self.exportDriverList_checkBox.setChecked(False)
-        else:
-            self.exportDriverList_checkBox.setEnabled(True) 
+            self.package2zip_checkBox.setEnabled(False)
+            self.package2zip_checkBox.setChecked(False)
+        else: 
+            self.exportDriverList_checkBox.setEnabled(True)
+            self.package2zip_checkBox.setEnabled(True)
+
+    def when_package2zip_checkBox_checked(self):
+        if self.package2zip_checkBox.isChecked():
+            self.exportDriverList_checkBox.setEnabled(False)
+            self.exportDriverList_checkBox.setChecked(False)
+            self.listChecking_checkBox.setEnabled(False)
+            self.listChecking_checkBox.setChecked(False)
+        else: 
+            self.exportDriverList_checkBox.setEnabled(True)
+            self.listChecking_checkBox.setEnabled(True)      
+
 
 
     def when_listChecking_is_enable(self):
