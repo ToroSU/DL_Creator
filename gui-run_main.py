@@ -219,6 +219,10 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # save button click
         self.save_pushButton.clicked.connect(self.when_save_puchButton_click)
 
+        # behavior of if checkBox checked/unchecked
+        self.exportDriverList_checkBox.toggled.connect(self.when_exportList_checkBox_checked)
+        self.listChecking_checkBox.toggled.connect(self.when_listChecking_checkBox_checked)
+
     # main button
     def when_run_pushButton_click(self):
         global batch_in_folder_path_list
@@ -253,6 +257,21 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list) 
 
             self.wlanbtSelectWindos_.show()
+
+    def when_exportList_checkBox_checked(self):
+        if self.exportDriverList_checkBox.isChecked():
+            self.listChecking_checkBox.setEnabled(False)
+            self.listChecking_checkBox.setChecked(False)
+        else:
+            self.listChecking_checkBox.setEnabled(True) 
+
+
+    def when_listChecking_checkBox_checked(self):
+        if self.listChecking_checkBox.isChecked():
+            self.exportDriverList_checkBox.setEnabled(False)
+            self.exportDriverList_checkBox.setChecked(False)
+        else:
+            self.exportDriverList_checkBox.setEnabled(True) 
 
 
     def when_listChecking_is_enable(self):
