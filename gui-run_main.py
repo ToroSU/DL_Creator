@@ -3,7 +3,7 @@ import sys
 import os
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QApplication, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMessageBox, QProgressDialog
 from PyQt5.QtGui import *
 from Ui_GUI_ import Ui_Form
 import DLC_info_catch
@@ -13,6 +13,7 @@ from DLC_config_reader import DLC_config_reader_main
 import os
 # import time
 from Ui_wlanbt_select import Ui_wlanbt_select_Form
+import shutil
 
 
 ## def function
@@ -237,7 +238,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             self.when_listChecking_is_enable()
             QMessageBox.about(self, "List checking", "Checking Complete")
 
-        else:
+        # TODO Refactor the code this part
+        else: 
             # list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
             # Serach all folder at root_folder, Use folder to detect.
             root_folder = os.listdir(dir_path) # all file and folder under current path
@@ -256,9 +258,13 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             # Main output 1: list of bat file path.
             # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
             # batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(self.package_list) 
-            batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list) 
+            batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list)
 
-            self.wlanbtSelectWindos_.show()
+            if str2bool(self.other_setting[2]): # zip the package
+                self.when_package2zip_enable()
+
+            else:
+                self.wlanbtSelectWindos_.show() # enter crete list main code
 
 
     def when_exportList_checkBox_checked(self):
@@ -297,6 +303,45 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
     def when_listChecking_is_enable(self):
         list_checking_main_test()
+
+
+    def when_package2zip_enable(self):
+        global batch_in_folder_path_list
+        driverPackageZip_folder = "ZIP_DriverPackage"
+
+        # progressBar UI
+        progress = QProgressDialog(self) 
+        progress.setWindowTitle("Please wait")  
+        progress.setLabelText("Compressing...")
+        progress.setCancelButtonText("Cancel")
+        progress.setMinimumDuration(2)
+        progress.setWindowModality(Qt.WindowModal)
+        progress.setRange(0, len(batch_in_folder_path_list)) # set progressBar range 
+
+        # Zip the file and place it in the corresponding folder
+        for i in range(0, len(batch_in_folder_path_list)):
+            progress.setValue(i) 
+            if progress.wasCanceled():
+                QMessageBox.warning(self,"WARNING","User interrupt") 
+                break
+            
+            # compression main
+            current_path = batch_in_folder_path_list[i] # e.g. 14_WLANBT_Intel\BT\BT_Intel_22.150.0.6 (bat file path)
+            zip_file_final_path = os.path.join(driverPackageZip_folder, current_path) # e.g. ZIP_DriverPackage\14_WLANBT_Intel\BT\BT_Intel_22.150.0.6
+            zip_folder_root = zip_file_final_path.split("\\")
+            zip_folder_root.pop() # cuz folder rule
+            zip_folder_root = os.path.join(*zip_folder_root) # e.g. ZIP_DriverPackage\14_WLANBT_Intel\BT, # * mean each list element 
+            # Prepare the corresponding folder
+            if not os.path.exists(zip_folder_root):
+                os.makedirs(zip_folder_root)
+                print("mkdir: ", zip_folder_root)
+
+            shutil.make_archive(zip_file_final_path, format='zip', root_dir=current_path)
+
+        # when compression done
+        else:
+            progress.setValue(len(batch_in_folder_path_list))
+            QMessageBox.information(self,"Message","Compression complete\nPath: {}".format(driverPackageZip_folder))         
 
 
     def when_save_puchButton_click(self):
