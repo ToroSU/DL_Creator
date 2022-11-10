@@ -7,7 +7,7 @@ Create driver list for Customer History:
 Main = Python, version:3.10.0  
 GUI = PyQt5, version:5.15.6  
 GUI design = Qt Designer
-Excel = openpyxl  
+Excel = openpyxl
 
 # Version History
 Dev 1.4.1:  
