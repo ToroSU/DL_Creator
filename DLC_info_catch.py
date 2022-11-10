@@ -1,5 +1,15 @@
 import re
 import os
+# check list, Used to check if there is a preferred inf file
+inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPSS2_GPIO2_ADL.inf', 
+                'iaLPSS2_I2C_ADL.inf', 'ipf_acpi.inf', 'iigd_dch_d.inf', 'iigd_dch.inf', 'intcaudiobus.inf', 
+                'HDXSSTASUS.inf', 'e1d.inf', 'HidEventFilter.inf', 'gna.inf', 'ISH.inf', 'Netwtw08.INF', 
+                'ibtusb.inf', 'ICPSComponent.inf', 'mtkwl6ex.inf', 'mtkbtfilter.inf', 'RtsUer.inf', 
+                'RtAsus.inf', 'snDMFT.inf', 'WbfUsbDriver.inf', 'IgoApo.inf', 'AsusNUMPADFilter.inf', 
+                'AsusPTPFilter.inf', 'dax3_ext_rtk.inf', 'RaptorLakePCH-SSystem.inf', 'iaLPSS2_GPIO2_RPL.inf',
+                'iaLPSS2_I2C_ADL.inf']
+
+inf_check_list_lower = [temp.lower() for temp in inf_check_list] # Convert inf_check_list to lowercase
 
 
 def file_reader(file_):
@@ -23,6 +33,7 @@ def file_reader(file_):
 
 
 def name_split_get(input):
+    # Split folder name for subsequent analysis
     path_split = (input.split("\\")) # e.g. ["14_WLANBT_Intel", "WLAN", "WiFi_Intel_22.150.0.3"]
     folder_root_name = path_split[0] # e.g. 03_IRST_Intel
     name_split = folder_root_name.split("_") # e.g. ['03', 'IRST', 'Intel']
@@ -33,7 +44,6 @@ def name_split_get(input):
 def ver_date_get(inf_file):
     driver_ver='DriverVer'
     lines_ = file_reader(inf_file)
-
     for line in lines_:
         if driver_ver in line:
             driver_ver_line = line # e.g. DriverVer = 05/30/2022,22.150.0.6
@@ -43,7 +53,6 @@ def ver_date_get(inf_file):
                 date_str = re.sub(r"^\s+|\s+$", "", date_) # remove white-space
 
                 if ";" in ver_:
-                    print(ver_)
                     ver_str = ver_.split(';')[0] 
                     ver_str = re.sub(r"^\s+|\s+$", "", ver_str)
                 else:
@@ -54,219 +63,173 @@ def ver_date_get(inf_file):
             return ver_str, date_str
 
 
-def wlanbt_analysis(path_list):
-    wlanbt_list = []
-    wlan_list_Intel = []
-    wlan_list_MTK = []
-    wlan_list_Liteon = []
-    bt_list_Intel = []
-    bt_list_MTK = []
-    bt_list_Liteon = []
-
-    for i in range(0, len(path_list)):
-        path_split, folder_root_name, name_split = name_split_get(path_list[i]) # see name_split_get define.
-
-        for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
-            name_split[j] = name_split[j].lower()
-
-        if "wlanbt" in name_split and "intel" in name_split:
-            if path_split[1].lower() == "bt":
-                bt_list_Intel.append(path_list[i])
-
-            if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                wlan_list_Intel.append(path_list[i])
-
-        if "wlanbt" in name_split and "mtk" in name_split:
-            if path_split[1].lower() == "bt":
-                bt_list_MTK.append(path_list[i])
-
-            if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                wlan_list_MTK.append(path_list[i])
-
-        if "wlanbt" in name_split and "liteon" in name_split:
-            if path_split[1].lower() == "bt":
-                bt_list_Liteon.append(path_list[i])
+def obtain_used_module(wlanbt_info):
+    # get used wlanbt module : output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
+    wlanbt_module_list = []
+    for i in range(0, len(wlanbt_info)):
+        temp_ = wlanbt_info[i].replace('"', '') #去掉雙引號 這邊很78要注意用單引號框起來
+        temp_ = temp_.replace(" ", "")
+        temp_ = temp_.split(",")
+        for j in range(0, len(temp_)):
+            for wlan_bt_ in ["Wlan", "Bluetooth"]:
+                temp_list = []
+                temp_list.append(i)
+                temp_list.append(wlan_bt_)
+                temp_list.append(temp_[j])
+                wlanbt_module_list.append(temp_list)
                 
-            if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                wlan_list_Liteon.append(path_list[i])
+    wlanbt_total_count = 0
+    use_wlanbt_list = []
+    for item_ in (wlanbt_module_list): # wlanbt_module_list format:[wlanbt_i, ["Wlan", "Bluetooth"], module(e.g.Ax201)]
+        if item_[2] != "":  # wlanbt_i=0~4, 0:intel, 1:AzwveMTK... also see config.ini file
+            wlanbt_total_count += 1
+            use_wlanbt_list.append(item_)
+        
+    return use_wlanbt_list, wlanbt_total_count
 
-    wlanbt_list.append(wlan_list_Intel)
-    wlanbt_list.append(bt_list_Intel)
-    wlanbt_list.append(wlan_list_MTK)
-    wlanbt_list.append(bt_list_MTK)
-    wlanbt_list.append(wlan_list_Liteon)
-    wlanbt_list.append(bt_list_Liteon)
+
+def search_wlanbt(package_list_):
+    wlanbt_list_for_gui = []
+    for i in range(0, len(package_list_)):
+        path_split, folder_root_name, name_split = name_split_get(package_list_[i])
+        if "WLANBT" in name_split:
+            wlanbt_list_for_gui.append(package_list_[i])
+    return wlanbt_list_for_gui
+
+
+def final_list_sort(raw_path_list_input, raw_AUMIDs_list_input, wlan_final_item_list, wlan_final_path_list, wlan_info):
+    # 先以相同規則創建出 item_list
+    raw_item_list = []
+    for i in range(0, len(raw_path_list_input)):
+        path_split, folder_root_name, name_split = name_split_get(raw_path_list_input[i]) # name_split : e.g. ['03', 'IRST', 'Intel']
+        name_split.pop(0) # pop up the item first split:"00"~"xx"
+        item_str = " ".join(name_split) # e.g. IRST Intel
+        raw_item_list.append(item_str)
+
+    # 尋找 raw_path_list_input 中含有 "WLANBT" 關鍵字的項目，並記錄index
+    keyword_ = "wlanbt"
+    indexes_of_path_with_the_keyword = [] # find index of path with keyword:"WLANBT" e.g. [6, 7, 8, 9, 10]
+    for i in range(0, len(raw_path_list_input)):
+        if keyword_ in raw_path_list_input[i].lower():
+            indexes_of_path_with_the_keyword.append(i)
+
+    first_index = indexes_of_path_with_the_keyword[0] # the index of the first found keyword (這個要放在前面，不然會有reverse的奇怪bug，懶得解)
+    del_i = indexes_of_path_with_the_keyword # 解惑下一行，python 中list, dict, class這類型態使用=會指向同一個list, dict, class，因此需要進行額外處理。
+    del_i.reverse() # reverse the index list to remove found target (first_index 放在這行後面會被 reverse)
     
-    return wlanbt_list
 
+    # 同步刪除 raw_path_list_input, raw_AUMIDs_list_input, raw_item_list，因為這三個 list 為對應關係
+    for i in del_i:
+        del raw_path_list_input[i]
+        del raw_AUMIDs_list_input[i]
+        del raw_item_list[i]
 
-def wlanbt_item_add(path_list_input, AUMIDs_list_input, wlanbt_path_list_input, wlan_info_input):
-    item_list = []
-    item_list_path = []
-    aumids_list_path = []
-    wlanbt_module_intel = []
-    wlanbt_module_mtk = []
-    wlanbt_module_liteon = []
+    # 插入由使用者在 wlanbt select GUI 選定的 driver path, 及當時自動生成的 item string (item string: e.g. Bluetooth (Ax201)), AUMIDS 插入"NA"
+    raw_item_list[first_index:first_index] = wlan_final_item_list # 插入 wlanbt item
+    raw_path_list_input[first_index:first_index] = wlan_final_path_list # 插入 wlanbt path
+    aumids_insert_NA_list = []
+    # 計算wlanbt 的數量，加入同等數量的"NA"
+    for i in range(0, len(wlan_final_item_list)):
+        aumids_insert_NA_list.append("NA") 
+    
+    raw_AUMIDs_list_input[first_index:first_index] = aumids_insert_NA_list
 
-    for i in range(1, len(wlan_info_input)):
-        if wlan_info_input[i] == "" :
-            if i == 1:
-                wlanbt_module_intel = []
-            if i == 2:
-                wlanbt_module_mtk = []
-            if i == 3:
-                wlanbt_module_liteon = []
-        else:
-            temp_split = wlan_info_input[i].split(",")
-            for j in range(0, len(temp_split)):
-                if i == 1:
-                    wlanbt_module_intel.append(re.sub(r"^\s+|\s+$", "", temp_split[j]))
-                if i == 2:
-                    wlanbt_module_mtk.append(re.sub(r"^\s+|\s+$", "", temp_split[j]))
-                if i == 3:
-                    wlanbt_module_liteon.append(re.sub(r"^\s+|\s+$", "", temp_split[j]))
+    # 單純改變數名稱
+    final_item_list = raw_item_list
+    final_bat_path_list = raw_path_list_input
+    final_aumids_path_list = raw_AUMIDs_list_input
 
-    bt_count_intel = 0
-    bt_count_mtk = 0
-    bt_count_liteon = 0
-    wlan_count_intel = 0
-    wlan_count_mtk = 0
-    wlan_count_liteon = 0
-    for i in range(0, len(path_list_input)):
-        path_split, folder_root_name, name_split = name_split_get(path_list_input[i])
-        for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
-            name_split[j] = name_split[j].lower()
-
-        # intel
-        if "wlanbt" in name_split and "intel" in name_split:
-            if len(wlanbt_path_list_input[0]) < len(wlanbt_module_intel): # wlanbt_path_list_input[0]: intel driver wlan amount
-                for count_i in range(0, len(wlanbt_module_intel)):
-                    if path_split[1].lower() == "bt":
-                        module_display = "(" + wlanbt_module_intel[bt_count_intel] + ")" # e.g. (ax201)
-                        item_list.append("_".join(["XX_Bluetooth", module_display])) # "XX" is ready for category column of excel, program will delete "XX".
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        bt_count_intel += 1
-
-                    if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                        module_display = "(" + wlanbt_module_intel[wlan_count_intel] + ")"
-                        item_list.append("_".join(["XX_Wlan", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        wlan_count_intel += 1
-            else: 
-                if path_split[1].lower() == "bt":
-                    module_display = "(" + wlanbt_module_intel[bt_count_intel] + ")" # e.g. (ax201)
-                    item_list.append("_".join(["XX_Bluetooth", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-                if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                    module_display = "(" + wlanbt_module_intel[wlan_count_intel] + ")"
-                    item_list.append("_".join(["XX_Wlan", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-        # mtk
-        elif "wlanbt" in name_split and "mtk" in name_split:
-            if len(wlanbt_path_list_input[2]) < len(wlanbt_module_mtk): # wlanbt_path_list_input[2]: mtk driver wlan amount
-                for count_i in range(0, len(wlanbt_module_mtk)):
-                    if path_split[1].lower() == "bt":
-                        module_display = "(" + wlanbt_module_mtk[bt_count_mtk] + ")"
-                        item_list.append("_".join(["XX_Bluetooth", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        bt_count_mtk += 1
-
-                    if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                        module_display = "(" + wlanbt_module_mtk[wlan_count_mtk] + ")"
-                        item_list.append("_".join(["XX_Wlan", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        wlan_count_mtk += 1
-            else: 
-                if path_split[1].lower() == "bt":
-                    module_display = "(" + wlanbt_module_mtk[bt_count_mtk] + ")"
-                    item_list.append("_".join(["XX_Bluetooth", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-                if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                    module_display = "(" + wlanbt_module_mtk[wlan_count_mtk] + ")"
-                    item_list.append("_".join(["XX_Wlan", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-        # liteon
-        elif "wlanbt" in name_split and "liteon" in name_split:
-            if len(wlanbt_path_list_input[4]) < len(wlanbt_module_liteon): # wlanbt_path_list_input[4]: liteon driver wlan amount
-                for count_i in range(0, len(wlanbt_module_liteon)):
-                    if path_split[1].lower() == "bt":
-                        module_display = "(" + wlanbt_module_liteon[bt_count_liteon] + ")" # e.g. (ax201)
-                        item_list.append("_".join(["XX_Bluetooth", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        bt_count_liteon += 1
-
-                    if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                        module_display = "(" + wlanbt_module_liteon[wlan_count_liteon] + ")"
-                        item_list.append("_".join(["XX_Wlan", module_display]))
-                        item_list_path.append(path_list_input[i])
-                        aumids_list_path.append(AUMIDs_list_input[i])
-                        wlan_count_liteon += 1
-            else: 
-                if path_split[1].lower() == "bt":
-                    module_display = "(" + wlanbt_module_liteon[bt_count_liteon] + ")"
-                    item_list.append("_".join(["XX_Bluetooth", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-                if path_split[1].lower() == "wlan" or path_split[1].lower() == "wifi":
-                    module_display = "(" + wlanbt_module_liteon[bt_count_liteon] + ")"
-                    item_list.append("_".join(["XX_Wlan", module_display]))
-                    item_list_path.append(path_list_input[i])
-                    aumids_list_path.append(AUMIDs_list_input[i])
-
-        else:
-            item_list.append(folder_root_name)
-            item_list_path.append(path_list_input[i])
-            aumids_list_path.append(AUMIDs_list_input[i])
-
-    return item_list, item_list_path, aumids_list_path
+    return final_item_list, final_bat_path_list, final_aumids_path_list
 
 
 def category_list_get(item_list):
-    category_list = []
-    for i in range(0, len(item_list)):
-        item_split = item_list[i].split("_")
-        item_split.pop(0) # pop up the item first split:"00"~"xx"
-        category_str = " ".join(item_split)
-        category_list.append(category_str)
+    category_list = item_list
     
     return category_list
 
 
-def description_ver_date_list_get(item_list_path):
+def infFile_ver_date_list_get(item_list_path):
     # 待完成指定inf功能，目前是選程式找到的其中一個inf來使用
     # Description 搜尋功能未完成
-    description_list = []
+    infFile_lsit = []
     driverVersion_list = []
     driverDate_list = []
-
+    file_break = False
+    aumids_break = False
     for root_i in range(0, len(item_list_path)):
-        for root, dirs, files in  os.walk(item_list_path[root_i]):
+        for root, dirs, files in os.walk(item_list_path[root_i]):
             for file in files:
-                if file[-4:] == ".inf":
+                if file[-4:].lower() == ".inf": # 轉換小寫，因為intel wlan的是愚蠢的大寫INF 除錯超久可悲
                     inf_file_path = os.path.join(root, file)
                     driverVersion_str, driverDate_str = ver_date_get(inf_file_path)
                     file_str = file
+                    file_break = True
                     break
 
-        description_list.append(file_str)
+                elif file == "AUMIDs.txt":
+                    file_str = "AUMIDs"
+                    aumids_break = True
+                    break
+
+            if file_break or aumids_break: # 有拿到inf或aumids就跳出
+                file_break = False
+                aumids_break = False
+                break
+
+        infFile_lsit.append(file_str)
         driverVersion_list.append(driverVersion_str)
         driverDate_list.append(driverDate_str)
 
-    return description_list, driverVersion_list, driverDate_list
+    return infFile_lsit, driverVersion_list, driverDate_list
+
+
+def infFile_ver_date_list_get_with_checklist(item_list_path):
+    # 配合check list 優化inf正確性
+    # Description 搜尋功能未完成
+    inf_File_list = []
+    driverVersion_list = []
+    driverDate_list = []
+    # file_break = False
+    # aumids_break = False
+    for root_i in range(0, len(item_list_path)):
+        inf_File_list_root = []
+        driverVersion_list_root = []
+        driverDate_list_root = []
+        for root, dirs, files in os.walk(item_list_path[root_i]):
+            for file in files:
+                # TODO 加入check list的小判斷，後續可以改掉或優化，
+                # 先把所有inf 列出，再看列出的inf有無在check中，若有:紀錄後跳出，若無:則使用list第一項
+                if file[-4:].lower() == ".inf": # 轉換小寫，因為intel wlan的是愚蠢的大寫INF 除錯超久可悲
+                    inf_file_path = os.path.join(root, file)
+                    driverVersion_str, driverDate_str = ver_date_get(inf_file_path)
+                    driverVersion_list_root.append(driverVersion_str)
+                    driverDate_list_root.append(driverDate_str)
+                    inf_File_list_root.append(file)
+
+                elif file == "AUMIDs.txt":
+                    file_str = "AUMIDs"
+                    driverVersion_str = ""
+                    driverDate_str = ""
+                    break
+
+        for i in range(0, len(inf_File_list_root)): # TODO reverse detect method, from inf_check_list_lower for loop name.
+            if inf_File_list_root[i].lower() in inf_check_list_lower:
+                file_str = inf_File_list_root[i]
+                driverVersion_str = driverVersion_list_root[i]
+                driverDate_str = driverDate_list_root[i]
+                break
+            
+            else:
+                file_str = inf_File_list_root[0]
+                driverVersion_str = driverVersion_list_root[0]
+                driverDate_str = driverDate_list_root[0]
+                        
+
+        inf_File_list.append(file_str)
+        driverVersion_list.append(driverVersion_str)
+        driverDate_list.append(driverDate_str)
+
+    return inf_File_list, driverVersion_list, driverDate_list
 
 
 def software_item_analysis(item_list_path):
@@ -608,7 +571,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     all_list = []
 
     category_list = category_list_get(item_list)
-    description_list, driverVersion_list_temp, driverDate_list_temp  = description_ver_date_list_get(item_list_path)
+    infFile_list, driverVersion_list_temp, driverDate_list_temp  = infFile_ver_date_list_get_with_checklist(item_list_path)
     software_path_list = software_item_analysis(item_list_path)
 
     provider_list = provider_list_get(item_list_path)
@@ -635,7 +598,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     
     # List append to tuple, format:[[category list], [description list], [provider list]...] sorting by excel column spec.
     all_list.append(category_list)
-    all_list.append(description_list)
+    all_list.append(remark_list) # 先預設空白 先用remark list填充(空白)，後續以inf回填 見remark
     all_list.append(provider_list)
     all_list.append(vendor_list)
     all_list.append(listOfsupportModelName_list)
@@ -656,6 +619,6 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     all_list.append(matchFwVersion_list)
     all_list.append(needReboot_list)
     all_list.append(driverPackage_list)
-    all_list.append(remark_list)
+    all_list.append(infFile_list) # 用以檢查inf 回填用
 
     return all_list 
