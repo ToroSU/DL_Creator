@@ -6,7 +6,8 @@ inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPS
                 'HDXSSTASUS.inf', 'e1d.inf', 'HidEventFilter.inf', 'gna.inf', 'ISH.inf', 'Netwtw08.INF', 
                 'ibtusb.inf', 'ICPSComponent.inf', 'mtkwl6ex.inf', 'mtkbtfilter.inf', 'RtsUer.inf', 
                 'RtAsus.inf', 'snDMFT.inf', 'WbfUsbDriver.inf', 'IgoApo.inf', 'AsusNUMPADFilter.inf', 
-                'AsusPTPFilter.inf', 'dax3_ext_rtk.inf']
+                'AsusPTPFilter.inf', 'dax3_ext_rtk.inf', 'RaptorLakePCH-SSystem.inf', 'iaLPSS2_GPIO2_RPL.inf',
+                'iaLPSS2_I2C_ADL.inf']
 
 inf_check_list_lower = [temp.lower() for temp in inf_check_list] # Convert inf_check_list to lowercase
 
