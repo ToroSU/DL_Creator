@@ -186,7 +186,7 @@ def infFile_ver_date_list_get(item_list_path):
 def infFile_ver_date_list_get_with_checklist(item_list_path):
     # 配合check list 優化inf正確性
     # Description 搜尋功能未完成
-    inf_File_list_root = []
+    inf_File_list = []
     driverVersion_list = []
     driverDate_list = []
     # file_break = False
@@ -225,11 +225,11 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
                 driverDate_str = driverDate_list_root[0]
                         
 
-        inf_File_list_root.append(file_str)
+        inf_File_list.append(file_str)
         driverVersion_list.append(driverVersion_str)
         driverDate_list.append(driverDate_str)
 
-    return inf_File_list_root, driverVersion_list, driverDate_list
+    return inf_File_list, driverVersion_list, driverDate_list
 
 
 def software_item_analysis(item_list_path):
