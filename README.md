@@ -9,12 +9,6 @@ GUI = PyQt5, version:5.15.6
 GUI design = Qt Designer
 Excel = openpyxl
 
-# Development  Environment
-Main = Python, version:3.10.0  
-GUI = PyQt5, version:5.15.6  
-GUI design = Qt Designer
-Excel = openpyxl  
-
 # Version History
 Dev 1.4.1:  
 Fix: Fix the inf name output error when the intermediate version is modified (Variable name wrong.)  
