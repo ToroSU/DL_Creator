@@ -330,7 +330,7 @@ def list_checking_main():
             sheet_driver_list.cell(row=index_i+1, column=checkCounter_column).value = str(temp_string)
 
         else:
-            dateVerChecking_message = "{0} Date/Ver error, Inf Name:{1}, Expect:{2}{3}, Detected:{4}{5}".format(category_str, current_inf, date_in_driver_list_cell, ver_in_driver_list_cell, checking_date, checking_ver)
+            dateVerChecking_message = "{0} Date/Ver error, Inf Name:{1}\nExpected:{2} {3}\nDetected:{4} {5}".format(category_str, current_inf, date_in_driver_list_cell, ver_in_driver_list_cell, checking_date, checking_ver)
             logging.warning(dateVerChecking_message)
             if checkCounter == 0:
                 set_all_row_font(checking_fail_font, max_col, index_i, sheet_driver_list) # 若 Date ver 不對，但checkcounter == 0 (Ori None)  
