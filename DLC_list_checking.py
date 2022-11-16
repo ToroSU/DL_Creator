@@ -137,6 +137,7 @@ def get_hardwareID(hardwareID_line):
 def list_checking_main():
     FORMAT = '%(asctime)s %(levelname)s: %(message)s' # for logging setting
     logging.basicConfig(level=logging.DEBUG, filename='Checking.log', filemode='a', format=FORMAT)
+
     ## Main start
     sys_inf_chk_file = "syschecklist.txt"
 
@@ -220,7 +221,7 @@ def list_checking_main():
     match_inf_index = [] # index of inf match block (excel cell)
     match_block_index = [] # index of inf match block (block)
     have_one_match = False
-    # 由於match_inf_index 是基於 driver list excel，所以迴圈從2開始, 若第一列就有對應inf，就會從2開始 e.g. [2, 3, 5, 7]，
+    # 由於match_inf_index 是基於 driver list (excel)，所以迴圈從2開始, 若第一列就有對應inf，就會從2開始 e.g. [2, 3, 5, 7]，
     # 得到 "有在系統中找到的inf" ， 與block的對應關係 (match_inf, match_block) 
     for i in range(2, len(remark_column_rows)-1):
         current_inf = remark_column_rows[i]
