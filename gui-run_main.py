@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication, QMessageBox, QProgressDialog
 from PyQt5.QtGui import *
 from Ui_GUI_ import Ui_Form
 import DLC_info_catch
-from DLC_list2excel import creat_list
+from DLC_list2excel import create_list
 from DLC_list_checking import list_checking_main
 from DLC_config_reader import DLC_config_reader_main
 import os
@@ -186,7 +186,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         final_item_list, final_bat_path_list, final_aumids_path_list = DLC_info_catch.final_list_sort(batch_in_folder_path_list, AUMIDs_in_folder_path_list, wlan_final_item_list, wlan_final_path_list, self.wlanbt_info)
         all_list = DLC_info_catch.all_List_get(final_item_list, final_bat_path_list, final_aumids_path_list, self.os_info)
         if str2bool(self.other_setting[0]):
-            creat_list(self.list_info, self.os_info, final_item_list, all_list)
+            create_list(self.list_info, self.os_info, final_item_list, all_list)
             QMessageBox.about(self, "Export List", "File output completed, path is: \n{}".format(dir_path))
 
         else:
