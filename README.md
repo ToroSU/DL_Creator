@@ -1,6 +1,9 @@
 # DL_Creator
 Create driver list for Customer History:  
 
+Dev 1.5.0:
+Add Feature: Add create "Release Note" sheet content function.
+
 Dev 1.4.1:  
 Fix: Fix the inf name output error when the intermediate version is modified (Variable name wrong.)  
 
