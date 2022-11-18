@@ -1,7 +1,39 @@
 import openpyxl
 from openpyxl.styles import Alignment
 
-def creat_list(list_info, os_info, data_input, data_all_input):
+
+def set_border(ws, cell_range):
+    # border around
+    # ref.: https://jingwen-z.github.io/how-to-munipulate-excel-workbook-by-python/
+    rows = ws[cell_range]
+    side = openpyxl.styles.Side(border_style="thick", color="000000") 
+
+    rows = list(rows)
+    max_y = len(rows) - 1  # index of the last row
+    for pos_y, cells in enumerate(rows):
+        max_x = len(cells) - 1  # index of the last cell
+        for pos_x, cell in enumerate(cells):
+            border = openpyxl.styles.Border(
+                left=cell.border.left,
+                right=cell.border.right,
+                top=cell.border.top,
+                bottom=cell.border.bottom
+            )
+            if pos_x == 0:
+                border.left = side
+            if pos_x == max_x:
+                border.right = side
+            if pos_y == 0:
+                border.top = side
+            if pos_y == max_y:
+                border.bottom = side
+
+            # set new border only if it's one of the edge cells
+            if pos_x == 0 or pos_x == max_x or pos_y == 0 or pos_y == max_y:
+                cell.border = border
+
+
+def create_list(list_info, os_info, data_input, data_all_input):
     ## Creat list and save as Excel
     list_ver = "v" + list_info[2]
     fn_temp = [list_info[1], os_info[0], os_info[1], "x64", "Drv", list_ver]
@@ -16,6 +48,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
     cell_A1_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="FFFF00")
     title_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="4F81BD")
     blank_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="DCE6F1")
+    gray_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="C0C0C0")
     
     wb_1["A1"].fill = cell_A1_color_fill
 
@@ -30,7 +63,9 @@ def creat_list(list_info, os_info, data_input, data_all_input):
 
     # Border
     thin = openpyxl.styles.Side(border_style="thin", color="000000") 
+    thick = openpyxl.styles.Side(border_style="thick", color="000000") 
     border = openpyxl.styles.Border(left=thin, right=thin, top=thin, bottom=thin)
+    thick_border = openpyxl.styles.Border(left=thick, right=thick, top=thick, bottom=thick)
 
     for row in wb_1["A2:W{}".format(str(len(data_input)+2))]:
         for cell in row:
@@ -39,6 +74,7 @@ def creat_list(list_info, os_info, data_input, data_all_input):
     # Font define
     title_font = openpyxl.styles.Font(size=12, bold=False, name='Arial Unicode MS', color="FFFFFF")
     content_font = openpyxl.styles.Font(size=10, bold=False, name='Verdana', color="000000")
+    sheetRN_content_font = openpyxl.styles.Font(size=12, bold=False, name='Verdana', color="000000")
 
     # Alignment define
     content_align = Alignment(horizontal = "center")
@@ -86,6 +122,57 @@ def creat_list(list_info, os_info, data_input, data_all_input):
             wb_1.column_dimensions[col].width = value + 7
 
     wb_1.column_dimensions["A"].width = 30 # A column do not automatically adjust column width (Cause A1)
+
+
+    # create release note sheet (sheetRN) (wb_2)
+    os_edition = str(os_info[0]) # e.g. Win11
+    os_version = str(os_info[1]) # 22H2
+    os_build = str(os_info[2]) # 22621.3
+    update_date = str(list_info[3]) # 2022/11/18
+    list_version = str(list_info[2]) # 0.01
+    subject_str = "First release for {} OS.".format(os_version)
+
+    sheetRN_title_str = "\"Driver List - {}\" Model Release notes".format(os_edition)
+    sheetRN_updatedate_str = "Update Date: {}".format(update_date)
+    sheetRN_column_title_list = ["Version", "Release Date", "Subject", "OS", "Version", "Remark"]
+    sheetRN_column_ini_content_list = [list_version, update_date, subject_str, os_edition, os_build, ""]
+    sheetRN_column_width_list = [12, 20, 110, 12, 15, 35]
+
+    for i in range(0, len(sheetRN_column_title_list)):
+        wb_2.cell(column=i+1, row=3).value = str(sheetRN_column_title_list[i])
+        wb_2.cell(column=i+1, row=3).font = sheetRN_content_font
+
+        wb_2.cell(column=i+1, row=4).value = str(sheetRN_column_ini_content_list[i])
+        wb_2.cell(column=i+1, row=4).font = sheetRN_content_font
+
+        wb_2.cell(column=i+1, row=3).alignment = Alignment(horizontal = "center", vertical = "center")
+        wb_2.cell(column=i+1, row=4).alignment = Alignment(horizontal = "center", vertical = "center") 
+
+        col = wb_2.cell(column=i+1, row=3).column_letter
+        wb_2.column_dimensions[col].width = sheetRN_column_width_list[i]
+    
+    wb_2.merge_cells("A1:E1") # merge cells
+    wb_2["A1"].value = str(sheetRN_title_str)
+    wb_2["F1"].value = str(sheetRN_updatedate_str)
+    wb_2["A1"].font = sheetRN_content_font
+    wb_2["F1"].font = sheetRN_content_font
+    wb_2["A1"].alignment = Alignment(horizontal = "center", vertical = "center") 
+    wb_2["F1"].alignment = Alignment(horizontal = "right", vertical = "center") 
+
+
+    for row in wb_2["A3:F3"]: # This line for fill cell color by column
+        for cell in row:
+            cell.fill = gray_color_fill
+
+    # set border
+    for row in wb_2["A3:F4"]:
+        for cell in row:
+            cell.border = border
+
+    BORDER_LIST = ["A3:F3"]
+    for pos in BORDER_LIST: 
+        set_border(wb_2, pos)
+
 
     # Save to exccel file
     try:
