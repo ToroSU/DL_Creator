@@ -11,7 +11,7 @@ from DLC_list2excel import create_list
 from DLC_list_checking import list_checking_main
 from DLC_config_reader import DLC_config_reader_main
 import os
-# import time
+import time
 from Ui_wlanbt_select import Ui_wlanbt_select_Form
 import shutil
 
@@ -218,8 +218,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         # run button click
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
-        # save button click
-        self.save_pushButton.clicked.connect(self.when_save_puchButton_click)
 
         # behavior of if checkBox checked/unchecked
         self.exportDriverList_checkBox.toggled.connect(self.when_exportList_checkBox_checked)
@@ -230,6 +228,9 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
     def when_run_pushButton_click(self):
         global batch_in_folder_path_list
         global AUMIDs_in_folder_path_list
+
+        # save config.ini
+        self.config_save()
         
         # after click run button load all config settings 
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
@@ -344,8 +345,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             QMessageBox.information(self,"Message","Compression complete\nPath: {}".format(driverPackageZip_folder))         
 
 
-    def when_save_puchButton_click(self):
-        # when save button click, save the file as DLC_config.ini 
+    def config_save(self):
+        # save
         customer_content = self.customer_comboBox.currentText()
         projectName_content = self.projectName_lineEdit.text()
         listVersion_content = self.listVersion_lineEdit.text()
