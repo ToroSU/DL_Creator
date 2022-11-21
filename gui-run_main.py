@@ -378,7 +378,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("WLANBT_Info/AzwaveRTK", wlanbt_azwaveRTK_content)
         settings.setValue("WLANBT_Info/LiteonRTK", wlanbt_liteonRTK_content)
         settings.setValue("WLANBT_Info/LiteonQualc", wlanbt_liteonQualc_content)
-        QMessageBox.about(self, "Save", "Save Successfully")
+        print("Config Save Successfully")
+        # QMessageBox.about(self, "Save", "Save Successfully")
 
 
     def read_config_to_GUI(self):
