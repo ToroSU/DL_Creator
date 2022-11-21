@@ -1,6 +1,10 @@
 # DL_Creator
 Create driver list for Customer History:  
 
+Dev 1.5.1:  
+GUI rebuild: remove Save button.  
+Add Feature: merage save function to Run button.
+
 Dev 1.5.0:  
 Add Feature: Add create "Release Note" sheet content function.
 
