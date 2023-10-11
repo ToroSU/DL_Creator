@@ -231,6 +231,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         # save config.ini
         self.config_save()
+        time.sleep(2)
+
         
         # after click run button load all config settings 
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
@@ -379,7 +381,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("WLANBT_Info/LiteonRTK", wlanbt_liteonRTK_content)
         settings.setValue("WLANBT_Info/LiteonQualc", wlanbt_liteonQualc_content)
         print("Config Save Successfully")
-        # QMessageBox.about(self, "Save", "Save Successfully")
+        QMessageBox.about(self, "Save", "Save Successfully")
 
 
     def read_config_to_GUI(self):

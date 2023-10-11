@@ -1,6 +1,7 @@
 import re
 import os
 # check list, Used to check if there is a preferred inf file
+# 引入方式可以後續修正，以另外的公開文件來修改
 inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPSS2_GPIO2_ADL.inf', 
                 'iaLPSS2_I2C_ADL.inf', 'ipf_acpi.inf', 'iigd_dch_d.inf', 'iigd_dch.inf', 'intcaudiobus.inf', 
                 'HDXSSTASUS.inf', 'e1d.inf', 'HidEventFilter.inf', 'gna.inf', 'ISH.inf', 'Netwtw08.INF', 
