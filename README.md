@@ -10,6 +10,10 @@ GUI design = Qt Designer
 Excel = openpyxl
 
 # Version History
+Dev 1.5.1:
+Fix: Directly running the Tool can cause an issue where the config file is not saved (this results in the tool having no config.ini to read from).
+Add: After pressing "Run", a message indicating that the config file has been successfully saved will be displayed.
+
 Dev 1.5.0:  
 Add Feature: Add create "Release Note" sheet content function.
 
