@@ -30,3 +30,11 @@ Add Feature: Check box is automatically disabled and set uncheck for foolproof u
 Dev 1.3.1:   
 Add Feature: Buttons are disabled when not usable.
 
+# Planned Updates (in order of priority):  
+  
+1. Fix most of the known bugs and release v1.6 stable version as the completion of the old SOW. Updates can be stopped if not necessary.  
+2. Follow the new Driver list SOW (after SOW 2.4) and release as version 2.0.  
+3. Allow the inf_check_list in DLC_info_catch to be directly edited from an external config file, improving convenience.  
+4. Investigate the possibility of dynamic resolution adjustment (currently, the Tool appears too large at 150% resolution, making the "Run" button inaccessible).  
+5. Redesign the GUI layout.  
+6. Update the Wlan/BT fields to dynamic mode (display corresponding fields only after the user selects a manufacturer).  
