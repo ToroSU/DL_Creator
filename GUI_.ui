@@ -703,27 +703,6 @@
     <string>Package 2 Zip</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="save_pushButton">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>470</y>
-     <width>141</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="run_pushButton">
    <property name="geometry">
     <rect>
