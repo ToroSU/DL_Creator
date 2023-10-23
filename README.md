@@ -37,4 +37,5 @@ Add Feature: Buttons are disabled when not usable.
 3. Allow the inf_check_list in DLC_info_catch to be directly edited from an external config file, improving convenience.  
 4. Investigate the possibility of dynamic resolution adjustment (currently, the Tool appears too large at 150% resolution, making the "Run" button inaccessible).  
 5. Redesign the GUI layout.  
-6. Update the Wlan/BT fields to dynamic mode (display corresponding fields only after the user selects a manufacturer).  
+6. Update the Wlan/BT fields to dynamic mode (display corresponding fields only after the user selects a manufacturer).
+7. A bug I found in GNA item, in the list the GNA will be displayed twice. (the root cause has not been found.
