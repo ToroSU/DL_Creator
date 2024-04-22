@@ -1,6 +1,7 @@
 import openpyxl
 from openpyxl.styles import Alignment
 
+# Version dev1.6.1 for new SOW test. 
 
 def set_border(ws, cell_range):
     # border around
@@ -49,7 +50,9 @@ def create_list(list_info, os_info, data_input, data_all_input):
     title_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="4F81BD")
     blank_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="DCE6F1")
     gray_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="C0C0C0")
+    yellow_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="FFFF00") # same as cell_A1_color_fill
     
+    wb_1.merge_cells("A1:V1") # merge cells
     wb_1["A1"].fill = cell_A1_color_fill
 
     for row in wb_1["A2:W2"]: # This line for fill cell color by column
@@ -57,7 +60,7 @@ def create_list(list_info, os_info, data_input, data_all_input):
             cell.fill = title_color_fill
 
     for i in range(0, len(data_input), 2): # Odd column
-        for row in wb_1["A{}:W{}".format(str(i+3), str(i+3))]: # +3 for cell column number in Driver list
+        for row in wb_1["A{}:V{}".format(str(i+3), str(i+3))]: # +3 for cell column number in Driver list
             for cell in row:
                 cell.fill = blank_color_fill
 
@@ -78,19 +81,24 @@ def create_list(list_info, os_info, data_input, data_all_input):
 
     # Alignment define
     content_align = Alignment(horizontal = "center")
-    content_column_non_align_list = [1, 2, 16, 17, 22, 23] # column : [A, B, P, Q, V] do not participate in alignment.
+    content_column_non_align_list = [1, 2, 15, 16, 21, 22] # column : [A, B, O, P, U, V] do not participate in alignment.
     content_column_non_align_list = [temp - 1 for temp in content_column_non_align_list] # Do -1 for excel format in python for loop.
 
     # List title at excel cell:"A1"
-    cell_A1_title = [str(list_info[1]), "Driver List -", str(os_info[0]), str(os_info[1]), "Version:", str(list_info[2]), "- Update Date:", str(list_info[3])]
+    cell_A1_title = [str(list_info[1]), "Driver List -", str(os_info[0]), str(os_info[1]), "- DriverList Version: ", str(list_info[2]), " - Release Date: ", str(list_info[3])]
     cell_A1_title = " ".join(cell_A1_title)
+    #wb_1.merge_cells("A1:V1") # merge cells
     wb_1["A1"].value = str(cell_A1_title)
     wb_1["A1"].font = content_font
 
-    # row2_column_title : Each column title at "The lastest release" (row 2)
-    row2_column_title = ["Category", "Description", "Provider/ODM", "Vendor", "List of Support model name", "Driver type", "HSA", "APP ID", "APP Name",
-                         "Support side link", "Extension ID", "Support OS", "WHQL", "Check version mechanism", "Hardware ID", "Driver version", "Driver Date",
+    ## row2_column_title : Each column title at "The lastest release" (row 2)
+    # row2_column_title = ["Category", "Description", "Provider/ODM", "Vendor", "List of Support model name", "Driver type", "HSA", "APP ID", "APP Name",
+    #                      "Support side link", "Extension ID", "Support OS", "WHQL", "Check version mechanism", "Hardware ID", "Driver version", "Driver Date",
+    #                      "VersionRegKey", "Silent install command", "Match FW Version", "Need reboot(Y/N)", "Driver package", "Remark"]
+    row2_column_title = ["Category", "Description", "Provider/ ODM Company or ASUS", "Vendor", "Driver type", "HSA", "APP ID (If supported)", "APP Name",
+                         "Support side link", "Support OS", "WHQL", "Check version mechanism", "Hardware ID", "Target INF Name", "Driver version", "Driver Date",
                          "VersionRegKey", "Silent install command", "Match FW Version", "Need reboot(Y/N)", "Driver package", "Remark"]
+
 
     for i in range(len(row2_column_title)):
         wb_1.cell(column=i+1, row=2).value = str(row2_column_title[i])
@@ -132,44 +140,55 @@ def create_list(list_info, os_info, data_input, data_all_input):
     list_version = str(list_info[2]) # 0.01
     subject_str = "First release for {} OS.".format(os_version)
 
-    sheetRN_title_str = "\"Driver List - {}\" Model Release notes".format(os_edition)
-    sheetRN_updatedate_str = "Update Date: {}".format(update_date)
-    sheetRN_column_title_list = ["Version", "Release Date", "Subject", "OS", "Version", "Remark"]
-    sheetRN_column_ini_content_list = [list_version, update_date, subject_str, os_edition, os_build, ""]
-    sheetRN_column_width_list = [12, 20, 110, 12, 15, 35]
+    ## Version dev1.6.1 for new SOW test.
+    # sheetRN_title_str = "\"Driver List - {}\" Model Release notes".format(os_edition)
+    # sheetRN_updatedate_str = "Update Date: {}".format(update_date)
+    # sheetRN_column_title_list = ["Version", "Release Date", "Subject", "OS", "Version", "Remark"]
+    # sheetRN_column_ini_content_list = [list_version, update_date, subject_str, os_edition, os_build, ""]
+    # sheetRN_column_width_list = [12, 20, 110, 12, 15, 35]
+
+    sheetRN_title_str = "ASUSTek Computer Inc."
+    sheetRN_column_title_list = ["Version", "Release Date", "Subject", "OS", "Remark"]
+    sheetRN_column_ini_content_list = [list_version, update_date, subject_str, os_edition, ""]
+    sheetRN_column_width_list = [9, 14, 104, 23, 45]
+
 
     for i in range(0, len(sheetRN_column_title_list)):
-        wb_2.cell(column=i+1, row=3).value = str(sheetRN_column_title_list[i])
+        wb_2.cell(column=i+1, row=2).value = str(sheetRN_column_title_list[i])
+        wb_2.cell(column=i+1, row=2).font = sheetRN_content_font
+
+        wb_2.cell(column=i+1, row=3).value = str(sheetRN_column_ini_content_list[i])
         wb_2.cell(column=i+1, row=3).font = sheetRN_content_font
 
-        wb_2.cell(column=i+1, row=4).value = str(sheetRN_column_ini_content_list[i])
-        wb_2.cell(column=i+1, row=4).font = sheetRN_content_font
+        wb_2.cell(column=i+1, row=2).alignment = Alignment(horizontal = "center", vertical = "center")
+        wb_2.cell(column=i+1, row=3).alignment = Alignment(horizontal = "center", vertical = "center") 
 
-        wb_2.cell(column=i+1, row=3).alignment = Alignment(horizontal = "center", vertical = "center")
-        wb_2.cell(column=i+1, row=4).alignment = Alignment(horizontal = "center", vertical = "center") 
-
-        col = wb_2.cell(column=i+1, row=3).column_letter
+        col = wb_2.cell(column=i+1, row=2).column_letter
         wb_2.column_dimensions[col].width = sheetRN_column_width_list[i]
     
     wb_2.merge_cells("A1:E1") # merge cells
     wb_2["A1"].value = str(sheetRN_title_str)
-    wb_2["F1"].value = str(sheetRN_updatedate_str)
+    #wb_2["F1"].value = str(sheetRN_updatedate_str)
     wb_2["A1"].font = sheetRN_content_font
-    wb_2["F1"].font = sheetRN_content_font
+    #wb_2["F1"].font = sheetRN_content_font
     wb_2["A1"].alignment = Alignment(horizontal = "center", vertical = "center") 
-    wb_2["F1"].alignment = Alignment(horizontal = "right", vertical = "center") 
+    #wb_2["F1"].alignment = Alignment(horizontal = "right", vertical = "center") 
 
+    
+    for row in wb_2["A1:E1"]: # This line for fill cell color by column
+        for cell in row:
+            cell.fill = yellow_color_fill
 
-    for row in wb_2["A3:F3"]: # This line for fill cell color by column
+    for row in wb_2["A2:E2"]: # This line for fill cell color by column
         for cell in row:
             cell.fill = gray_color_fill
 
     # set border
-    for row in wb_2["A3:F4"]:
+    for row in wb_2["A2:E3"]:
         for cell in row:
             cell.border = border
 
-    BORDER_LIST = ["A3:F3"]
+    BORDER_LIST = ["A2:E2"]
     for pos in BORDER_LIST: 
         set_border(wb_2, pos)
 

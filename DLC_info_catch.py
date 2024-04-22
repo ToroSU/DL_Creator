@@ -598,28 +598,28 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     remark_list = remark_list_get(item_list_path)
     
     # List append to tuple, format:[[category list], [description list], [provider list]...] sorting by excel column spec.
-    all_list.append(category_list)
+    all_list.append(category_list) #1
     all_list.append(remark_list) # 先預設空白 先用remark list填充(空白)，後續以inf回填 見remark
-    all_list.append(provider_list)
-    all_list.append(vendor_list)
-    all_list.append(listOfsupportModelName_list)
-    all_list.append(driverType_list)
+    all_list.append(provider_list) 
+    all_list.append(vendor_list) 
+    all_list.append(driverType_list) #5 E
     all_list.append(hsa_list)
     all_list.append(appID_list)
     all_list.append(appName_list)
     all_list.append(supportSideLink_list)
-    all_list.append(extensionID_list)
-    all_list.append(supportOS_list)
+    all_list.append(supportOS_list) #10 J
     all_list.append(whql_list)
     all_list.append(checkVersionMechanism_list)
     all_list.append(hardwareID_list)
-    all_list.append(driverVersion_list)
+    all_list.append(infFile_list)
+    all_list.append(driverVersion_list) #15 O
     all_list.append(driverDate_list)
     all_list.append(versionRegKey_list)
     all_list.append(silentInstallCommand_list)
-    all_list.append(matchFwVersion_list)
-    all_list.append(needReboot_list)
+    all_list.append(remark_list) # Match FW Version, 先用remark list填充(空白) 
+    all_list.append(needReboot_list) #20 T
     all_list.append(driverPackage_list)
-    all_list.append(infFile_list) # 用以檢查inf 回填用
+    all_list.append(infFile_list)
+    #all_list.append(infFile_list) # 用以檢查inf 回填用
 
     return all_list 
