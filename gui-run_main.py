@@ -35,7 +35,8 @@ print("Please wait...")
 config_filename = "DLC_config.ini" 
 settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 
-dir_path = os.getcwd() # get current path (as know as driver package path)
+dir_path = "C:/Users/EddieYW_Su/Desktop\A5Test" # for test 20240424
+#dir_path = os.getcwd() # get current path (as know as driver package path)
 # for wlanbt set
 first_click_loaddate = True
 wlanbt_module_name_list = ["Intel", "AzureWave MTK", "AzureWave RTK", "Liteon RTK", "Liteon Qualc."]
@@ -108,6 +109,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
         # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
         self.used_wlanbt_module, self.wlanbt_total_count = DLC_info_catch.obtain_used_module(self.wlanbt_info)
+
         
         # case: without wlanbt module, call function complete_and_create_list, create list, return 0
         if self.wlanbt_total_count == 0:
@@ -231,7 +233,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         # save config.ini
         self.config_save()
-        time.sleep(2)
+        time.sleep(1) # For config.ini file, save buffering
 
         
         # after click run button load all config settings 
@@ -246,15 +248,18 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             # list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
             # Serach all folder at root_folder, Use folder to detect.
             root_folder = os.listdir(dir_path) # all file and folder under current path
+            print(root_folder)
             package_list = [] # list of root foder
 
             for i in range(0, len(root_folder)): 
                 realpath_root = os.path.join(dir_path, root_folder[i])
                 # detect is it driverPackage folder or others.(to do fix check function)
+                # The Package_list output format as follow: ['01_Chipset_Intel', '02_ME_Intel', '03_IRST_Intel', '04_SerialIO_Intel', '05_DTT_Intel', '05_ICSS_Intel'... "19_AICamera_Morpho"]
                 if os.path.isdir(realpath_root):
                     if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
                         # self.package_list.append(root_folder[i])
                         package_list.append(root_folder[i])
+            
 
             # Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
             # TODO bat file exist (maybe todo ...)
