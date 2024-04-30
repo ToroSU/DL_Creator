@@ -35,8 +35,9 @@ def file_reader(file_):
 
 def name_split_get(input):
     # Split folder name for subsequent analysis
-    path_split = (input.split("\\")) # e.g. ["14_WLANBT_Intel", "WLAN", "WiFi_Intel_22.150.0.3"]
-    folder_root_name = path_split[0] # e.g. 03_IRST_Intel
+    path_split = (input.split("\\")) # e.g. ["14_WLANBT_Intel", "WLAN", "WiFi_Intel_22.150.0.3"] ## for full path:['C:', 'Users', 'EddieYW_Su', 'Desktop', 'A5Test', '03_IRST_Intel', 'RST_PV_19.5.7.1058.1_SV2_SV1_Win10']
+    #folder_root_name = path_split[0] # e.g. 03_IRST_Intel
+    folder_root_name = path_split[-2] # test for full path
     name_split = folder_root_name.split("_") # e.g. ['03', 'IRST', 'Intel']
     
     return path_split, folder_root_name, name_split
@@ -86,8 +87,7 @@ def obtain_used_module(wlanbt_info):
         if item_[2] != "":  # wlanbt_i=0~4, 0:intel, 1:AzwveMTK... also see config.ini file
             wlanbt_total_count += 1
             use_wlanbt_list.append(item_)
-    print("use_wlanbt_list", use_wlanbt_list)
-    print(wlanbt_total_count)
+
     return use_wlanbt_list, wlanbt_total_count
 
 
@@ -543,16 +543,13 @@ def batch_and_aumids_file_get(package_list):
     AUMIDs_in_folder_path_list = [] # Main output 2 : list of AUMIDS file path. list amount same as Main output 1. 
     aumid_check = False # If aumid and bat file are in same folder, this para. will set as True.
     bat_check_list = ["SilentInstall.bat", "uninstall_all.bat"]
-    print(bat_check_list)
 
-    print("Len pakcage_list:", len(package_list)) #0424
     for root_i in range(0, len(package_list)):
-        print("Current Package_list:", package_list[root_i]) #0424
-        temp_path_root=os.path.join("C:/Users/EddieYW_Su/Desktop/A5Test", package_list[root_i])
+        temp_path_root=os.path.join("C:\\Users\\EddieYW_Su\\Desktop\\A5Test", package_list[root_i])
+        #for root, dirs, files in os.walk(package_list[root_i]):
         for root, dirs, files in os.walk(temp_path_root):
-            print("root: ", root)
             for file in files:
-                if file[-4:] == ".bat" and file not in bat_check_list: # != sileninstall 是因為有些資料夾內含這種雜七雜八，後續看怎麼優化。
+                if file == "Install.bat" and file not in bat_check_list: # != sileninstall 是因為有些資料夾內含這種雜七雜八，後續看怎麼優化。
                     bat_root_checkpoint = root
                     batch_in_folder_path_list.append(root) # e.g. 14_WLANBT_Azwave_MTK\BT\BT_Azwave_MTK_MT7921_1.3.15.143
                     if not aumid_check: 
@@ -572,8 +569,6 @@ def batch_and_aumids_file_get(package_list):
                         AUMIDs_in_folder_path_list.append(root)
                         aumid_check = True
     
-    print("batch_in_folder_path_list: ", batch_in_folder_path_list)
-    print("AUMIDs_in_folder_path_list: ", AUMIDs_in_folder_path_list)
     return batch_in_folder_path_list, AUMIDs_in_folder_path_list
 
 

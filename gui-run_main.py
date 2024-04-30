@@ -35,7 +35,7 @@ print("Please wait...")
 config_filename = "DLC_config.ini" 
 settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 
-dir_path = "C:/Users/EddieYW_Su/Desktop\A5Test" # for test 20240424
+dir_path = "C:\\Users\\EddieYW_Su\\Desktop\\A5Test" # for test 20240424
 #dir_path = os.getcwd() # get current path (as know as driver package path)
 # for wlanbt set
 first_click_loaddate = True
@@ -144,6 +144,8 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         # self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
         # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
         self.used_wlanbt_module, self.wlanbt_total_count = DLC_info_catch.obtain_used_module(self.wlanbt_info)
+        print("wlan_final_item_list: ", wlan_final_item_list)
+        print("wlan_final_path_list: ", wlan_final_path_list)
 
         if self.wlanbt_button_clicked_count == 0:
             final_item_name = self.used_wlanbt_module[self.wlanbt_button_clicked_count][1] + "({})".format(self.used_wlanbt_module[self.wlanbt_button_clicked_count][2])
