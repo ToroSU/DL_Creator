@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>755</width>
-    <height>545</height>
+    <width>750</width>
+    <height>619</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>0</y>
+     <y>81</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -40,7 +40,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>250</y>
+     <y>331</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -62,7 +62,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>430</y>
+     <y>511</y>
      <width>161</width>
      <height>41</height>
     </rect>
@@ -84,7 +84,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>0</y>
+     <y>81</y>
      <width>201</width>
      <height>41</height>
     </rect>
@@ -106,7 +106,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>250</y>
+     <y>331</y>
      <width>201</width>
      <height>41</height>
     </rect>
@@ -128,7 +128,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>40</y>
+     <y>121</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -151,7 +151,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>80</y>
+     <y>161</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -174,7 +174,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>120</y>
+     <y>201</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -197,7 +197,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>160</y>
+     <y>241</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -220,7 +220,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>290</y>
+     <y>371</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -243,7 +243,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>330</y>
+     <y>411</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -266,7 +266,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>370</y>
+     <y>451</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -289,7 +289,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>480</y>
+     <y>551</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -312,7 +312,7 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>40</y>
+     <y>121</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -335,7 +335,7 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>80</y>
+     <y>161</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -358,7 +358,7 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>120</y>
+     <y>201</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -381,7 +381,7 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>160</y>
+     <y>241</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -404,7 +404,7 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>200</y>
+     <y>281</y>
      <width>141</width>
      <height>41</height>
     </rect>
@@ -427,7 +427,7 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>50</y>
+     <y>131</y>
      <width>151</width>
      <height>22</height>
     </rect>
@@ -443,12 +443,17 @@
      <string>Asus</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>Gigabyte</string>
+    </property>
+   </item>
   </widget>
   <widget class="QLineEdit" name="projectName_lineEdit">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>90</y>
+     <y>171</y>
      <width>151</width>
      <height>22</height>
     </rect>
@@ -458,13 +463,16 @@
      <family>Verdana</family>
      <pointsize>8</pointsize>
     </font>
+   </property>
+   <property name="placeholderText">
+    <string>e.g. A5402_A5702WVAR</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="listVersion_lineEdit">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>130</y>
+     <y>211</y>
      <width>151</width>
      <height>22</height>
     </rect>
@@ -474,13 +482,16 @@
      <family>Verdana</family>
      <pointsize>8</pointsize>
     </font>
+   </property>
+   <property name="placeholderText">
+    <string>e.g. 2.00</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="updateDate_lineEdit">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>170</y>
+     <y>251</y>
      <width>151</width>
      <height>22</height>
     </rect>
@@ -490,13 +501,16 @@
      <family>Verdana</family>
      <pointsize>8</pointsize>
     </font>
+   </property>
+   <property name="placeholderText">
+    <string>e.g. 2024/05/06</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="osEdition_lineEdit">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>300</y>
+     <y>381</y>
      <width>151</width>
      <height>22</height>
     </rect>
@@ -506,13 +520,16 @@
      <family>Verdana</family>
      <pointsize>8</pointsize>
     </font>
+   </property>
+   <property name="placeholderText">
+    <string>e.g. Win11</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="osVersion_lineEdit">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>340</y>
+     <y>421</y>
      <width>151</width>
      <height>22</height>
     </rect>
@@ -522,13 +539,16 @@
      <family>Verdana</family>
      <pointsize>8</pointsize>
     </font>
+   </property>
+   <property name="placeholderText">
+    <string>e.g. 23H2</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="osBuild_lineEdit">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>380</y>
+     <y>461</y>
      <width>151</width>
      <height>22</height>
     </rect>
@@ -539,12 +559,15 @@
      <pointsize>8</pointsize>
     </font>
    </property>
+   <property name="placeholderText">
+    <string>e.g. 22631.2861</string>
+   </property>
   </widget>
   <widget class="QComboBox" name="comboBox_2">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>490</y>
+     <y>560</y>
      <width>161</width>
      <height>22</height>
     </rect>
@@ -570,7 +593,7 @@
    <property name="geometry">
     <rect>
      <x>510</x>
-     <y>50</y>
+     <y>131</y>
      <width>221</width>
      <height>22</height>
     </rect>
@@ -580,13 +603,16 @@
      <family>Verdana</family>
      <pointsize>8</pointsize>
     </font>
+   </property>
+   <property name="placeholderText">
+    <string>e.g. Ax211, Be200</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="wlanbt_AzwaveMTK_lineEdit">
    <property name="geometry">
     <rect>
      <x>510</x>
-     <y>90</y>
+     <y>171</y>
      <width>221</width>
      <height>22</height>
     </rect>
@@ -597,12 +623,15 @@
      <pointsize>8</pointsize>
     </font>
    </property>
+   <property name="placeholderText">
+    <string>e.g. MT7921, MT7922</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="wlanbt_AzwaveRTK_lineEdit">
    <property name="geometry">
     <rect>
      <x>510</x>
-     <y>130</y>
+     <y>211</y>
      <width>221</width>
      <height>22</height>
     </rect>
@@ -618,7 +647,7 @@
    <property name="geometry">
     <rect>
      <x>510</x>
-     <y>170</y>
+     <y>251</y>
      <width>221</width>
      <height>22</height>
     </rect>
@@ -634,7 +663,7 @@
    <property name="geometry">
     <rect>
      <x>510</x>
-     <y>210</y>
+     <y>291</y>
      <width>221</width>
      <height>22</height>
     </rect>
@@ -646,68 +675,11 @@
     </font>
    </property>
   </widget>
-  <widget class="QCheckBox" name="exportDriverList_checkBox">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>310</y>
-     <width>201</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Export Driver List</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="listChecking_checkBox">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>350</y>
-     <width>201</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>List Checking</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="package2zip_checkBox">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>390</y>
-     <width>191</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Package 2 Zip</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="run_pushButton">
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>470</y>
+     <y>551</y>
      <width>141</width>
      <height>51</height>
     </rect>
@@ -723,6 +695,161 @@
    <property name="text">
     <string>Run</string>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_1">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>371</y>
+     <width>251</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>Setting</string>
+   </property>
+   <widget class="QCheckBox" name="exportDriverList_checkBox">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>201</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Export Driver List</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="listChecking_checkBox">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>45</y>
+      <width>201</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>List Checking</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="package2zip_checkBox">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>70</y>
+      <width>191</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Package 2 Zip</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="path_groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>471</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>GroupBox</string>
+   </property>
+   <widget class="QRadioButton" name="radio_current_path">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Current Path</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radio_enter_path">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Enter Path:</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="enter_path_lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>40</y>
+      <width>321</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

@@ -219,7 +219,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # if config file is exist, load config to GUI
         if os.path.isfile(config_filename):
             self.read_config_to_GUI()
-
+    
         # run button click
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
 
@@ -409,7 +409,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.package2zip_checkBox.setChecked(str2bool(settings.value("Other_Setting/Package2Zip")))
 
 
-if __name__ == '__main__': #如果整個程式是主程式
+if __name__ == '__main__': # Main progress start
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     app = QtWidgets.QApplication(sys.argv)
     window = mywindow()
