@@ -1,7 +1,12 @@
 import openpyxl
 from openpyxl.styles import Alignment
 
-# Version dev1.6.1 for new SOW test. 
+# Version dev1.6.2 for new SOW format:
+# SOW Date:2024/05
+# Driver List templet version:v3
+# ODM Driver 宣導事項:20240502 
+
+list_templet_version = "v3"
 
 def set_border(ws, cell_range):
     # border around
@@ -37,7 +42,8 @@ def set_border(ws, cell_range):
 def create_list(list_info, os_info, data_input, data_all_input):
     ## Creat list and save as Excel
     list_ver = "v" + list_info[2]
-    fn_temp = [list_info[1], os_info[0], os_info[1], "x64", "Drv", list_ver]
+    year_month_day = list_info[3].replace("/", "")
+    fn_temp = [list_info[1], "Driver List", os_info[0] +" " + os_info[1], list_ver, year_month_day, list_templet_version]
     fn_temp = "_".join(fn_temp)
     fn = fn_temp + ".xlsx"
 
@@ -52,7 +58,7 @@ def create_list(list_info, os_info, data_input, data_all_input):
     gray_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="C0C0C0")
     yellow_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="FFFF00") # same as cell_A1_color_fill
     
-    wb_1.merge_cells("A1:V1") # merge cells
+    wb_1.merge_cells("A1:W1") # merge cells
     wb_1["A1"].fill = cell_A1_color_fill
 
     for row in wb_1["A2:W2"]: # This line for fill cell color by column
@@ -60,7 +66,7 @@ def create_list(list_info, os_info, data_input, data_all_input):
             cell.fill = title_color_fill
 
     for i in range(0, len(data_input), 2): # Odd column
-        for row in wb_1["A{}:V{}".format(str(i+3), str(i+3))]: # +3 for cell column number in Driver list
+        for row in wb_1["A{}:W{}".format(str(i+3), str(i+3))]: # +3 for cell column number in Driver list
             for cell in row:
                 cell.fill = blank_color_fill
 
@@ -81,23 +87,19 @@ def create_list(list_info, os_info, data_input, data_all_input):
 
     # Alignment define
     content_align = Alignment(horizontal = "center")
-    content_column_non_align_list = [1, 2, 15, 16, 21, 22] # column : [A, B, O, P, U, V] do not participate in alignment.
+    content_column_non_align_list = [1, 2, 15, 16, 22, 23] # column : [A, B, O, P, V, W] do not participate in alignment.
     content_column_non_align_list = [temp - 1 for temp in content_column_non_align_list] # Do -1 for excel format in python for loop.
 
     # List title at excel cell:"A1"
-    cell_A1_title = [str(list_info[1]), "Driver List -", str(os_info[0]), str(os_info[1]), "- DriverList Version: ", str(list_info[2]), " - Release Date: ", str(list_info[3])]
+    cell_A1_title = [str(list_info[1]), "Driver List -", str(os_info[0]), str(os_info[1]), "- DriverList Version:", str(list_info[2]), "- Release Date:", str(list_info[3])]
     cell_A1_title = " ".join(cell_A1_title)
-    #wb_1.merge_cells("A1:V1") # merge cells
     wb_1["A1"].value = str(cell_A1_title)
     wb_1["A1"].font = content_font
 
     ## row2_column_title : Each column title at "The lastest release" (row 2)
-    # row2_column_title = ["Category", "Description", "Provider/ODM", "Vendor", "List of Support model name", "Driver type", "HSA", "APP ID", "APP Name",
-    #                      "Support side link", "Extension ID", "Support OS", "WHQL", "Check version mechanism", "Hardware ID", "Driver version", "Driver Date",
-    #                      "VersionRegKey", "Silent install command", "Match FW Version", "Need reboot(Y/N)", "Driver package", "Remark"]
     row2_column_title = ["Category", "Description", "Provider/ ODM Company or ASUS", "Vendor", "Driver type", "HSA", "APP ID (If supported)", "APP Name",
                          "Support side link", "Support OS", "WHQL", "Check version mechanism", "Hardware ID", "Target INF Name", "Driver version", "Driver Date",
-                         "VersionRegKey", "Silent install command", "Match FW Version", "Need reboot(Y/N)", "Driver package", "Remark"]
+                         "VersionRegKey", "Install command", "Install method", "Match FW Version", "Need reboot(Y/N)", "Driver package", "Remark"]
 
 
     for i in range(len(row2_column_title)):
@@ -168,11 +170,8 @@ def create_list(list_info, os_info, data_input, data_all_input):
     
     wb_2.merge_cells("A1:E1") # merge cells
     wb_2["A1"].value = str(sheetRN_title_str)
-    #wb_2["F1"].value = str(sheetRN_updatedate_str)
     wb_2["A1"].font = sheetRN_content_font
-    #wb_2["F1"].font = sheetRN_content_font
     wb_2["A1"].alignment = Alignment(horizontal = "center", vertical = "center") 
-    #wb_2["F1"].alignment = Alignment(horizontal = "right", vertical = "center") 
 
     
     for row in wb_2["A1:E1"]: # This line for fill cell color by column
@@ -199,4 +198,3 @@ def create_list(list_info, os_info, data_input, data_all_input):
         wb.save(fn)
     except:
         print("\nExcel WARNING : Please try closing the excel file and RE-RUN the program.")
-

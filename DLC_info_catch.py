@@ -262,10 +262,10 @@ def software_item_analysis(item_list_path):
     return software_item_path
 
 
-def provider_list_get(item_list_path): # 目前先定義全 Compal (2020/10/05)
+def provider_list_get(item_list_path): # 目前先定義全 ODM (2024/05/06)
     provider_list = []
     for i in range(0, len(item_list_path)):
-        provider_list.append("Compal")
+        provider_list.append("ODM")
 
     return provider_list
 
@@ -620,8 +620,9 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     all_list.append(driverDate_list)
     all_list.append(versionRegKey_list)
     all_list.append(silentInstallCommand_list)
-    all_list.append(remark_list) # Match FW Version, 先用remark list填充(空白) 
-    all_list.append(needReboot_list) #20 T
+    all_list.append(remark_list) # Install method, 先用remark list填充(空白) #20240506
+    all_list.append(remark_list) # Match FW Version, 先用remark list填充(空白) 20 T
+    all_list.append(needReboot_list) 
     all_list.append(driverPackage_list)
     all_list.append(infFile_list)
     #all_list.append(infFile_list) # 用以檢查inf 回填用
