@@ -1,5 +1,6 @@
 import openpyxl
 from openpyxl.styles import Alignment
+from openpyxl.worksheet.datavalidation import DataValidation
 
 # Version dev1.6.2 for new SOW format:
 # SOW Date:2024/05
@@ -42,7 +43,7 @@ def set_border(ws, cell_range):
 def create_list(list_info, os_info, data_input, data_all_input):
     ## Creat list and save as Excel
     list_ver = "v" + list_info[2]
-    year_month_day = list_info[3].replace("/", "")
+    year_month_day = list_info[3].replace("/", "") # Modify the date format to name the file. e.g. 2024/05/06 to 20240506
     fn_temp = [list_info[1], "Driver List", os_info[0] +" " + os_info[1], list_ver, year_month_day, list_templet_version]
     fn_temp = "_".join(fn_temp)
     fn = fn_temp + ".xlsx"
@@ -50,6 +51,16 @@ def create_list(list_info, os_info, data_input, data_all_input):
     wb = openpyxl.Workbook()
     wb_1 = wb.create_sheet("The lastest release", 0) # Add worksheet and specify location
     wb_2 = wb.create_sheet("Release note", 0)
+
+    # Set the drop-down Menu content
+    provider_ODM_dropdown_list = ["ODM", "ASUS"]
+    driver_type_dropdown_list = ["DC", "DCH", "DCHU"]
+    HSA_dropdown_list = ["Yes", "No"]
+    WHQL_dropdown_list = ["Yes", "No"]
+    CVM_dropdown_list = ["Hardware", "Software", "StoreApp"] # CVM is mean: Check version mechanism
+    install_method_dropdown_list = ["online", "offline"]
+    need_reboot_dropdown_list = ["Yes", "No"]
+
 
     # Define cell color and fill it
     cell_A1_color_fill = openpyxl.styles.fills.PatternFill(patternType="solid", start_color="FFFF00")
@@ -119,6 +130,34 @@ def create_list(list_info, os_info, data_input, data_all_input):
                 wb_1.cell(column=i+1, row=j+3).alignment = content_align
 
 
+    # Set the drop-down Menu to specified cell
+    dv_provider_ODM = DataValidation(type="list", formula1='"%s"' % ','.join(provider_ODM_dropdown_list), showDropDown=False, allowBlank=True)
+    dv_driver_type = DataValidation(type="list", formula1='"%s"' % ','.join(driver_type_dropdown_list), showDropDown=False, allowBlank=True)
+    dv_HSA = DataValidation(type="list", formula1='"%s"' % ','.join(HSA_dropdown_list), showDropDown=False, allowBlank=True)
+    dv_WHQL = DataValidation(type="list", formula1='"%s"' % ','.join(WHQL_dropdown_list), showDropDown=False, allowBlank=True)
+    dv_CVM = DataValidation(type="list", formula1='"%s"' % ','.join(CVM_dropdown_list), showDropDown=False, allowBlank=True)
+    dv_IM = DataValidation(type="list", formula1='"%s"' % ','.join(install_method_dropdown_list), showDropDown=False, allowBlank=True)
+    dv_need_reboot = DataValidation(type="list", formula1='"%s"' % ','.join(need_reboot_dropdown_list), showDropDown=False, allowBlank=True)
+
+    # add data validation to workbook
+    wb_1.add_data_validation(dv_provider_ODM)
+    wb_1.add_data_validation(dv_driver_type)
+    wb_1.add_data_validation(dv_HSA)
+    wb_1.add_data_validation(dv_WHQL)
+    wb_1.add_data_validation(dv_CVM)
+    wb_1.add_data_validation(dv_IM)
+    wb_1.add_data_validation(dv_need_reboot)
+
+    # Specifying the applied range
+    applied_row_end = len(data_all_input[0]) + 2 # len(data_all_input)為輸出 row 數，由於從 3 row 開始記，因此要+2
+    dv_provider_ODM.sqref = "C3:C{}".format(applied_row_end)
+    dv_driver_type.sqref = "E3:E{}".format(applied_row_end)
+    dv_HSA.sqref = "F3:F{}".format(applied_row_end)
+    dv_WHQL.sqref = "K3:K{}".format(applied_row_end)
+    dv_CVM.sqref = "L3:L{}".format(applied_row_end)
+    dv_IM.sqref = "S3:S{}".format(applied_row_end)
+    dv_need_reboot.sqref = "U3:U{}".format(applied_row_end)
+    
     # Set column width
     dims = {}
     for row in wb_1.rows:
@@ -142,12 +181,7 @@ def create_list(list_info, os_info, data_input, data_all_input):
     list_version = str(list_info[2]) # 0.01
     subject_str = "First release for {} OS.".format(os_version)
 
-    ## Version dev1.6.1 for new SOW test.
-    # sheetRN_title_str = "\"Driver List - {}\" Model Release notes".format(os_edition)
-    # sheetRN_updatedate_str = "Update Date: {}".format(update_date)
-    # sheetRN_column_title_list = ["Version", "Release Date", "Subject", "OS", "Version", "Remark"]
-    # sheetRN_column_ini_content_list = [list_version, update_date, subject_str, os_edition, os_build, ""]
-    # sheetRN_column_width_list = [12, 20, 110, 12, 15, 35]
+    ## Version dev1.6.2 for new SOW test.
 
     sheetRN_title_str = "ASUSTek Computer Inc."
     sheetRN_column_title_list = ["Version", "Release Date", "Subject", "OS", "Remark"]
