@@ -95,6 +95,8 @@ def create_list(list_info, os_info, data_input, data_all_input):
     title_font = openpyxl.styles.Font(size=12, bold=False, name='Arial Unicode MS', color="FFFFFF")
     content_font = openpyxl.styles.Font(size=10, bold=False, name='Verdana', color="000000")
     sheetRN_content_font = openpyxl.styles.Font(size=12, bold=False, name='Verdana', color="000000")
+    sheetRN_cell_font = openpyxl.styles.Font(size=12, bold=False, name='Calibri', color="000000")
+    sheetRN_cell_font_red = openpyxl.styles.Font(size=12, bold=False, name='Calibri', color="FF0000")
 
     # Alignment define
     content_align = Alignment(horizontal = "center")
@@ -184,6 +186,7 @@ def create_list(list_info, os_info, data_input, data_all_input):
     ## Version dev1.6.2 for new SOW test.
 
     sheetRN_title_str = "ASUSTek Computer Inc."
+    sheetRN_DLvControlRule_str = "Driver List Version control rule : SR/ER --> start from 0.01 ; PR --> Start from 1.00 ; MP --> Start from 2.00"
     sheetRN_column_title_list = ["Version", "Release Date", "Subject", "OS", "Remark"]
     sheetRN_column_ini_content_list = [list_version, update_date, subject_str, os_edition, ""]
     sheetRN_column_width_list = [9, 14, 104, 23, 45]
@@ -191,10 +194,10 @@ def create_list(list_info, os_info, data_input, data_all_input):
 
     for i in range(0, len(sheetRN_column_title_list)):
         wb_2.cell(column=i+1, row=2).value = str(sheetRN_column_title_list[i])
-        wb_2.cell(column=i+1, row=2).font = sheetRN_content_font
+        wb_2.cell(column=i+1, row=2).font = sheetRN_cell_font
 
         wb_2.cell(column=i+1, row=3).value = str(sheetRN_column_ini_content_list[i])
-        wb_2.cell(column=i+1, row=3).font = sheetRN_content_font
+        wb_2.cell(column=i+1, row=3).font = sheetRN_cell_font
 
         wb_2.cell(column=i+1, row=2).alignment = Alignment(horizontal = "center", vertical = "center")
         wb_2.cell(column=i+1, row=3).alignment = Alignment(horizontal = "center", vertical = "center") 
@@ -204,9 +207,10 @@ def create_list(list_info, os_info, data_input, data_all_input):
     
     wb_2.merge_cells("A1:E1") # merge cells
     wb_2["A1"].value = str(sheetRN_title_str)
-    wb_2["A1"].font = sheetRN_content_font
+    wb_2["A1"].font = sheetRN_cell_font
     wb_2["A1"].alignment = Alignment(horizontal = "center", vertical = "center") 
-
+    wb_2["C5"].value = str(sheetRN_DLvControlRule_str)
+    wb_2["C5"].font = sheetRN_cell_font_red
     
     for row in wb_2["A1:E1"]: # This line for fill cell color by column
         for cell in row:
