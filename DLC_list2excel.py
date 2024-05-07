@@ -92,22 +92,25 @@ def create_list(list_info, os_info, data_input, data_all_input):
             cell.border = border
 
     # Font define
-    title_font = openpyxl.styles.Font(size=12, bold=False, name='Arial Unicode MS', color="FFFFFF")
-    content_font = openpyxl.styles.Font(size=10, bold=False, name='Verdana', color="000000")
-    sheetRN_content_font = openpyxl.styles.Font(size=12, bold=False, name='Verdana', color="000000")
+    list_name_font = openpyxl.styles.Font(size=14, bold=True, name='Arial Unicode MS', color="000000")
+    title_font = openpyxl.styles.Font(size=14, bold=True, name='Arial Unicode MS', color="FFFFFF")
+    content_font = openpyxl.styles.Font(size=14, bold=False, name='Arial Unicode MS', color="000000")
+    #sheetRN_content_font = openpyxl.styles.Font(size=12, bold=False, name='Verdana', color="000000")
     sheetRN_cell_font = openpyxl.styles.Font(size=12, bold=False, name='Calibri', color="000000")
     sheetRN_cell_font_red = openpyxl.styles.Font(size=12, bold=False, name='Calibri', color="FF0000")
 
     # Alignment define
     content_align = Alignment(horizontal = "center")
-    content_column_non_align_list = [1, 2, 15, 16, 22, 23] # column : [A, B, O, P, V, W] do not participate in alignment.
+    content_align_left = Alignment(horizontal = "left", vertical = "center")
+    content_hv_align = Alignment(horizontal = "center", vertical = "center")
+    content_column_non_align_list = [1, 2, 14, 15, 16, 22, 23] # column : [A, B, N, O, P, V, W] do not participate in alignment.
     content_column_non_align_list = [temp - 1 for temp in content_column_non_align_list] # Do -1 for excel format in python for loop.
 
     # List title at excel cell:"A1"
     cell_A1_title = [str(list_info[1]), "Driver List -", str(os_info[0]), str(os_info[1]), "- DriverList Version:", str(list_info[2]), "- Release Date:", str(list_info[3])]
     cell_A1_title = " ".join(cell_A1_title)
     wb_1["A1"].value = str(cell_A1_title)
-    wb_1["A1"].font = content_font
+    wb_1["A1"].font = list_name_font
 
     ## row2_column_title : Each column title at "The lastest release" (row 2)
     row2_column_title = ["Category", "Description", "Provider/ ODM Company or ASUS", "Vendor", "Driver type", "HSA", "APP ID (If supported)", "APP Name",
@@ -120,16 +123,18 @@ def create_list(list_info, os_info, data_input, data_all_input):
         wb_1.cell(column=i+1, row=2).font = title_font
 
     # All list to excel, modify font and alignment
+    wb_1.cell(column=1, row=1).alignment = content_align_left
     for i in range(0, len(data_all_input)): # i = number of columns.
-        wb_1.cell(column=i+1, row=2).alignment = content_align
+        wb_1.cell(column=i+1, row=2).alignment = content_hv_align 
         for j in range(0, len(data_all_input[i])): # j = number of rows.
+            wb_1.cell(column=i+1, row=j+3).alignment = content_hv_align 
             if i in content_column_non_align_list: # column which do not participate in alignment.
                 wb_1.cell(column=i+1, row=j+3).value = str(data_all_input[i][j])
                 wb_1.cell(column=i+1, row=j+3).font = content_font
+                wb_1.cell(column=i+1, row=j+3).alignment = content_align_left
             else:
                 wb_1.cell(column=i+1, row=j+3).value = str(data_all_input[i][j])
                 wb_1.cell(column=i+1, row=j+3).font = content_font
-                wb_1.cell(column=i+1, row=j+3).alignment = content_align
 
 
     # Set the drop-down Menu to specified cell
@@ -160,10 +165,11 @@ def create_list(list_info, os_info, data_input, data_all_input):
     dv_IM.sqref = "S3:S{}".format(applied_row_end)
     dv_need_reboot.sqref = "U3:U{}".format(applied_row_end)
     
-    # Set column width
+    # Set row hight and column width
     dims = {}
     for row in wb_1.rows:
         for cell in row:
+            wb_1.row_dimensions[cell.row].height = 33
             if cell.value:
                 dims[cell.column_letter] = max((dims.get(cell.column_letter, 0), len(str(cell.value))))
     for col, value in dims.items():
@@ -172,7 +178,8 @@ def create_list(list_info, os_info, data_input, data_all_input):
         else:
             wb_1.column_dimensions[col].width = value + 7
 
-    wb_1.column_dimensions["A"].width = 30 # A column do not automatically adjust column width (Cause A1)
+    #wb_1.column_dimensions["A"].width = 30 # A column do not automatically adjust column width (Cause A1) # no need after templet v2
+    
 
 
     # create release note sheet (sheetRN) (wb_2)
