@@ -466,29 +466,31 @@ def driverDate_list_get():
 def versionRegKey_list_get(item_list_path, software_path_list):
     # for O column (2022/10/04), # complete by hard coding. (can also check function: software_item_analysis)
     versionRegKey_list = []
-    versionRegKey_check_list = ["inteligo", "intelligo", "igo", "dolby", "cardreader"] 
+    versionRegKey_check_list_igo = ["inteligo", "intelligo", "igo"]
+    versionRegKey_check_list_dolby = ["dolby"]
+    versionRegKey_check_list_cardreader = ["cardreader", "card"]
+    versionRegKey_check_list_cardreader_realtek = ["realtek", "rtk"]
+    versionRegKey_check_list_cardreader_genesys = ["genesys", "gene"]
 
     for i in range(0, len(item_list_path)):
         path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
 
         if software_path_list[i]  != "NA":
-            for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
-                name_split[j] = name_split[j].lower()
+            name_split = [item.lower() for item in name_split]
+            if any(item in name_split for item in versionRegKey_check_list_igo):
+                versionRegKey_str = "SOFTWARE\\Intelligo\\APO_Component\\DisplayVersion"
 
-                if name_split[j] in versionRegKey_check_list[0:2]:
-                    versionRegKey_str = "SOFTWARE\\Intelligo\\APO_Component\\DisplayVersion"
-                    break
+            elif any(item in name_split for item in versionRegKey_check_list_dolby):
+                versionRegKey_str = "SOFTWARE\\ASUS\\Dolby_Atmos_for_PC_driver\\DisplayVersion"
+            
+            elif any(item in name_split for item in versionRegKey_check_list_cardreader) and any(item in name_split for item in versionRegKey_check_list_cardreader_realtek):
+                versionRegKey_str =  "SOFTWARE\\Realtek\\Cardreader\\Version"
+            
+            elif any(item in name_split for item in versionRegKey_check_list_cardreader) and any(item in name_split for item in versionRegKey_check_list_cardreader_genesys):
+                versionRegKey_str =  "HKEY_LOCAL_MACHINE\SOFTWARE\Genesys\Cardreader"
 
-                elif name_split[j] == versionRegKey_check_list[3]:
-                    versionRegKey_str = "SOFTWARE\\ASUS\\Dolby_Atmos_for_PC_driver\\DisplayVersion"
-                    break
-
-                elif name_split[j] == versionRegKey_check_list[4]:
-                    versionRegKey_str = "SOFTWARE\\Realtek\\Cardreader\\Version"
-                    break
-
-                else:
-                    versionRegKey_str = "Error"
+            else:
+                versionRegKey_str = "Error"
         else:
             versionRegKey_str = "/"
 
