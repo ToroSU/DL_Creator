@@ -1,5 +1,11 @@
 import re
 import os
+
+# Version dev1.6.2 for new SOW format:
+# SOW Date:2024/05
+# Driver List templet version:v3
+# ODM Driver 宣導事項:20240502 
+
 # check list, Used to check if there is a preferred inf file
 # 引入方式可以後續修正，以另外的公開文件來修改
 inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPSS2_GPIO2_ADL.inf', 
