@@ -407,9 +407,12 @@ def extensionID_list_get(item_list_path):
 
 
 def supportOS_list_get(item_list_path, os_info):
+    # ODM Driver 宣導事項:20240502
+    # 此Driver支援的作業系統版本 ex: Win11 22H2
     supportOS_list = []
     for i in range(0, len(item_list_path)):
-        supportOS_list.append(os_info[0])
+        supportOS_str = " ".join(os_info[0:2]) # 0: Win11, 1: 22H2
+        supportOS_list.append(supportOS_str)
 
     return supportOS_list   
 
@@ -573,9 +576,9 @@ def batch_and_aumids_file_get(package_list):
     bat_check_list = ["SilentInstall.bat", "uninstall_all.bat"]
 
     for root_i in range(0, len(package_list)):
-        temp_path_root=os.path.join("C:\\Users\\EddieYW_Su\\Desktop\\A5Test", package_list[root_i])
-        #for root, dirs, files in os.walk(package_list[root_i]):
-        for root, dirs, files in os.walk(temp_path_root):
+        # temp_path_root=os.path.join("C:\\Users\\EddieYW_Su\\Desktop\\A5Test", package_list[root_i]) # debug
+        for root, dirs, files in os.walk(package_list[root_i]):
+        # for root, dirs, files in os.walk(temp_path_root): # debug
             for file in files:
                 if file == "Install.bat" and file not in bat_check_list: # != sileninstall 是因為有些資料夾內含這種雜七雜八，後續看怎麼優化。
                     bat_root_checkpoint = root
@@ -653,6 +656,6 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     all_list.append(remark_list) # 20 T, Match FW Version, 先用remark list填充(空白) 
     all_list.append(needReboot_list) 
     all_list.append(driverPackage_list)
-    all_list.append(infFile_list) # TODO: 實際為Remark, 目前用以檢查inf 回填用. 由於Asus有新增"Target .INF name" 欄位，後續可用此欄檢查即可。
+    all_list.append(remark_list) # TODO: 實際為Remark, 目前用以檢查inf 回填用. 由於Asus有新增"Target .INF name" 欄位，後續用該欄檢查即可。
 
     return all_list 

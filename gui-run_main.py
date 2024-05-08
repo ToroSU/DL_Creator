@@ -35,8 +35,8 @@ print("Please wait...")
 config_filename = "DLC_config.ini" 
 settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 
-dir_path = "C:\\Users\\EddieYW_Su\\Desktop\\A5Test" # for test 20240424
-#dir_path = os.getcwd() # get current path (as know as driver package path)
+# dir_path = "C:\\Users\\EddieYW_Su\\Desktop\\A5Test" # for test 20240424
+dir_path = os.getcwd() # get current path (as know as driver package path)
 # for wlanbt set
 first_click_loaddate = True
 wlanbt_module_name_list = ["Intel", "AzureWave MTK", "AzureWave RTK", "Liteon RTK", "Liteon Qualc."]
