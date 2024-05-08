@@ -351,7 +351,10 @@ def appID_list_get(item_list_path, aumids_path_list):
 def appName_list_get(item_list_path, aumids_path_list):
     # complete by hard coding.
     appName_list = []
-    appName_check_list = ["graphics", "vga", "realtek", "icps", "dolby"] 
+    appName_check_list_IGCC = ["graphics", "graphic", "vga"]
+    appName_check_list_RealtekConsole = ["realtek", "rtk"]
+    appName_check_list_ICPS = ["icps"]
+    appName_check_list_Dolby = ["dolby"]
 
     for i in range(0, len(item_list_path)):
         path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
@@ -359,19 +362,19 @@ def appName_list_get(item_list_path, aumids_path_list):
         if aumids_path_list[i]  != "NA":
             for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
                 name_split[j] = name_split[j].lower()
-                if name_split[j] in appName_check_list[0:1]:
+                if name_split[j] in appName_check_list_IGCC:
                     appName_str = "Intel® Graphics Command Center"
                     break
 
-                elif name_split[j] == appName_check_list[2]:
+                elif name_split[j] in appName_check_list_RealtekConsole:
                     appName_str = "Realtek Audio Console"
                     break
 
-                elif name_split[j] == appName_check_list[3]:
+                elif name_split[j] in appName_check_list_ICPS:
                     appName_str = "Intel® Connectivity Performance Suite"
                     break
 
-                elif name_split[j] == appName_check_list[4]:
+                elif name_split[j] in appName_check_list_Dolby:
                     appName_str = "Dolby Access"
                     break
 
