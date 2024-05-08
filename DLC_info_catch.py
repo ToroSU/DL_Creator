@@ -277,11 +277,12 @@ def provider_list_get(item_list_path):
     asus_own_driver=["graphics", "graphic", "numpad", "touchpad", "ptp", "dolby"]
     for i in range(0, len(item_list_path)):
         path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
-        name_split = name_split.lower()
-        if name_split in asus_own_driver:
-            provider_list.append("ASUS")
-        else:
-            provider_list.append("ODM")
+        provider_list.append("ODM") # 先預設都是 ODM
+        for j in range(0, len(name_split)):
+            name_split[j] = name_split[j].lower()
+            if name_split[j] in asus_own_driver:
+                provider_list[i] = "ASUS" # 發現為 ASUS Own 的再替換為 ASUS
+                break
 
     return provider_list
 
