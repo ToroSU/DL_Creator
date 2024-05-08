@@ -268,10 +268,20 @@ def software_item_analysis(item_list_path):
     return software_item_path
 
 
-def provider_list_get(item_list_path): # 目前先定義全 ODM (2024/05/06)
+def provider_list_get(item_list_path):
+    # follow ODM Driver 宣導事項:20240502 
+    # 除Intel Graphics 4IDs Driver、NVIDIA DT/AIO/NX Driver及PTP driver和Dolby driver由ASUS提供外，其於Driver皆由ODM自行與Driver廠商申請取得
+    # ICPS APP 請ODM提供"檔案和版號" ，ICPS Driver 則提供"版號即可"，ASUS 會將driver DUA後release給ODM
+    # Output : "ODM" or "ASUS"
     provider_list = []
+    asus_own_driver=["graphics", "graphic", "numpad", "touchpad", "ptp", "dolby"]
     for i in range(0, len(item_list_path)):
-        provider_list.append("ODM")
+        path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
+        name_split = name_split.lower()
+        if name_split in asus_own_driver:
+            provider_list.append("ASUS")
+        else:
+            provider_list.append("ODM")
 
     return provider_list
 
@@ -314,12 +324,11 @@ def hsa_list_get(item_list_path, aumids_path_list):
             path_split, folder_root_name, name_split = name_split_get(aumids_path_list[i+1])
             
             name_split.pop(0)
-            item = " ".join(name_split) # e.g. ICPS Intel UI
-            hsa_temp_str = "YES, HSA " + item
+            # item = " ".join(name_split) # e.g. ICPS Intel UI
+            hsa_temp_str = "Yes"
             hsa_list.append(hsa_temp_str)
-        
         else:
-            hsa_list.append("NO")
+            hsa_list.append("No")
 
     return hsa_list
 
@@ -402,14 +411,14 @@ def supportOS_list_get(item_list_path, os_info):
 
 
 def whql_list_get(item_list_path, aumids_path_list, os_info):
-    # to be clarified
+    # After ODM Driver 宣導事項:20240502, the WHQL cell just has "Yes" or "No"
+    # TODO: to be clarified how to get driver whql info, all set "Yes" now.
     whql_list = []
     for i in range(0, len(item_list_path)):
         if aumids_path_list[i] != "NA":
-            whql_list.append("Pass Store Certification")
-
+            whql_list.append("Yes")
         else:
-            whql_list.append(os_info[1])
+            whql_list.append("Yes")
 
     return whql_list
 
@@ -493,6 +502,13 @@ def silentInstallCommand_list_get(item_list_path):
     
     return silentInstallCommand_list
 
+def installMethod_list_get(item_list_path):
+    installMethod_list = []
+    for i in range(0, len(item_list_path)):
+        installMethod_list.append("") # 此項目取決於 Compal owner 是否有客制化需求，先空白
+    
+    return installMethod_list
+
 
 def matchFwVersion_list_get(item_list_path):
     # to be clarified
@@ -504,6 +520,8 @@ def matchFwVersion_list_get(item_list_path):
 
 
 def needReboot_list_get(item_list_path, aumids_path_list):
+    # 若Driver安裝後需要reboot設定Y， 不需要reboot設定N
+    # ODM Driver 宣導事項:20240502 與 Templet 內容有衝突，先不管 (Templet dropdown: Yes/No, ODM: Y/N)
     needReboot_list = []
     default_needReboot_item = ["graphics", "sst", "isst", "audio", "intelligo"]
     for i in range(0, len(item_list_path)):
@@ -602,6 +620,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     driverDate_list = driverDate_list_temp
     versionRegKey_list = versionRegKey_list_get(item_list_path, software_path_list)
     silentInstallCommand_list = silentInstallCommand_list_get(item_list_path)
+    installMethod_list = installMethod_list_get(item_list_path)
     matchFwVersion_list = matchFwVersion_list_get(item_list_path)
     needReboot_list = needReboot_list_get(item_list_path, aumids_path_list)
     driverPackage_list = driverPackage_list_get(item_list_path)
@@ -626,11 +645,10 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     all_list.append(driverDate_list)
     all_list.append(versionRegKey_list)
     all_list.append(silentInstallCommand_list)
-    all_list.append(remark_list) # Install method, 先用remark list填充(空白) #20240506
-    all_list.append(remark_list) # Match FW Version, 先用remark list填充(空白) 20 T
+    all_list.append(installMethod_list)
+    all_list.append(remark_list) # 20 T, Match FW Version, 先用remark list填充(空白) 
     all_list.append(needReboot_list) 
     all_list.append(driverPackage_list)
-    all_list.append(infFile_list)
-    #all_list.append(infFile_list) # 用以檢查inf 回填用
+    all_list.append(infFile_list) # TODO: 實際為Remark, 目前用以檢查inf 回填用. 由於Asus有新增"Target .INF name" 欄位，後續可用此欄檢查即可。
 
     return all_list 
