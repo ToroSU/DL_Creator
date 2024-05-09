@@ -121,6 +121,13 @@ def get_description(description_line):
 
     return description_return
 
+def get_whql(signerName_line):
+    content_ = signerName_line.split(":")[1]
+    content_ = content_.strip("\n")
+    whql_return = content_.strip(" ")
+
+    return whql_return
+
 
 def get_hardwareID(hardwareID_line):
     if "Hardware IDs:" in hardwareID_line or "硬體識別碼" in hardwareID_line:
@@ -159,6 +166,7 @@ def list_checking_main():
     hardwardID_column = 13
     targetInfName_column = 14
     description_column = 2
+    whql_column = 11
     checkCounter_column = 24 # just for tool use
 
     lines = file_reader(sys_inf_chk_file)
@@ -167,6 +175,7 @@ def list_checking_main():
     originalName_str = "Original Name"
     driverVersion_str = "Driver Version"
     deviceDesc_str = "Device Description"
+    signerName_str = "Signer Name"
     hardwareIDs_str = "Hardware IDs"
     compatibleIDs = "Compatible IDs"
     matchingDrivers = "Matching Drivers"
@@ -252,7 +261,7 @@ def list_checking_main():
     ver_list = []
     description_list = []
     hardwardID_list = []
-
+    whql_list = []
 
     for i in range(0, len(match_inf_index)): # 先遍歷 targetInfName_column_rows ，索引為有對應到系統inf的項目 match_inf，也就是把excel中有對到系統的Inf一個個抓出來
         index_i = match_inf_index[i] # match_inf_index:[2, 4, 5, 6] => index_i: 2,...
@@ -274,6 +283,9 @@ def list_checking_main():
             if deviceDesc_str in block_list[block_index_i][block_line_i]:
                 description_line = block_list[block_index_i][block_line_i]
 
+            if signerName_str in block_list[block_index_i][block_line_i]:
+                signerName_line = block_list[block_index_i][block_line_i]
+
             # 這邊取第二條 HWID，注意某些地方可能只有一條，如此她們的下一行應該會有"Matching Drivers:" or "Compatible IDs:"，寫個判斷式避開就好
             if hardwareIDs_str in block_list[block_index_i][block_line_i]:
                 if compatibleIDs in block_list[block_index_i][block_line_i + 1] or matchingDrivers in block_list[match_block_index[i]][block_line_i+1]:
@@ -281,23 +293,24 @@ def list_checking_main():
                 else:
                     hardwareID_line = block_list[block_index_i][block_line_i + 1]
 
-        # 以下list皆與match_inf_index(index_i) 對應，為在找到inf前提下所存下的索引
+        # 以下list皆與match_inf_index(index_i)對應，為在找到inf前提下所儲存的索引
         date_str, ver_str = get_date_ver(date_version_line)
         description_str = get_description(description_line)
         hardwardID_str = get_hardwareID(hardwareID_line)
+        whql_str = get_whql(signerName_line)
 
         date_list.append(date_str)
         ver_list.append(ver_str)
         description_list.append(description_str)
         hardwardID_list.append(hardwardID_str)
-
+        whql_list.append(whql_str)
 
     # font define
     checking_fail_font = openpyxl.styles.Font(size=14, bold=False, name='Arial Unicode MS', color="FF0000") # red
     checking_success_font = openpyxl.styles.Font(size=14, bold=False, name='Arial Unicode MS', color="00B050") # green
 
     ## 在有找到inf的前提下(match_inf_index)，且Check counter 為 none (意即從未被檢查過)若date/Ver 錯誤 標紅色
-    # 若date/Ver 正確 標綠色
+    # 若date/Ver正確:標綠色
     # 只要有找到inf 對應的check counter+1
     # 找到的description / HWID 填入指定格子內
     # 若 excel cell 中已有相同 dexcription/ HWID 不填入, 若無，添加進去
@@ -310,12 +323,14 @@ def list_checking_main():
         checking_ver = ver_list[i]
         checking_description = description_list[i]
         checking_hardwareID = hardwardID_list[i]
+        checking_whql = whql_list[i]
 
         # 來自 driver list 的答案
         category_str = sheet_driver_list.cell(row = index_i+1, column = 1).value # for logging message
         date_in_driver_list_cell = sheet_driver_list.cell(row = index_i+1, column = date_column).value
         ver_in_driver_list_cell = sheet_driver_list.cell(row = index_i+1, column = version_column).value
         description_in_driver_list_cell = sheet_driver_list.cell(row = index_i+1, column = description_column).value
+        whql_in_driver_list_cell = sheet_driver_list.cell(row = index_i+1, column = whql_column).value
         hardwareID_in_driver_list_cell = sheet_driver_list.cell(row = index_i+1, column = hardwardID_column).value
         checkCounter_in_driver_list_cell = sheet_driver_list.cell(row = index_i+1, column = checkCounter_column).value
 
@@ -353,6 +368,8 @@ def list_checking_main():
         else:
             temp_string = checking_description
             sheet_driver_list.cell(row=index_i+1, column=description_column).value = str(temp_string)
+
+        # TODO:checking WHQL and fill it
 
 
         # checking hardwareID and fill it
