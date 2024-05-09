@@ -35,8 +35,6 @@ print("Please wait...")
 config_filename = "DLC_config.ini" 
 settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 
-# dir_path = "C:\\Users\\EddieYW_Su\\Desktop\\A5Test" # for test 20240424
-dir_path = os.getcwd() # get current path (as know as driver package path)
 # for wlanbt set
 first_click_loaddate = True
 wlanbt_module_name_list = ["Intel", "AzureWave MTK", "AzureWave RTK", "Liteon RTK", "Liteon Qualc."]
@@ -106,7 +104,12 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.select_pushButton.setEnabled(True) 
 
         # after click run button load all config settings 
-        self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
+        self.list_info, self.os_info, self.other_setting, self.wlanbt_info, self.path_info= DLC_config_reader_main()
+        if self.path_info[0]:
+            dir_path = os.getcwd() # get current path (as know as driver package path)
+        else:
+            dir_path = self.path_info[1] #e.g. "C:\\Users\\EddieYW_Su\\Desktop\\A5Test" 
+
         # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
         self.used_wlanbt_module, self.wlanbt_total_count = DLC_info_catch.obtain_used_module(self.wlanbt_info)
 
@@ -140,6 +143,8 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         global wlan_final_path_list
         global batch_in_folder_path_list
         global AUMIDs_in_folder_path_list
+        global dir_path
+
         # after click run button load all config settings 
         # self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
         # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
@@ -190,8 +195,10 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         final_item_list, final_bat_path_list, final_aumids_path_list = DLC_info_catch.final_list_sort(batch_in_folder_path_list, AUMIDs_in_folder_path_list, wlan_final_item_list, wlan_final_path_list, self.wlanbt_info)
         all_list = DLC_info_catch.all_List_get(final_item_list, final_bat_path_list, final_aumids_path_list, self.os_info)
         if str2bool(self.other_setting[0]):
-            create_list(self.list_info, self.os_info, final_item_list, all_list)
-            QMessageBox.about(self, "Export List", "File output completed, path is: \n{}".format(dir_path))
+            output_file_name = create_list(self.list_info, self.os_info, final_item_list, all_list)
+            print(output_file_name)
+            #QMessageBox.about(self, "Export List", "File output completed, path is: \n{}".format(dir_path))
+            QMessageBox.about(self, "Export List", "File output completed, file name is: \n{}".format(str(output_file_name)))
 
         else:
             QMessageBox.about(self, "Export List", "\nExportDriverList= {},\ndo not export excel files.".format(self.other_setting[0]))
@@ -232,6 +239,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
     def when_run_pushButton_click(self):
         global batch_in_folder_path_list
         global AUMIDs_in_folder_path_list
+        global dir_path
 
         # save config.ini
         self.config_save()
@@ -239,7 +247,12 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         
         # after click run button load all config settings 
-        self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
+        self.list_info, self.os_info, self.other_setting, self.wlanbt_info, self.path_info= DLC_config_reader_main()
+        if str2bool(self.path_info[0]):
+            dir_path = os.getcwd() # get current path (as know as driver package path)
+        else:
+            dir_path = self.path_info[1] #e.g. "C:\Users\EddieYW_Su\Desktop\A5Test"
+
         # if list checking is True
         if str2bool(self.other_setting[1]): # ListChecking=true
             self.when_listChecking_is_enable()
@@ -250,7 +263,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             # list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
             # Serach all folder at root_folder, Use folder to detect.
             root_folder = os.listdir(dir_path) # all file and folder under current path
-            print(root_folder)
             package_list = [] # list of root foder
 
             for i in range(0, len(root_folder)): 
@@ -267,8 +279,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             # TODO bat file exist (maybe todo ...)
             # Main output 1: list of bat file path.
             # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
-            # batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(self.package_list) 
-            batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list)
+            # batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(self.package_list)
+            batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, self.path_info)
 
             if str2bool(self.other_setting[2]): # zip the package
                 self.when_package2zip_enable()
@@ -372,6 +384,13 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         listChecking_bool_content = self.listChecking_checkBox.isChecked()
         package2zip_bool_content = self.package2zip_checkBox.isChecked()
 
+        if self.radio_current_path.isChecked():
+            is_current_path = True
+        elif self.radio_enter_path.isChecked():
+            is_current_path = False
+
+        enter_path_content = self.enter_path_lineEdit.text()
+
         settings.setValue("List_Info/Customer", customer_content)
         settings.setValue("List_Info/ProjectName", projectName_content)
         settings.setValue("List_Info/ListVersion", listVersion_content)
@@ -387,6 +406,9 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("WLANBT_Info/AzwaveRTK", wlanbt_azwaveRTK_content)
         settings.setValue("WLANBT_Info/LiteonRTK", wlanbt_liteonRTK_content)
         settings.setValue("WLANBT_Info/LiteonQualc", wlanbt_liteonQualc_content)
+        settings.setValue("Path_Info/IsCurrentPath", is_current_path)
+        settings.setValue("Path_Info/PackagePath", enter_path_content)
+
         print("Config Save Successfully")
         QMessageBox.about(self, "Save", "Save Successfully")
 
@@ -407,6 +429,12 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.exportDriverList_checkBox.setChecked(str2bool(settings.value("Other_Setting/ExportDriverList")))
         self.listChecking_checkBox.setChecked(str2bool(settings.value("Other_Setting/ListChecking")))
         self.package2zip_checkBox.setChecked(str2bool(settings.value("Other_Setting/Package2Zip")))
+        is_current_path = str2bool(settings.value("Path_Info/IsCurrentPath")) # 判斷該值是否為True
+        if is_current_path:
+            self.radio_current_path.setChecked(True)
+        else:
+            self.radio_enter_path.setChecked(True)
+        self.enter_path_lineEdit.setText(settings.value("Path_Info/PackagePath"))
 
 
 if __name__ == '__main__': # Main progress start

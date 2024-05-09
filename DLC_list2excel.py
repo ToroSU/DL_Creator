@@ -241,5 +241,6 @@ def create_list(list_info, os_info, data_input, data_all_input):
     try:
         del wb["Sheet"] # Delete default sheet which name is "Sheet"
         wb.save(fn)
+        return fn #return file name
     except:
         print("\nExcel WARNING : Please try closing the excel file and RE-RUN the program.")

@@ -30,8 +30,14 @@ def if_config_file_exist(file_name):
                               wlanbt_info["AzwaveRTK"],
                               wlanbt_info["LiteonRTK"],
                               wlanbt_info["LiteonQualc"]]
+        
+        path_info = config["Path_Info"]
 
-        return list_info_return, os_info_return, other_setting_return, wlanbt_info_return
+        # Normalize path before returning
+        package_path = os.path.normpath(path_info["PackagePath"]) # If normalization is not done here, the output path will contain extra backslashes, e.g.,C:\\\\Users\\\\tester\\\\Desktop\\\\A5Test'
+        path_info_return = [path_info["IsCurrentPath"], package_path]
+
+        return list_info_return, os_info_return, other_setting_return, wlanbt_info_return, path_info_return
 
     except:
         print("Error") # TODO: get error location and show to user.
@@ -44,7 +50,7 @@ def DLC_config_reader_main():
     # Try to read config.ini file, if can't read file, use default setting
     if os.path.isfile(config_filename):
         print("Read config file successfully.")
-        list_info_return, os_info_return, other_setting_return, wlanbt_info_return = if_config_file_exist(config_filename)
-        return list_info_return, os_info_return, other_setting_return, wlanbt_info_return
+        list_info_return, os_info_return, other_setting_return, wlanbt_info_return, path_info_return = if_config_file_exist(config_filename)
+        return list_info_return, os_info_return, other_setting_return, wlanbt_info_return, path_info_return
     else:
         print("Read config file failed.")

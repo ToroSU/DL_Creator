@@ -18,6 +18,8 @@ inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPS
 
 inf_check_list_lower = [temp.lower() for temp in inf_check_list] # Convert inf_check_list to lowercase
 
+def str2bool(v):
+    return str(v).lower() in ("yes", "true", "t")
 
 def file_reader(file_):
     # Open the .inf file. If open faild, try to use "utf-16" decode and ignore the error.
@@ -464,7 +466,7 @@ def driverDate_list_get():
     pass
 
 def versionRegKey_list_get(item_list_path, software_path_list):
-    # for O column (2022/10/04), # complete by hard coding. (can also check function: software_item_analysis)
+    # for Q column (2024/05/08), # complete by hard coding. (can also check function: software_item_analysis)
     versionRegKey_list = []
     versionRegKey_check_list_igo = ["inteligo", "intelligo", "igo"]
     versionRegKey_check_list_dolby = ["dolby"]
@@ -569,7 +571,7 @@ def remark_list_get(item_list_path):
     return remark_list
 
 
-def batch_and_aumids_file_get(package_list):
+def batch_and_aumids_file_get(package_list, path_info):
     # Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
     # TODO bat file exist (maybe todo ...)
     batch_in_folder_path_list = []  # Main output 1: list of bat file path .
@@ -578,11 +580,15 @@ def batch_and_aumids_file_get(package_list):
     bat_check_list = ["SilentInstall.bat", "uninstall_all.bat"]
 
     for root_i in range(0, len(package_list)):
-        # temp_path_root=os.path.join("C:\\Users\\EddieYW_Su\\Desktop\\A5Test", package_list[root_i]) # debug
-        for root, dirs, files in os.walk(package_list[root_i]):
-        # for root, dirs, files in os.walk(temp_path_root): # debug
+        if str2bool(path_info[0]):
+            path_root = package_list[root_i]
+        else:
+            path_root=os.path.join(path_info[1], package_list[root_i]) # path_info[1] = C:\\Users\\EddieYW_Su\\Desktop\\A5Test
+            print(path_root)
+
+        for root, dirs, files in os.walk(path_root):
             for file in files:
-                if file == "Install.bat" and file not in bat_check_list: # != sileninstall 是因為有些資料夾內含這種雜七雜八，後續看怎麼優化。
+                if file.lower() == "install.bat" and file not in bat_check_list: # != sileninstall 是因為有些資料夾內含這種雜七雜八，後續看怎麼優化。
                     bat_root_checkpoint = root
                     batch_in_folder_path_list.append(root) # e.g. 14_WLANBT_Azwave_MTK\BT\BT_Azwave_MTK_MT7921_1.3.15.143
                     if not aumid_check: 
