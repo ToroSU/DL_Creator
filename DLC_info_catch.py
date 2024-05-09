@@ -8,13 +8,24 @@ import os
 
 # check list, Used to check if there is a preferred inf file
 # 引入方式可以後續修正，以另外的公開文件來修改
+# Audio Codec: HWID/Driver version/Driver build date填寫時參考Codec資料夾內的inf(以專案是否support ISST決定，例支援ISST需參考HDXSSTASUS.inf，不支援ISST需參考HDXASUS.inf)
+# IntelliGo APO: HWID以及Driver version請填寫HDX_AsusExt_XPERI4_DSP_iGo_Ext.inf/ HDX_AsusExt_XPERI4_DSP_iGo_Ext_Capx.inf/HDX_AsusExt_XPERI4_DSP_iGo_Ext_Capx_DMVP_VPNR.inf中專案對應的項目
+# Dolby: HWID以及Driver version請填寫dax3_ext_rtk.inf 中專案對應的項目
+# Dirac: HWID/Driver version/Driver build date填寫時參考DiracExt.inf
+# BT/WLAN: Intel Inf 請參考branch out documentation
+# Intel_DPTF: Load inf：dptf_acpi.inf
+# RTK LAN: NDIS架構: rt640x64.inf, NetAdapter架構:RTL 8125: rt25cx21x64.inf/ RTL 8168: rt68cx21x64.inf
+# Intel_MEI: HWID/Driver version/Driver build date填寫時參考heci.inf
+# Intel_HID: HWID填寫時請注意檢查Intel HidEventFilter.inf 有針對不同platform指定不同IDs, 若有BIOS 宣告不正確, 也請告知貴司BIOS做修正
+# 
+
 inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPSS2_GPIO2_ADL.inf', 
-                'iaLPSS2_I2C_ADL.inf', 'ipf_acpi.inf', 'iigd_dch_d.inf', 'iigd_dch.inf', 'intcaudiobus.inf', 
+                'iaLPSS2_I2C_ADL.inf', 'iigd_dch_d.inf', 'iigd_dch.inf', 'intcaudiobus.inf', 
                 'HDXSSTASUS.inf', 'e1d.inf', 'HidEventFilter.inf', 'gna.inf', 'ISH.inf', 'Netwtw08.INF', 
                 'ibtusb.inf', 'ICPSComponent.inf', 'mtkwl6ex.inf', 'mtkbtfilter.inf', 'RtsUer.inf', 
-                'RtAsus.inf', 'snDMFT.inf', 'WbfUsbDriver.inf', 'IgoApo.inf', 'AsusNUMPADFilter.inf', 
+                'RtAsus.inf', 'snDMFT.inf', 'WbfUsbDriver.inf', 'HDX_AsusExt_XPERI4_DSP_iGo_Ext_Capx_DMVP_VPNR.inf', 'AsusNUMPADFilter.inf', 
                 'AsusPTPFilter.inf', 'dax3_ext_rtk.inf', 'RaptorLakePCH-SSystem.inf', 'iaLPSS2_GPIO2_RPL.inf',
-                'iaLPSS2_I2C_ADL.inf']
+                'iaLPSS2_I2C_ADL.inf', "DiracExt.inf", "dptf_acpi.inf"]
 
 inf_check_list_lower = [temp.lower() for temp in inf_check_list] # Convert inf_check_list to lowercase
 
@@ -218,7 +229,7 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
                     inf_File_list_root.append(file)
 
                 elif file == "AUMIDs.txt":
-                    file_str = "AUMIDs"
+                    file_str = "" # if AUMIDs, then set set .inf name is empty. 
                     driverVersion_str = ""
                     driverDate_str = ""
                     break
