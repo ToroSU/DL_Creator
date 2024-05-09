@@ -103,7 +103,7 @@ def create_list(list_info, os_info, data_input, data_all_input):
     content_align = Alignment(horizontal = "center")
     content_align_left = Alignment(horizontal = "left", vertical = "center")
     content_hv_align = Alignment(horizontal = "center", vertical = "center")
-    content_column_non_align_list = [1, 2, 14, 15, 16, 22, 23] # column : [A, B, N, O, P, V, W] do not participate in alignment.
+    content_column_non_align_list = [1, 2, 13, 14, 15, 16, 22, 23] # column : [A, B, M, N, O, P, V, W] do not participate in alignment.
     content_column_non_align_list = [temp - 1 for temp in content_column_non_align_list] # Do -1 for excel format in python for loop.
 
     # List title at excel cell:"A1"

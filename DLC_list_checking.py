@@ -65,19 +65,20 @@ def excel_typesetting_and_save(current_sheet, workbook, excel_file_name):
 
     # Set alignment
     # Alignment define
-    content_align_vertical = Alignment(wrap_text = True, vertical = "center")
-    content_align_center = Alignment(horizontal = "center", vertical= "center")
-    content_column_non_align_horizontal_list = [1, 2, 15, 16, 17, 22, 23] # column : [A, B, P, Q, V] do not participate in alignment horizontal.
+    content_align = Alignment(horizontal = "center")
+    content_align_left = Alignment(horizontal = "left", vertical = "center")
+    content_hv_align = Alignment(horizontal = "center", vertical = "center")
+    content_column_non_align_horizontal_list = [1, 2, 13, 14, 15, 16, 22, 23] # column : [A, B, M, N, O, P, V, W] do not participate in alignment.
     content_column_non_align_horizontal_list = [temp - 1 for temp in content_column_non_align_horizontal_list] # Do -1 for excel format in python for loop.
 
         # All list to excel, modify font and alignment
     for i in range(0, current_sheet.max_column): # i = number of columns.
-        current_sheet.cell(column=i+1, row=2).alignment = content_align_center # row2 (title row)
+        current_sheet.cell(column=i+1, row=2).alignment = content_hv_align # row2 (title row)
         for j in range(0, current_sheet.max_row): # j = number of rows.
             if i in content_column_non_align_horizontal_list: # column which do not participate in alignment.
-                current_sheet.cell(column=i+1, row=j+3).alignment = content_align_vertical
+                current_sheet.cell(column=i+1, row=j+3).alignment = content_align_left
             else:
-                current_sheet.cell(column=i+1, row=j+3).alignment = content_align_center
+                current_sheet.cell(column=i+1, row=j+3).alignment = content_hv_align
 
     #save
     workbook.save(excel_file_name)
@@ -153,9 +154,10 @@ def list_checking_main():
         print("No file: {} in current path".format(sys_inf_chk_file))
         return 0
 
-    date_column = 17 # 定位各column位置，萬一未來要改會好改一點點
-    version_column = 16
-    hardwardID_column = 15
+    date_column = 16 # 定位各column位置，萬一未來要改會好改一點點
+    version_column = 15
+    hardwardID_column = 13
+    targetInfName_column = 14
     description_column = 2
     checkCounter_column = 24 # just for tool use
 
@@ -210,11 +212,11 @@ def list_checking_main():
     max_row = sheet_driver_list.max_row  
     max_col = sheet_driver_list.max_column
 
-    # 讀取 remark col, 暫存 inf的地方
-    remark_column_rows = []
+    # 讀取 Target INF Name col
+    targetInfName_column_rows = []
     for row_i in range(0, max_row):
-        temp = sheet_driver_list.cell(row = row_i+1, column = 23)
-        remark_column_rows.append(temp.value)
+        temp = sheet_driver_list.cell(row = row_i+1, column = targetInfName_column)
+        targetInfName_column_rows.append(temp.value)
 
 
     # 找 driver list 中存在的inf 及其對應的指標 match_inf_index
@@ -223,8 +225,8 @@ def list_checking_main():
     have_one_match = False
     # 由於match_inf_index 是基於 driver list (excel)，所以迴圈從2開始, 若第一列就有對應inf，就會從2開始 e.g. [2, 3, 5, 7]，
     # 得到 "有在系統中找到的inf" ， 與block的對應關係 (match_inf, match_block) 
-    for i in range(2, len(remark_column_rows)-1):
-        current_inf = remark_column_rows[i]
+    for i in range(2, len(targetInfName_column_rows)-1):
+        current_inf = targetInfName_column_rows[i]
         try:
             for block_i in range(0, len(block_list)):
                 for block_i_line in block_list[block_i]:
@@ -252,9 +254,9 @@ def list_checking_main():
     hardwardID_list = []
 
 
-    for i in range(0, len(match_inf_index)): # 先遍歷 remark_column_rows ，索引為有對應到系統inf的項目 match_inf，也就是把excel中有對到系統的Inf一個個抓出來
+    for i in range(0, len(match_inf_index)): # 先遍歷 targetInfName_column_rows ，索引為有對應到系統inf的項目 match_inf，也就是把excel中有對到系統的Inf一個個抓出來
         index_i = match_inf_index[i] # match_inf_index:[2, 4, 5, 6] => index_i: 2,...
-        current_inf = remark_column_rows[index_i]
+        current_inf = targetInfName_column_rows[index_i]
         # print(current_inf)
 
         find_current_inf = False # 讀到有 current_inf 後才開始偵測 "Driver Version" ，才會是剛好對應的 version/date
@@ -291,8 +293,8 @@ def list_checking_main():
 
 
     # font define
-    checking_fail_font = openpyxl.styles.Font(size=10, bold=False, name='Verdana', color="FF0000") # red
-    checking_success_font = openpyxl.styles.Font(size=10, bold=False, name='Verdana', color="00B050") # green
+    checking_fail_font = openpyxl.styles.Font(size=14, bold=False, name='Arial Unicode MS', color="FF0000") # red
+    checking_success_font = openpyxl.styles.Font(size=14, bold=False, name='Arial Unicode MS', color="00B050") # green
 
     ## 在有找到inf的前提下(match_inf_index)，且Check counter 為 none (意即從未被檢查過)若date/Ver 錯誤 標紅色
     # 若date/Ver 正確 標綠色
@@ -301,7 +303,7 @@ def list_checking_main():
     # 若 excel cell 中已有相同 dexcription/ HWID 不填入, 若無，添加進去
     for i in range(0, len(match_inf_index)): 
         index_i = match_inf_index[i] # 在 list 中的指標
-        current_inf = remark_column_rows[index_i]
+        current_inf = targetInfName_column_rows[index_i]
 
         # 來自系統的Ground truth
         checking_date = date_list[i] 
