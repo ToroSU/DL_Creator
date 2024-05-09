@@ -235,7 +235,6 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
                 driverVersion_str = driverVersion_list_root[0]
                 driverDate_str = driverDate_list_root[0]
                         
-
         inf_File_list.append(file_str)
         driverVersion_list.append(driverVersion_str)
         driverDate_list.append(driverDate_str)
@@ -466,6 +465,7 @@ def driverDate_list_get():
     pass
 
 def versionRegKey_list_get(item_list_path, software_path_list):
+    # 若Check Mechanism為"Software"則可由此欄位確認" VersionRegKey"之設定
     # for Q column (2024/05/08), # complete by hard coding. (can also check function: software_item_analysis)
     versionRegKey_list = []
     versionRegKey_check_list_igo = ["inteligo", "intelligo", "igo"]
@@ -503,6 +503,7 @@ def versionRegKey_list_get(item_list_path, software_path_list):
     
 
 def silentInstallCommand_list_get(item_list_path):
+    # 此欄位需與Driver package欄位的安裝檔案之install command相符，目前command一致為install.bat
     silentInstallCommand_list = []
     for i in range(0, len(item_list_path)):
         silentInstallCommand_list.append("Install.bat")
@@ -514,6 +515,7 @@ def silentInstallCommand_list_get(item_list_path):
     return silentInstallCommand_list
 
 def installMethod_list_get(item_list_path):
+    # ASUS image安裝流程預設為offline安裝, 此安裝模式會在winpe中使用dism工具將*.inf 嵌入作業系統中, 若驅動程式安裝包中含有客製化指令及設定,則此項目請選擇online
     installMethod_list = []
     for i in range(0, len(item_list_path)):
         installMethod_list.append("") # 此項目取決於 Compal owner 是否有客制化需求，先空白
@@ -522,10 +524,10 @@ def installMethod_list_get(item_list_path):
 
 
 def matchFwVersion_list_get(item_list_path):
-    # to be clarified
+    # 若無需搭配特定FW則設定為N/A
     matchFwVersion_list = []
     for i in range(0, len(item_list_path)):
-        matchFwVersion_list.append("")
+        matchFwVersion_list.append("N/A")
     
     return matchFwVersion_list
 
@@ -661,7 +663,7 @@ def all_List_get(item_list, item_list_path, aumids_path_list, os_info):
     all_list.append(versionRegKey_list)
     all_list.append(silentInstallCommand_list)
     all_list.append(installMethod_list)
-    all_list.append(remark_list) # 20 T, Match FW Version, 先用remark list填充(空白) 
+    all_list.append(matchFwVersion_list) # 20 T
     all_list.append(needReboot_list) 
     all_list.append(driverPackage_list)
     all_list.append(remark_list) # TODO: 實際為Remark, 目前用以檢查inf 回填用. 由於Asus有新增"Target .INF name" 欄位，後續用該欄檢查即可。
