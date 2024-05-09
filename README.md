@@ -1,6 +1,12 @@
 # DL_Creator
 Create driver list for Customer History:  
 
+Dev 1.6.2:
+Feat: Add path validation feature and modify related programs that reference the path.  
+Feat: Add Sow Info at GUI.  
+Feat: Modify program rule for follow SOW 2024/05.  
+Feat: Modify output excel file for follow templet v3.  
+
 Dev 1.6.1:  
 Feat: Update Driver List per T88 April 2024 SOW
 

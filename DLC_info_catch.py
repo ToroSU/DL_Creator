@@ -543,10 +543,10 @@ def needReboot_list_get(item_list_path, aumids_path_list):
         for j in range(0, len(name_split)): # just convert string lsit to lower. e.g. ['03', 'irst', 'intel']
             name_split[j] = name_split[j].lower()
             if name_split[j] in default_needReboot_item and aumids_path_list[i] == "NA":
-                needReboot_string = "Y"
+                needReboot_string = "Yes"
                 break
             else:
-                needReboot_string = "N"
+                needReboot_string = "No"
 
         needReboot_list.append(needReboot_string)
 
