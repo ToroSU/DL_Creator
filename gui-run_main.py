@@ -27,6 +27,10 @@ def list_diff(li1, li2):
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
+def compare_paths(path_A, path_B):
+    # 計算 path_A 相對於 path_B 的相對路徑
+    relative_path = os.path.relpath(path_A, path_B)
+    return relative_path
 
 # Start 
 print("Please wait...")
@@ -105,10 +109,6 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
 
         # after click run button load all config settings 
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info, self.path_info= DLC_config_reader_main()
-        if self.path_info[0]:
-            dir_path = os.getcwd() # get current path (as know as driver package path)
-        else:
-            dir_path = self.path_info[1] #e.g. "C:\\Users\\EddieYW_Su\\Desktop\\A5Test" 
 
         # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
         self.used_wlanbt_module, self.wlanbt_total_count = DLC_info_catch.obtain_used_module(self.wlanbt_info)
@@ -196,7 +196,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         all_list = DLC_info_catch.all_List_get(final_item_list, final_bat_path_list, final_aumids_path_list, self.os_info)
         if str2bool(self.other_setting[0]):
             output_file_name = create_list(self.list_info, self.os_info, final_item_list, all_list)
-            print(output_file_name)
+            # print(output_file_name)
             #QMessageBox.about(self, "Export List", "File output completed, path is: \n{}".format(dir_path))
             QMessageBox.about(self, "Export List", "File output completed, file name is: \n{}".format(str(output_file_name)))
 
@@ -283,7 +283,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, self.path_info)
 
             if str2bool(self.other_setting[2]): # zip the package
-                self.when_package2zip_enable()
+                self.when_package2zip_enable(self.path_info)
 
             else:
                 self.wlanbtSelectWindos_.show() # enter crete list main code
@@ -327,7 +327,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         list_checking_main()
 
 
-    def when_package2zip_enable(self):
+    def when_package2zip_enable(self, path_info):
         global batch_in_folder_path_list
         driverPackageZip_folder = "ZIP_DriverPackage"
 
@@ -345,11 +345,16 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             progress.setValue(i) 
             if progress.wasCanceled():
                 QMessageBox.warning(self,"WARNING","User interrupt") 
-                break
-            
+                break 
+
             # compression main
-            current_path = batch_in_folder_path_list[i] # e.g. 14_WLANBT_Intel\BT\BT_Intel_22.150.0.6 (bat file path)
-            zip_file_final_path = os.path.join(driverPackageZip_folder, current_path) # e.g. ZIP_DriverPackage\14_WLANBT_Intel\BT\BT_Intel_22.150.0.6
+            ori_package_path = batch_in_folder_path_list[i] # e.g. (if use current path) 14_WLANBT_Intel\BT\BT_Intel_22.150.0.6 (bat file path), (if use specify path) [specify_path]\14_WLANBT_Intel\BT\BT_Intel_22.150.0.6
+            if str2bool(path_info[0]): # if use program current path (path_info[0])
+                temp_path = ori_package_path
+            else:
+                temp_path = compare_paths(ori_package_path, path_info[1]) # if use specify path, then calculate the relative path of "current_path" and "specify path"
+
+            zip_file_final_path = os.path.join(driverPackageZip_folder, temp_path) # e.g. ZIP_DriverPackage\14_WLANBT_Intel\BT\BT_Intel_22.150.0.6
             zip_folder_root = zip_file_final_path.split("\\")
             zip_folder_root.pop() # cuz folder rule
             zip_folder_root = os.path.join(*zip_folder_root) # e.g. ZIP_DriverPackage\14_WLANBT_Intel\BT, # * mean each list element 
@@ -357,8 +362,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             if not os.path.exists(zip_folder_root):
                 os.makedirs(zip_folder_root)
                 print("mkdir: ", zip_folder_root)
-
-            shutil.make_archive(zip_file_final_path, format='zip', root_dir=current_path)
+            
+            shutil.make_archive(zip_file_final_path, format='zip', root_dir=ori_package_path)
 
         # when compression done
         else:
