@@ -256,27 +256,14 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
 def software_item_analysis(item_list_path):
     software_item_path = []
     # versionregKey_list = [] # for O column (2022/10/04), # 目前是瑕疵品，不知道怎麼完成，暫定寫死 (詳見輸出結果)
+    # 2024/05/10 僅 CardReader 為Software item，非SOW，為客戶提供之資訊 
     folder_check_once = False
-    for root_i in range(0, len(item_list_path)):
-        for root, dirs, files in os.walk(item_list_path[root_i]):
-            for file in files:
-                if file[-4:] == ".bat" or file[-4:] == ".ps1" or file[-4:] == ".reg": # 有這三種附檔名可能會有reg路徑，麻煩
-                    path_ = os.path.join(root, file)
-                    lines_ = file_reader(path_)
-                    for line in lines_: 
-                        if "HKEY_LOCAL_MACHINE\\SOFTWARE\\" in line or "HKLM:\\SOFTWARE\\" in line:
-                            folder_check_once = True
-                            # versionregKey_temp = line.rstrip('\r\n') # remove newline 
-                            break
-
-        if folder_check_once:
-            software_item_path.append(path_)
-            # versionregKey_list.append(versionregKey_temp)
-            folder_check_once = False
+    for i in range(0, len(item_list_path)):
+        path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
+        if name_split[1].lower() == "cardreader":
+            software_item_path.append("True")
         else:
             software_item_path.append("NA")
-            # versionregKey_list.append("/")
-
     return software_item_path
 
 
