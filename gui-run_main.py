@@ -218,6 +218,10 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         super(mywindow, self).__init__()
         self.setupUi(self)
         self.wlanbtSelectWindos_ = wlanbtSelectWindos()
+        self.enter_path_lineEdit.setEnabled(False)
+
+        # 監聽 Radio Button 的狀態變化，並連接槽函數
+        self.radio_enter_path.toggled.connect(self.toggle_line_edit)
 
         # greeting message
         cls()
@@ -229,6 +233,10 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
     
         # run button click
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
+        
+    def toggle_line_edit(self, state):
+        # 當 Radio Button 狀態變化時，判斷其狀態，並設置 Line Edit 的啟用狀態
+        self.enter_path_lineEdit.setEnabled(state)
 
     # main button
     def when_run_pushButton_click(self):
@@ -255,9 +263,10 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         # TODO Refactor the code this part
         else: 
-            # list_info, os_info, other_setting, wlanbt_info = DLC_config_reader_main()
             # Serach all folder at root_folder, Use folder to detect.
             root_folder = os.listdir(dir_path) # all file and folder under current path
+            print(dir_path)
+            print(root_folder)
             package_list = [] # list of root foder
 
             for i in range(0, len(root_folder)): 
@@ -276,6 +285,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
             # batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(self.package_list)
             batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, self.path_info)
+            # print("batch: ", batch_in_folder_path_list)
+            # print("AUMID: ", AUMIDs_in_folder_path_list)
 
             if str2bool(self.other_setting[2]): # zip the package
                 self.when_package2zip_enable(self.path_info)
