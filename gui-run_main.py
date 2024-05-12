@@ -8,7 +8,7 @@ from PyQt5.QtGui import *
 from Ui_GUI_ import Ui_Form
 import DLC_info_catch
 from DLC_list2excel import create_list
-from DLC_list_checking import list_checking_main
+import DLC_list_checking
 from DLC_config_reader import DLC_config_reader_main
 import os
 import time
@@ -230,11 +230,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # run button click
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
 
-        # behavior of if checkBox checked/unchecked
-        self.exportDriverList_checkBox.toggled.connect(self.when_exportList_checkBox_checked)
-        self.listChecking_checkBox.toggled.connect(self.when_listChecking_checkBox_checked)
-        self.package2zip_checkBox.toggled.connect(self.when_package2zip_checkBox_checked)
-
     # main button
     def when_run_pushButton_click(self):
         global batch_in_folder_path_list
@@ -253,9 +248,9 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         else:
             dir_path = self.path_info[1] #e.g. "C:\Users\EddieYW_Su\Desktop\A5Test"
 
-        # if list checking is True
+        # if list checking is True, run List checking function.
         if str2bool(self.other_setting[1]): # ListChecking=true
-            self.when_listChecking_is_enable()
+            DLC_list_checking.list_checking_main()
             QMessageBox.about(self, "List checking", "Checking Complete")
 
         # TODO Refactor the code this part
@@ -287,44 +282,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
             else:
                 self.wlanbtSelectWindos_.show() # enter crete list main code
-
-
-    def when_exportList_checkBox_checked(self):
-        # exportDriverList_checkBox is checked
-        if self.exportDriverList_checkBox.isChecked():
-            self.listChecking_checkBox.setEnabled(False)
-            self.listChecking_checkBox.setChecked(False)
-            self.package2zip_checkBox.setEnabled(False)
-            self.package2zip_checkBox.setChecked(False)
-        else: 
-            self.listChecking_checkBox.setEnabled(True)
-            self.package2zip_checkBox.setEnabled(True)
-
-
-    def when_listChecking_checkBox_checked(self):
-        if self.listChecking_checkBox.isChecked():
-            self.exportDriverList_checkBox.setEnabled(False)
-            self.exportDriverList_checkBox.setChecked(False)
-            self.package2zip_checkBox.setEnabled(False)
-            self.package2zip_checkBox.setChecked(False)
-        else: 
-            self.exportDriverList_checkBox.setEnabled(True)
-            self.package2zip_checkBox.setEnabled(True)
-
-
-    def when_package2zip_checkBox_checked(self):
-        if self.package2zip_checkBox.isChecked():
-            self.exportDriverList_checkBox.setEnabled(False)
-            self.exportDriverList_checkBox.setChecked(False)
-            self.listChecking_checkBox.setEnabled(False)
-            self.listChecking_checkBox.setChecked(False)
-        else: 
-            self.exportDriverList_checkBox.setEnabled(True)
-            self.listChecking_checkBox.setEnabled(True)      
-
-
-    def when_listChecking_is_enable(self):
-        list_checking_main()
 
 
     def when_package2zip_enable(self, path_info):
@@ -385,9 +342,9 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         wlanbt_azwaveRTK_content = self.wlanbt_AzwaveRTK_lineEdit.text()
         wlanbt_liteonRTK_content = self.wlanbt_liteonRTK_lineEdit.text()
         wlanbt_liteonQualc_content = self.wlanbt_liteonQualc_lineEdit.text()
-        exportDriverList_bool_content = self.exportDriverList_checkBox.isChecked()
-        listChecking_bool_content = self.listChecking_checkBox.isChecked()
-        package2zip_bool_content = self.package2zip_checkBox.isChecked()
+        exportDriverList_bool_content = self.radioButton_exportDriverList.isChecked()
+        listChecking_bool_content = self.radioButton_listChecking.isChecked()
+        # package2zip_bool_content = self.package2zip_checkBox.isChecked()
 
         if self.radio_current_path.isChecked():
             is_current_path = True
@@ -405,7 +362,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("OS_Info/OSBuild", osBuild_content)
         settings.setValue("Other_Setting/ExportDriverList", exportDriverList_bool_content)
         settings.setValue("Other_Setting/ListChecking", listChecking_bool_content)
-        settings.setValue("Other_Setting/Package2Zip", package2zip_bool_content)
+        # settings.setValue("Other_Setting/Package2Zip", package2zip_bool_content)
         settings.setValue("WLANBT_Info/Intel", wlanbt_intel_content)
         settings.setValue("WLANBT_Info/AzwaveMTK", wlanbt_azwaveMTK_content)
         settings.setValue("WLANBT_Info/AzwaveRTK", wlanbt_azwaveRTK_content)
@@ -431,9 +388,9 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.wlanbt_AzwaveRTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveRTK"))
         self.wlanbt_liteonRTK_lineEdit.setText(settings.value("WLANBT_Info/LiteonRTK"))
         self.wlanbt_liteonQualc_lineEdit.setText(settings.value("WLANBT_Info/LiteonQualc"))
-        self.exportDriverList_checkBox.setChecked(str2bool(settings.value("Other_Setting/ExportDriverList")))
-        self.listChecking_checkBox.setChecked(str2bool(settings.value("Other_Setting/ListChecking")))
-        self.package2zip_checkBox.setChecked(str2bool(settings.value("Other_Setting/Package2Zip")))
+        self.radioButton_exportDriverList.setChecked(str2bool(settings.value("Other_Setting/ExportDriverList")))
+        self.radioButton_listChecking.setChecked(str2bool(settings.value("Other_Setting/ListChecking")))
+        #self.package2zip_checkBox.setChecked(str2bool(settings.value("Other_Setting/Package2Zip")))
         is_current_path = str2bool(settings.value("Path_Info/IsCurrentPath")) # 判斷該值是否為True
         if is_current_path:
             self.radio_current_path.setChecked(True)
