@@ -238,6 +238,30 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # 當 Radio Button 狀態變化時，判斷其狀態，並設置 Line Edit 的啟用狀態
         self.enter_path_lineEdit.setEnabled(state)
 
+    def export_driver_list(self):
+        global batch_in_folder_path_list
+        global AUMIDs_in_folder_path_list
+        # Serach all folder at root_folder, Use folder to detect.
+        root_folder = os.listdir(dir_path) # all file and folder under current path
+        package_list = [] # list of root foder
+
+        for i in range(0, len(root_folder)): 
+            realpath_root = os.path.join(dir_path, root_folder[i])
+            # detect is it driverPackage folder or others.(to do fix check function)
+            # The Package_list output format as follow: ['01_Chipset_Intel', '02_ME_Intel', '03_IRST_Intel', '04_SerialIO_Intel', '05_DTT_Intel', '05_ICSS_Intel'... "19_AICamera_Morpho"]
+            if os.path.isdir(realpath_root):
+                if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
+                    package_list.append(root_folder[i])
+
+        # Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
+        # Main output 1: list of bat file path.
+        # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
+        # Those 2 output will feed in wlanbtSelectWindos_ to continue progress,
+        batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, self.path_info)
+
+        self.wlanbtSelectWindos_.show() # enter create list main code
+
+
     # main button
     def when_run_pushButton_click(self):
         global batch_in_folder_path_list
@@ -263,36 +287,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         # TODO Refactor the code this part
         else: 
-            # Serach all folder at root_folder, Use folder to detect.
-            root_folder = os.listdir(dir_path) # all file and folder under current path
-            print(dir_path)
-            print(root_folder)
-            package_list = [] # list of root foder
-
-            for i in range(0, len(root_folder)): 
-                realpath_root = os.path.join(dir_path, root_folder[i])
-                # detect is it driverPackage folder or others.(to do fix check function)
-                # The Package_list output format as follow: ['01_Chipset_Intel', '02_ME_Intel', '03_IRST_Intel', '04_SerialIO_Intel', '05_DTT_Intel', '05_ICSS_Intel'... "19_AICamera_Morpho"]
-                if os.path.isdir(realpath_root):
-                    if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
-                        # self.package_list.append(root_folder[i])
-                        package_list.append(root_folder[i])
-            
-
-            # Batch / AUMIDs file path list, use .bat/ AUMIDs.txt to detect.
-            # TODO bat file exist (maybe todo ...)
-            # Main output 1: list of bat file path.
-            # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
-            # batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(self.package_list)
-            batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, self.path_info)
-            # print("batch: ", batch_in_folder_path_list)
-            # print("AUMID: ", AUMIDs_in_folder_path_list)
-
-            if str2bool(self.other_setting[2]): # zip the package
-                self.when_package2zip_enable(self.path_info)
-
-            else:
-                self.wlanbtSelectWindos_.show() # enter crete list main code
+            self.export_driver_list()
 
 
     def when_package2zip_enable(self, path_info):

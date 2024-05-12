@@ -584,7 +584,6 @@ def batch_and_aumids_file_get(package_list, path_info):
             path_root = package_list[root_i]
         else:
             path_root=os.path.join(path_info[1], package_list[root_i]) # path_info[1] = C:\\Users\\EddieYW_Su\\Desktop\\A5Test
-            print(path_root)
 
         for root, dirs, files in os.walk(path_root):
             for file in files:
