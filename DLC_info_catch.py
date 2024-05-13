@@ -354,6 +354,7 @@ def appName_list_get(item_list_path, aumids_path_list):
     appName_check_list_RealtekConsole = ["realtek", "rtk"]
     appName_check_list_ICPS = ["icps"]
     appName_check_list_Dolby = ["dolby"]
+    appName_check_list_Intelligo = ["intelligo", "inteligo", "igo"]
 
     for i in range(0, len(item_list_path)):
         path_split, folder_root_name, name_split = name_split_get(item_list_path[i])
@@ -377,6 +378,10 @@ def appName_list_get(item_list_path, aumids_path_list):
                     appName_str = "Dolby Access"
                     break
 
+                elif name_split[j] in appName_check_list_Intelligo:
+                    appName_str = "ASUS AI Noise-canceling"
+                    break
+                
                 else:
                     appName_str = "Error"
         else:
