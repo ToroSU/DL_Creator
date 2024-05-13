@@ -51,15 +51,15 @@ wlan_final_path_list = []
 class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
     def __init__(self):
         super(wlanbtSelectWindos, self).__init__()
-        self.setupUi(self)
-        self.tableWidget.setColumnWidth(0, 780)
-        self.tableWidget.cellClicked.connect(self.cell_was_clicked)
-        self.select_pushButton.clicked.connect(self.when_selectButton_click)
-        self.select_pushButton.setEnabled(False) # disable select button until loaddata
-        self.loadData_pushButton.clicked.connect(self.when_loadData_Button_click)
-        self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Please click Load Data button"))
+        # self.setupUi(self)
+        # self.tableWidget.setColumnWidth(0, 780)
+        # self.tableWidget.cellClicked.connect(self.cell_was_clicked)
+        # self.select_pushButton.clicked.connect(self.when_selectButton_click)
+        # self.select_pushButton.setEnabled(False) # disable select button until loaddata
+        # self.loadData_pushButton.clicked.connect(self.when_loadData_Button_click)
+        # self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Please click Load Data button"))
         # initial settings of select_pushButton click 
-        self.wlanbt_button_clicked_count = 0 # for click button countdown
+        # self.wlanbt_button_clicked_count = 0 # for click button countdown
 
 
     def reset_all(self):
@@ -261,6 +261,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         self.wlanbtSelectWindos_.show() # enter create list main code
 
+    def when_addModule_pushButton_click(self):
+        pass
 
     # main button
     def when_run_pushButton_click(self):
@@ -339,15 +341,15 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         customer_content = self.customer_comboBox.currentText()
         projectName_content = self.projectName_lineEdit.text()
         listVersion_content = self.listVersion_lineEdit.text()
-        updateDate_content = self.updateDate_lineEdit.text()
+        # updateDate_content = self.updateDate_lineEdit.text()
         osEdition_content = self.osEdition_lineEdit.text()
         osVersion_content = self.osVersion_lineEdit.text()
         osBuild_content = self.osBuild_lineEdit.text()
-        wlanbt_intel_content = self.wlanbt_intel_lineEdit.text()
-        wlanbt_azwaveMTK_content = self.wlanbt_AzwaveMTK_lineEdit.text()
-        wlanbt_azwaveRTK_content = self.wlanbt_AzwaveRTK_lineEdit.text()
-        wlanbt_liteonRTK_content = self.wlanbt_liteonRTK_lineEdit.text()
-        wlanbt_liteonQualc_content = self.wlanbt_liteonQualc_lineEdit.text()
+        # wlanbt_intel_content = self.wlanbt_intel_lineEdit.text()
+        # wlanbt_azwaveMTK_content = self.wlanbt_AzwaveMTK_lineEdit.text()
+        # wlanbt_azwaveRTK_content = self.wlanbt_AzwaveRTK_lineEdit.text()
+        # wlanbt_liteonRTK_content = self.wlanbt_liteonRTK_lineEdit.text()
+        # wlanbt_liteonQualc_content = self.wlanbt_liteonQualc_lineEdit.text()
         exportDriverList_bool_content = self.radioButton_exportDriverList.isChecked()
         listChecking_bool_content = self.radioButton_listChecking.isChecked()
         # package2zip_bool_content = self.package2zip_checkBox.isChecked()
@@ -362,18 +364,18 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("List_Info/Customer", customer_content)
         settings.setValue("List_Info/ProjectName", projectName_content)
         settings.setValue("List_Info/ListVersion", listVersion_content)
-        settings.setValue("List_Info/UpdateDate", updateDate_content)
+        # settings.setValue("List_Info/UpdateDate", updateDate_content)
         settings.setValue("OS_Info/OSEdition", osEdition_content)
         settings.setValue("OS_Info/OSVersion", osVersion_content)
         settings.setValue("OS_Info/OSBuild", osBuild_content)
         settings.setValue("Other_Setting/ExportDriverList", exportDriverList_bool_content)
         settings.setValue("Other_Setting/ListChecking", listChecking_bool_content)
         # settings.setValue("Other_Setting/Package2Zip", package2zip_bool_content)
-        settings.setValue("WLANBT_Info/Intel", wlanbt_intel_content)
-        settings.setValue("WLANBT_Info/AzwaveMTK", wlanbt_azwaveMTK_content)
-        settings.setValue("WLANBT_Info/AzwaveRTK", wlanbt_azwaveRTK_content)
-        settings.setValue("WLANBT_Info/LiteonRTK", wlanbt_liteonRTK_content)
-        settings.setValue("WLANBT_Info/LiteonQualc", wlanbt_liteonQualc_content)
+        # settings.setValue("WLANBT_Info/Intel", wlanbt_intel_content)
+        # settings.setValue("WLANBT_Info/AzwaveMTK", wlanbt_azwaveMTK_content)
+        # settings.setValue("WLANBT_Info/AzwaveRTK", wlanbt_azwaveRTK_content)
+        # settings.setValue("WLANBT_Info/LiteonRTK", wlanbt_liteonRTK_content)
+        # settings.setValue("WLANBT_Info/LiteonQualc", wlanbt_liteonQualc_content)
         settings.setValue("Path_Info/IsCurrentPath", is_current_path)
         settings.setValue("Path_Info/PackagePath", enter_path_content)
 
@@ -385,15 +387,15 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # if has DLC_config.ini file, load setting in GUI
         self.projectName_lineEdit.setText(settings.value("List_Info/ProjectName"))
         self.listVersion_lineEdit.setText(settings.value("List_Info/ListVersion"))
-        self.updateDate_lineEdit.setText(settings.value("List_Info/UpdateDate"))
+        # self.updateDate_lineEdit.setText(settings.value("List_Info/UpdateDate"))
         self.osEdition_lineEdit.setText(settings.value("OS_Info/OSEdition"))
         self.osVersion_lineEdit.setText(settings.value("OS_Info/OSVersion"))
         self.osBuild_lineEdit.setText(settings.value("OS_Info/OSBuild"))
-        self.wlanbt_intel_lineEdit.setText(settings.value("WLANBT_Info/Intel"))
-        self.wlanbt_AzwaveMTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveMTK"))
-        self.wlanbt_AzwaveRTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveRTK"))
-        self.wlanbt_liteonRTK_lineEdit.setText(settings.value("WLANBT_Info/LiteonRTK"))
-        self.wlanbt_liteonQualc_lineEdit.setText(settings.value("WLANBT_Info/LiteonQualc"))
+        # self.wlanbt_intel_lineEdit.setText(settings.value("WLANBT_Info/Intel"))
+        # self.wlanbt_AzwaveMTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveMTK"))
+        # self.wlanbt_AzwaveRTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveRTK"))
+        # self.wlanbt_liteonRTK_lineEdit.setText(settings.value("WLANBT_Info/LiteonRTK"))
+        # self.wlanbt_liteonQualc_lineEdit.setText(settings.value("WLANBT_Info/LiteonQualc"))
         self.radioButton_exportDriverList.setChecked(str2bool(settings.value("Other_Setting/ExportDriverList")))
         self.radioButton_listChecking.setChecked(str2bool(settings.value("Other_Setting/ListChecking")))
         #self.package2zip_checkBox.setChecked(str2bool(settings.value("Other_Setting/Package2Zip")))

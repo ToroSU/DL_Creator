@@ -6,891 +6,665 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>745</width>
-    <height>623</height>
+    <width>601</width>
+    <height>563</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>DL Creator</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>81</y>
-     <width>101</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <italic>false</italic>
-     <bold>true</bold>
-     <underline>true</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>List Info</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>331</y>
-     <width>101</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-     <underline>true</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>OS Info</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>511</y>
-     <width>161</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-     <underline>true</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Data Source</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>81</y>
-     <width>201</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-     <underline>true</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>WlanBT Module</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>331</y>
-     <width>201</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-     <underline>true</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Other Settings</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>121</y>
-     <width>101</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Customer:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>161</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Project Name:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_8">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>201</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>List Version:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_9">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>241</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Update Date:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_10">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>371</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>OS Edition:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>411</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>OS Version:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_12">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>451</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>OS Build:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_13">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>551</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Source:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_14">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>121</y>
-     <width>101</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Intel:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_15">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>161</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>AzWave MTK:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_16">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>201</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>AzWave RTK</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_17">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>241</y>
-     <width>101</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Liteon RTK:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_18">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>281</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Liteon Qualc.:</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="customer_comboBox">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>131</y>
-     <width>151</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <item>
-    <property name="text">
-     <string>Asus</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Gigabyte</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLineEdit" name="projectName_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>171</y>
-     <width>151</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="placeholderText">
-    <string>e.g. A5402_A5702WVAR</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="listVersion_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>211</y>
-     <width>151</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="placeholderText">
-    <string>e.g. 2.00</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="updateDate_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>251</y>
-     <width>151</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="placeholderText">
-    <string>e.g. 2024/05/06</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="osEdition_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>381</y>
-     <width>151</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="placeholderText">
-    <string>e.g. Win11</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="osVersion_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>421</y>
-     <width>151</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="placeholderText">
-    <string>e.g. 23H2</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="osBuild_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>461</y>
-     <width>151</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="placeholderText">
-    <string>e.g. 22631.2861</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox_2">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>560</y>
-     <width>161</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <item>
-    <property name="text">
-     <string>From Package</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>From System</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_intel_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>131</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="placeholderText">
-    <string>e.g. Ax211, Be200</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_AzwaveMTK_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>171</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="placeholderText">
-    <string>e.g. MT7921, MT7922</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_AzwaveRTK_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>211</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_liteonRTK_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>251</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="wlanbt_liteonQualc_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>291</y>
-     <width>221</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="run_pushButton">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>551</y>
-     <width>141</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Run</string>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="path_groupBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
+     <x>9</x>
      <y>10</y>
-     <width>471</width>
-     <height>71</height>
+     <width>585</width>
+     <height>552</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="title">
-    <string>GroupBox</string>
-   </property>
-   <widget class="QRadioButton" name="radio_current_path">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>121</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Verdana</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Current Path</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radio_enter_path">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>40</y>
-      <width>121</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Verdana</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Enter Path:</string>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="enter_path_lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>40</y>
-      <width>321</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Verdana</family>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QLabel" name="label_sow_date">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>10</y>
-     <width>230</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-     <weight>50</weight>
-     <italic>true</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>SOW Date : 2024/05</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_sow_date_2">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>30</y>
-     <width>230</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-     <weight>50</weight>
-     <italic>true</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>Driver List Templet Version : v3</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_sow_date_3">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>50</y>
-     <width>230</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <pointsize>8</pointsize>
-     <weight>50</weight>
-     <italic>true</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>ODM Driver 宣導事項 : 20240502 </string>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="groupBox">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>380</y>
-     <width>181</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="title">
-    <string>Mode Select</string>
-   </property>
-   <widget class="QRadioButton" name="radioButton_exportDriverList">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>131</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Export Driver List</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_listChecking">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>101</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>List Checking</string>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout_21">
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QGroupBox" name="path_groupBox">
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>Path Select</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0" colspan="2">
+            <widget class="QRadioButton" name="radio_current_path">
+             <property name="font">
+              <font>
+               <family>Calibri</family>
+               <pointsize>12</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Current Path</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radio_enter_path">
+             <property name="font">
+              <font>
+               <family>Calibri</family>
+               <pointsize>12</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Enter Path:</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="enter_path_lineEdit">
+             <property name="font">
+              <font>
+               <family>Calibri</family>
+               <pointsize>12</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>SOW Info</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_sow_date">
+             <property name="font">
+              <font>
+               <family>Verdana</family>
+               <pointsize>8</pointsize>
+               <weight>50</weight>
+               <italic>true</italic>
+               <bold>false</bold>
+               <underline>false</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>SOW Date : 2024/05</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_sow_date_2">
+             <property name="font">
+              <font>
+               <family>Verdana</family>
+               <pointsize>8</pointsize>
+               <weight>50</weight>
+               <italic>true</italic>
+               <bold>false</bold>
+               <underline>false</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>Driver List Templet Version : v3</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_sow_date_3">
+             <property name="font">
+              <font>
+               <family>Verdana</family>
+               <pointsize>8</pointsize>
+               <weight>50</weight>
+               <italic>true</italic>
+               <bold>false</bold>
+               <underline>false</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>ODM Driver 宣導事項 : 20240502 </string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Driver List</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_20">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_19">
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_14">
+            <item row="0" column="0">
+             <layout class="QGridLayout" name="gridLayout_13">
+              <item row="0" column="0">
+               <widget class="QGroupBox" name="groupBox_2">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <italic>false</italic>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="title">
+                 <string>List Info</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_10">
+                 <item row="0" column="0">
+                  <layout class="QGridLayout" name="gridLayout_9">
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_6">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Customer:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QComboBox" name="customer_comboBox">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Asus</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Gigabyte</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_7">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Project Name:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="projectName_lineEdit">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="placeholderText">
+                      <string>e.g. A5402_A5702WVAR</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_8">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>List Version:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="listVersion_lineEdit">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="placeholderText">
+                      <string>e.g. 2.00</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_9">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Update Date:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QDateEdit" name="dateEdit_updateDate">
+                     <property name="font">
+                      <font>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="displayFormat">
+                      <string>yyyy/MM/dd</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QGroupBox" name="groupBox_3">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="title">
+                 <string>OS Info</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_8">
+                 <item row="0" column="0">
+                  <layout class="QGridLayout" name="gridLayout_7">
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_10">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>OS Edition:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="osEdition_lineEdit">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="placeholderText">
+                      <string>e.g. Win11</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_11">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>OS Version:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="osVersion_lineEdit">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="placeholderText">
+                      <string>e.g. 23H2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_12">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>OS Build:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="osBuild_lineEdit">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="placeholderText">
+                      <string>e.g. 22631.2861</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="0" column="1">
+             <widget class="QGroupBox" name="groupBox_4">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="title">
+               <string>Wlan/BT Info</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_12">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_11">
+                 <item row="0" column="0">
+                  <widget class="QPushButton" name="pushButton_addModule">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="text">
+                    <string>Add Module</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QTableView" name="tableView_wlanbt">
+                   <property name="font">
+                    <font>
+                     <family>Calibri</family>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QGroupBox" name="groupBox">
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="title">
+               <string>Mode Select</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_6">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_5">
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="horizontalSpacing">
+                  <number>6</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QRadioButton" name="radioButton_exportDriverList">
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Export Driver List</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QRadioButton" name="radioButton_listChecking">
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>List Checking</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="run_pushButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Run</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Packing</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_18">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_17">
+          <item row="0" column="0">
+           <widget class="QGroupBox" name="groupBox_6">
+            <property name="title">
+             <string>Zip / unZip</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_16">
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_15">
+               <item row="0" column="0">
+                <widget class="QRadioButton" name="radioButton">
+                 <property name="text">
+                  <string>Zip to Package</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QRadioButton" name="radioButton_2">
+                 <property name="text">
+                  <string>Unzip</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="text">
+             <string>Run</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
