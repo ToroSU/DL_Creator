@@ -51,141 +51,34 @@ wlan_final_path_list = []
 class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
     def __init__(self):
         super(wlanbtSelectWindos, self).__init__()
-        # self.setupUi(self)
-        # self.tableWidget.setColumnWidth(0, 780)
-        # self.tableWidget.cellClicked.connect(self.cell_was_clicked)
-        # self.select_pushButton.clicked.connect(self.when_selectButton_click)
-        # self.select_pushButton.setEnabled(False) # disable select button until loaddata
-        # self.loadData_pushButton.clicked.connect(self.when_loadData_Button_click)
-        # self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Please click Load Data button"))
-        # initial settings of select_pushButton click 
-        # self.wlanbt_button_clicked_count = 0 # for click button countdown
+        self.setupUi(self)
+        self.tableWidget_wlan_package_select.setColumnWidth(0, 500)
+        self.tableWidget_bt_package_select.setColumnWidth(0, 500)
+        self.tableWidget_wlan_package_select.cellClicked.connect(self.wlan_cell_was_clicked)
+        self.tableWidget_bt_package_select.cellClicked.connect(self.bt_cell_was_clicked)
+        self.pushButton_wlanbt_confirm.clicked.connect(self.when_confirm_buttom_clicked)
+
+    def loaddata(self, wlanbt_list_realpath, wlanbt_list_for_gui):
+        # set path to GUI
+        self.tableWidget_wlan_package_select.setRowCount(len(wlanbt_list_for_gui))
+        self.tableWidget_bt_package_select.setRowCount(len(wlanbt_list_for_gui))
+        for row in range(0, len(wlanbt_list_for_gui)):
+            self.tableWidget_wlan_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlanbt_list_for_gui[row]))
+            self.tableWidget_bt_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlanbt_list_for_gui[row]))
 
 
-    def reset_all(self):
-        global batch_in_folder_path_list
-        global AUMIDs_in_folder_path_list
-        global wlan_final_item_list
-        global wlan_final_path_list
-        global first_click_loaddate
-
-        # initial settings of select_pushButton click 
-        self.wlanbt_button_clicked_count = 0 # for click button countdown
-        # reset variable, reset select window label
-        first_click_loaddate = True
-        batch_in_folder_path_list = []
-        AUMIDs_in_folder_path_list = []
-        wlan_final_item_list = []
-        wlan_final_path_list = []
-        self.wlanbt_button_clicked_count = 0
-        self.select_pushButton.setEnabled(False)
-
-        if self.wlanbt_total_count != 0: # reset label when config file have Wlan/BT module
-            self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[0][0]])
-            self.function_label.setText(self.used_wlanbt_module[0][1])
-            self.module_label.setText(self.used_wlanbt_module[0][2])
-        
-        while self.tableWidget.rowCount() > 1: # clear tablewidget
-            self.tableWidget.removeRow(0)
-
-        self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Please click Load Data button"))
-        print("Reset variable")
+    def when_confirm_buttom_clicked(self):
+        print("Wlan Folder: ", self.temp_string_wlan)
+        print("BT Folder: ", self.temp_string_bt)
 
 
-    def loaddata(self):
-        global batch_in_folder_path_list
-        self.wlanbt_list_for_gui = DLC_info_catch.search_wlanbt(batch_in_folder_path_list)
-        self.tableWidget.setRowCount(len(self.wlanbt_list_for_gui))
-        for row in range(0, len(self.wlanbt_list_for_gui)):
-            self.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(self.wlanbt_list_for_gui[row]))
+    def wlan_cell_was_clicked(self, row, column):
+        wlan_item = self.tableWidget_wlan_package_select.item(row, column)
+        self.temp_string_wlan = wlan_item.text()
 
-
-    def when_loadData_Button_click(self):
-        # if click "Load Data" button, reset settings of select_pushButton 
-        global wlan_final_item_list
-        global wlan_final_path_list
-        global first_click_loaddate
-        self.select_pushButton.setEnabled(True) 
-
-        # after click run button load all config settings 
-        self.list_info, self.os_info, self.other_setting, self.wlanbt_info, self.path_info= DLC_config_reader_main()
-
-        # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
-        self.used_wlanbt_module, self.wlanbt_total_count = DLC_info_catch.obtain_used_module(self.wlanbt_info)
-
-        
-        # case: without wlanbt module, call function complete_and_create_list, create list, return 0
-        if self.wlanbt_total_count == 0:
-            QMessageBox.about(self, "WARNING", "No Wlan/BT module in config.ini")
-            self.complete_and_create_list()
-            return 0 
-
-        self.wlanbt_button_clicked_count = 0
-        wlan_final_item_list = []
-        wlan_final_path_list = []
-        # 第一次按 load data按鈕才會把值寫入 tableWidget， 按save button的話則重置 first_click_loaddate
-        if first_click_loaddate:
-            self.loaddata()
-            first_click_loaddate = False
-        else:
-            print("Reset")
-            
-        # set label
-        # used_wlanbt_module e.g. [[0, 0, 'Ax201'], [0, 1, 'Ax211'], [1, 0, 'MT7921'], [1, 1, 'MT7922']]
-        # self.wlanbt_button_clicked_count : e.g. count 0~7 (wlan and bt)
-        self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[0][0]])
-        self.function_label.setText(self.used_wlanbt_module[0][1])
-        self.module_label.setText(self.used_wlanbt_module[0][2])
-
-
-    def when_selectButton_click(self):
-        global wlan_final_item_list
-        global wlan_final_path_list
-        global batch_in_folder_path_list
-        global AUMIDs_in_folder_path_list
-        global dir_path
-
-        # after click run button load all config settings 
-        # self.list_info, self.os_info, self.other_setting, self.wlanbt_info = DLC_config_reader_main()
-        # obtain used wlanbt module, output: [[0, "Wlan", "Ax201"], [0, "Bluetooth", "Ax201"]....]
-        self.used_wlanbt_module, self.wlanbt_total_count = DLC_info_catch.obtain_used_module(self.wlanbt_info)
-        print("wlan_final_item_list: ", wlan_final_item_list)
-        print("wlan_final_path_list: ", wlan_final_path_list)
-
-        if self.wlanbt_button_clicked_count == 0:
-            final_item_name = self.used_wlanbt_module[self.wlanbt_button_clicked_count][1] + "({})".format(self.used_wlanbt_module[self.wlanbt_button_clicked_count][2])
-            wlan_final_item_list.append(final_item_name)
-            wlan_final_path_list.append(self.temp_string)
-
-        if  self.wlanbt_button_clicked_count > 0 and self.wlanbt_button_clicked_count < self.wlanbt_total_count : # 用來檢查是否點完module 
-            # print(used_wlanbt_module[self.wlanbt_button_clicked_count] ,self.temp_string)
-            # used_wlanbt_module e.g. [[0, 0, 'Ax201'], [0, 1, 'Ax211'], [1, 0, 'MT7921'], [1, 1, 'MT7922']]
-
-            final_item_name = self.used_wlanbt_module[self.wlanbt_button_clicked_count][1] + "({})".format(self.used_wlanbt_module[self.wlanbt_button_clicked_count][2])
-            wlan_final_item_list.append(final_item_name)
-            wlan_final_path_list.append(self.temp_string)
-
-            #最後一個module按完後 關閉wlanbt選擇視窗, 並return 0 結束函數 (同時避免做接下來的setText)
-            if self.wlanbt_button_clicked_count == self.wlanbt_total_count-1: # -1 cause counter is 0 to odd end
-                QMessageBox.about(self, "WlanBT Save", "Save Successfully")
-
-                # TODO 暫時將程式結尾放在這邊，後續換好一點的位置，海景第一排
-                self.complete_and_create_list()
-                return 0
-
-        # 按下按鈕執行完後，計數+1，並設置下一個vendor/ module label      
-        self.wlanbt_button_clicked_count += 1
-        # set label
-        # used_wlanbt_module e.g. [[0, 0, 'Ax201'], [0, 1, 'Ax211'], [1, 0, 'MT7921'], [1, 1, 'MT7922']]
-        # self.wlanbt_button_clicked_count : e.g. count 0~7 (wlan and bt)
-        self.vendor_label.setText(wlanbt_module_name_list[self.used_wlanbt_module[self.wlanbt_button_clicked_count][0]])
-        self.function_label.setText(self.used_wlanbt_module[self.wlanbt_button_clicked_count][1])
-        self.module_label.setText(self.used_wlanbt_module[self.wlanbt_button_clicked_count][2])
-
-
-    def cell_was_clicked(self, row, column):
-        item = self.tableWidget.item(row, column)
-        self.temp_string = item.text()
+    def bt_cell_was_clicked(self, row, column):
+        bt_item = self.tableWidget_bt_package_select.item(row, column)
+        self.temp_string_bt = bt_item.text()   
 
     
     def complete_and_create_list(self):
@@ -204,7 +97,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             QMessageBox.about(self, "Export List", "\nExportDriverList= {},\ndo not export excel files.".format(self.other_setting[0]))
         
         # reset all
-        self.reset_all()
+        # self.reset_all()
         self.close() # close wlanbt select window
         return 0  # exit
 
@@ -233,6 +126,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
     
         # run button click
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
+        self.pushButton_addModule.clicked.connect(self.when_addModule_pushButton_click)
         
     def toggle_line_edit(self, state):
         # 當 Radio Button 狀態變化時，判斷其狀態，並設置 Line Edit 的啟用狀態
@@ -259,10 +153,34 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # Those 2 output will feed in wlanbtSelectWindos_ to continue progress,
         batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, self.path_info)
 
-        self.wlanbtSelectWindos_.show() # enter create list main code
+        # self.wlanbtSelectWindos_.show() # enter create list main code
 
     def when_addModule_pushButton_click(self):
-        pass
+        if self.radio_current_path.isChecked():
+            isCurrentPath = True
+            local_dir_path = os.getcwd()
+        elif self.radio_enter_path.isChecked():
+            isCurrentPath = False
+            local_dir_path = self.enter_path_lineEdit.text()
+
+        root_folder = os.listdir(local_dir_path) # all file and folder under current path
+        package_list = [] # list of root foder
+
+        for i in range(0, len(root_folder)): 
+            realpath_root = os.path.join(local_dir_path, root_folder[i])
+            # print(realpath_root)
+            # detect is it driverPackage folder or others.(to do fix check function)
+            # The Package_list output format as follow: ['01_Chipset_Intel', '02_ME_Intel', '03_IRST_Intel', '04_SerialIO_Intel', '05_DTT_Intel', '05_ICSS_Intel'... "19_AICamera_Morpho"]
+            if os.path.isdir(realpath_root):
+                if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
+                    package_list.append(root_folder[i])
+        
+        batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, [isCurrentPath, local_dir_path])
+        wlanbt_list_realpath = DLC_info_catch.search_wlanbt(batch_in_folder_path_list) # format: List
+        wlanbt_list_for_gui = [os.path.join(os.path.basename(os.path.dirname(path)), os.path.basename(path)) for path in wlanbt_list_realpath] # 將完整path列表解析成最末尾兩個Path   
+        
+        self.wlanbtSelectWindos_.loaddata(wlanbt_list_realpath, wlanbt_list_for_gui)
+        self.wlanbtSelectWindos_.show()
 
     # main button
     def when_run_pushButton_click(self):
@@ -370,12 +288,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("OS_Info/OSBuild", osBuild_content)
         settings.setValue("Other_Setting/ExportDriverList", exportDriverList_bool_content)
         settings.setValue("Other_Setting/ListChecking", listChecking_bool_content)
-        # settings.setValue("Other_Setting/Package2Zip", package2zip_bool_content)
-        # settings.setValue("WLANBT_Info/Intel", wlanbt_intel_content)
-        # settings.setValue("WLANBT_Info/AzwaveMTK", wlanbt_azwaveMTK_content)
-        # settings.setValue("WLANBT_Info/AzwaveRTK", wlanbt_azwaveRTK_content)
-        # settings.setValue("WLANBT_Info/LiteonRTK", wlanbt_liteonRTK_content)
-        # settings.setValue("WLANBT_Info/LiteonQualc", wlanbt_liteonQualc_content)
         settings.setValue("Path_Info/IsCurrentPath", is_current_path)
         settings.setValue("Path_Info/PackagePath", enter_path_content)
 
@@ -391,11 +303,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.osEdition_lineEdit.setText(settings.value("OS_Info/OSEdition"))
         self.osVersion_lineEdit.setText(settings.value("OS_Info/OSVersion"))
         self.osBuild_lineEdit.setText(settings.value("OS_Info/OSBuild"))
-        # self.wlanbt_intel_lineEdit.setText(settings.value("WLANBT_Info/Intel"))
-        # self.wlanbt_AzwaveMTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveMTK"))
-        # self.wlanbt_AzwaveRTK_lineEdit.setText(settings.value("WLANBT_Info/AzwaveRTK"))
-        # self.wlanbt_liteonRTK_lineEdit.setText(settings.value("WLANBT_Info/LiteonRTK"))
-        # self.wlanbt_liteonQualc_lineEdit.setText(settings.value("WLANBT_Info/LiteonQualc"))
         self.radioButton_exportDriverList.setChecked(str2bool(settings.value("Other_Setting/ExportDriverList")))
         self.radioButton_listChecking.setChecked(str2bool(settings.value("Other_Setting/ListChecking")))
         #self.package2zip_checkBox.setChecked(str2bool(settings.value("Other_Setting/Package2Zip")))

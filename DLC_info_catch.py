@@ -114,7 +114,7 @@ def search_wlanbt(package_list_):
     wlanbt_list_for_gui = []
     for i in range(0, len(package_list_)):
         path_split, folder_root_name, name_split = name_split_get(package_list_[i])
-        if "WLANBT" in name_split:
+        if any("wlanbt" in s.lower() for s in name_split):
             wlanbt_list_for_gui.append(package_list_[i])
     return wlanbt_list_for_gui
 
