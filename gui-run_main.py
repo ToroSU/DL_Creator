@@ -52,24 +52,30 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
     def __init__(self):
         super(wlanbtSelectWindos, self).__init__()
         self.setupUi(self)
-        self.tableWidget_wlan_package_select.setColumnWidth(0, 500)
-        self.tableWidget_bt_package_select.setColumnWidth(0, 500)
+        self.tableWidget_wlan_package_select.setColumnWidth(0, 400)
+        self.tableWidget_bt_package_select.setColumnWidth(0, 400)
         self.tableWidget_wlan_package_select.cellClicked.connect(self.wlan_cell_was_clicked)
         self.tableWidget_bt_package_select.cellClicked.connect(self.bt_cell_was_clicked)
         self.pushButton_wlanbt_confirm.clicked.connect(self.when_confirm_buttom_clicked)
 
-    def loaddata(self, wlanbt_list_realpath, wlanbt_list_for_gui):
+    def loaddata(self, wlan_path_list):
         # set path to GUI
-        self.tableWidget_wlan_package_select.setRowCount(len(wlanbt_list_for_gui))
-        self.tableWidget_bt_package_select.setRowCount(len(wlanbt_list_for_gui))
-        for row in range(0, len(wlanbt_list_for_gui)):
-            self.tableWidget_wlan_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlanbt_list_for_gui[row]))
-            self.tableWidget_bt_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlanbt_list_for_gui[row]))
+        self.tableWidget_wlan_package_select.setRowCount(len(wlan_path_list[1]))
+        self.tableWidget_bt_package_select.setRowCount(len(wlan_path_list[1]))
+        for row in range(0, len(wlan_path_list[1])):
+            self.tableWidget_wlan_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlan_path_list[1][row]))
+            self.tableWidget_bt_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlan_path_list[1][row]))
 
 
     def when_confirm_buttom_clicked(self):
-        print("Wlan Folder: ", self.temp_string_wlan)
-        print("BT Folder: ", self.temp_string_bt)
+        try:
+            vendor_name = self.comboBox_vender_select.currentText()
+            module_name = self.lineEdit_module_name.text()
+
+        except:
+            QMessageBox.about(self, "Error: Null values found", "Please check the following items for empty fields.: \n{} \n{} \n{}".format("1. Module", "2. Wlan Package", "3. BT Package"))
+            return 0
+            
 
 
     def wlan_cell_was_clicked(self, row, column):
@@ -127,7 +133,17 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # run button click
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
         self.pushButton_addModule.clicked.connect(self.when_addModule_pushButton_click)
-        
+    
+
+    def insert_data(self, tableView_wlanbt, data):
+        row0 = data[0] if len(data) else []
+        tableView_wlanbt.setRowCount(len(data))
+        tableView_wlanbt.setColumnCount(len(row0))
+        for r, row in enumerate(data):
+            for c, item in enumerate(row):
+                tableView_wlanbt.setItem(r, c, QtWidgets.QTableWidgetItem(str(item))
+
+
     def toggle_line_edit(self, state):
         # 當 Radio Button 狀態變化時，判斷其狀態，並設置 Line Edit 的啟用狀態
         self.enter_path_lineEdit.setEnabled(state)
@@ -163,23 +179,31 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             isCurrentPath = False
             local_dir_path = self.enter_path_lineEdit.text()
 
-        root_folder = os.listdir(local_dir_path) # all file and folder under current path
-        package_list = [] # list of root foder
+        if os.path.exists(local_dir_path):
+            root_folder = os.listdir(local_dir_path) # all file and folder under current path
+            package_list = [] # list of root foder        
 
-        for i in range(0, len(root_folder)): 
-            realpath_root = os.path.join(local_dir_path, root_folder[i])
-            # print(realpath_root)
-            # detect is it driverPackage folder or others.(to do fix check function)
-            # The Package_list output format as follow: ['01_Chipset_Intel', '02_ME_Intel', '03_IRST_Intel', '04_SerialIO_Intel', '05_DTT_Intel', '05_ICSS_Intel'... "19_AICamera_Morpho"]
-            if os.path.isdir(realpath_root):
-                if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
-                    package_list.append(root_folder[i])
-        
+            for i in range(0, len(root_folder)): 
+                realpath_root = os.path.join(local_dir_path, root_folder[i])
+                # print(realpath_root)
+                # detect is it driverPackage folder or others.(to do fix check function)
+                # The Package_list output format as follow: ['01_Chipset_Intel', '02_ME_Intel', '03_IRST_Intel', '04_SerialIO_Intel', '05_DTT_Intel', '05_ICSS_Intel'... "19_AICamera_Morpho"]
+                if os.path.isdir(realpath_root):
+                    if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
+                        package_list.append(root_folder[i])
+        else:
+            QMessageBox.about(self, "Path Error", "The path isn't exist.")
+            return 0
+
         batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, [isCurrentPath, local_dir_path])
         wlanbt_list_realpath = DLC_info_catch.search_wlanbt(batch_in_folder_path_list) # format: List
         wlanbt_list_for_gui = [os.path.join(os.path.basename(os.path.dirname(path)), os.path.basename(path)) for path in wlanbt_list_realpath] # 將完整path列表解析成最末尾兩個Path   
         
-        self.wlanbtSelectWindos_.loaddata(wlanbt_list_realpath, wlanbt_list_for_gui)
+        wlan_path_list = [] # output: [[realpath_1, realpath_2, ...], [forGuiPath_1, forGuiPath_2, ...]]
+        wlan_path_list.append(wlanbt_list_realpath)
+        wlan_path_list.append(wlanbt_list_for_gui)
+
+        self.wlanbtSelectWindos_.loaddata(wlan_path_list)
         self.wlanbtSelectWindos_.show()
 
     # main button
