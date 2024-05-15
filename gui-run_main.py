@@ -68,8 +68,8 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
     def set_to_wlanbt_tableview(self, modules_list_temp):
         #TODO: add module 24/05/15
         row_count = len(modules_list_temp)
-        self.model = QStandardItemModel(row_count * 2, 4)  # 每個模組有兩行，一個用於WLAN，一個用於BT
-        self.model.setHorizontalHeaderLabels(["Vendor", "Module", "Function", "Package"])
+        self.model = QStandardItemModel(row_count * 2, 5)  # 每個模組有兩行，一個用於WLAN，一個用於BT
+        self.model.setHorizontalHeaderLabels(["Vendor", "Module", "Function", "Package", "Path"])
 
         for i in range(row_count):
             vendor_item = QStandardItem(modules_list_temp[i][0])
@@ -83,6 +83,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             self.model.setItem(wlan_row, 2, function_item_WLAN)
             temp_list = (modules_list_temp[i][3].split("\\"))[1] # 僅取 package folder name
             self.model.setItem(wlan_row, 3, QStandardItem(temp_list))
+            self.model.setItem(wlan_row, 4, QStandardItem(modules_list_temp[i][2]))
 
             # 設置BT行的資訊
             bt_row = i * 2 + 1
@@ -92,6 +93,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             self.model.setItem(bt_row, 2, function_item_BT)
             temp_list = (modules_list_temp[i][5].split("\\"))[1] # 僅取 package folder name
             self.model.setItem(bt_row, 3, QStandardItem(temp_list))
+            self.model.setItem(bt_row, 4, QStandardItem(modules_list_temp[i][4]))
 
         self.tableView_wlanbt.setModel(self.model)
         self.tableView_wlanbt.resizeColumnsToContents()
@@ -178,9 +180,10 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # 監聽 Radio Button 的狀態變化，並連接槽函數
         self.radio_enter_path.toggled.connect(self.toggle_line_edit)
 
-        self.model = QStandardItemModel(1,4)
-        self.model.setHorizontalHeaderLabels(["Vender", "Module", "Function", "Path"])
-        self.tableView_wlanbt.setModel(self.model)
+        #TODO: load config.ini貼上
+        # self.model = QStandardItemModel(1, 5)
+        # self.model.setHorizontalHeaderLabels(["Vender", "Module", "Function", "Package", "Path"])
+        # self.tableView_wlanbt.setModel(self.model)
 
 
         # greeting message
