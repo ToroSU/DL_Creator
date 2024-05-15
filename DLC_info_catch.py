@@ -592,7 +592,7 @@ def batch_and_aumids_file_get(package_list, path_info):
 
         for root, dirs, files in os.walk(path_root):
             for file in files:
-                if file.lower() == "install.bat" and file not in bat_check_list: # != sileninstall 是因為有些資料夾內含這種雜七雜八，後續看怎麼優化。
+                if file.lower() == "install.bat" and file not in bat_check_list: 
                     bat_root_checkpoint = root
                     batch_in_folder_path_list.append(root) # e.g. 14_WLANBT_Azwave_MTK\BT\BT_Azwave_MTK_MT7921_1.3.15.143
                     if not aumid_check: 

@@ -1,19 +1,14 @@
 from genericpath import isfile
-import sys
-import os
+import sys, os, re, time, shutil
 from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWidgets import QApplication, QMessageBox, QProgressDialog, QTableView
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QApplication, QMessageBox, QProgressDialog
 from PyQt5.QtGui import *
 from Ui_GUI_ import Ui_Form
-import DLC_info_catch
+import DLC_info_catch, DLC_list_checking
 from DLC_list2excel import create_list
-import DLC_list_checking
 from DLC_config_reader import DLC_config_reader_main
-import os
-import time
 from Ui_wlanbt_select import Ui_wlanbt_select_Form
-import shutil
 
 
 ## def function
@@ -41,15 +36,15 @@ settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 
 # for wlanbt set
 first_click_loaddate = True
-wlanbt_module_name_list = ["Intel", "AzureWave MTK", "AzureWave RTK", "Liteon RTK", "Liteon Qualc."]
 batch_in_folder_path_list = []
 AUMIDs_in_folder_path_list = []
 wlan_final_item_list = []
 wlan_final_path_list = []
+modules_list_temp = []
 
 
 class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
-    def __init__(self):
+    def __init__(self, table_view):
         super(wlanbtSelectWindos, self).__init__()
         self.setupUi(self)
         self.tableWidget_wlan_package_select.setColumnWidth(0, 400)
@@ -58,33 +53,93 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.tableWidget_bt_package_select.cellClicked.connect(self.bt_cell_was_clicked)
         self.pushButton_wlanbt_confirm.clicked.connect(self.when_confirm_buttom_clicked)
 
-    def loaddata(self, wlan_path_list):
+        # Set the tableView_wlanbt from the parameter
+        self.tableView_wlanbt = table_view
+        
+    def loaddata(self, wlanbt_path_list):
         # set path to GUI
-        self.tableWidget_wlan_package_select.setRowCount(len(wlan_path_list[1]))
-        self.tableWidget_bt_package_select.setRowCount(len(wlan_path_list[1]))
-        for row in range(0, len(wlan_path_list[1])):
-            self.tableWidget_wlan_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlan_path_list[1][row]))
-            self.tableWidget_bt_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlan_path_list[1][row]))
+        self.tableWidget_wlan_package_select.setRowCount(len(wlanbt_path_list[1]))
+        self.tableWidget_bt_package_select.setRowCount(len(wlanbt_path_list[1]))
+        for row in range(0, len(wlanbt_path_list[1])):
+            self.tableWidget_wlan_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlanbt_path_list[1][row]))
+            self.tableWidget_bt_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlanbt_path_list[1][row]))
+
+
+    def set_to_wlanbt_tableview(self, modules_list_temp):
+        #TODO: add module 24/05/15
+        row_count = len(modules_list_temp)
+        self.model = QStandardItemModel(row_count * 2, 4)  # 每個模組有兩行，一個用於WLAN，一個用於BT
+        self.model.setHorizontalHeaderLabels(["Vendor", "Module", "Function", "Package"])
+
+        for i in range(row_count):
+            vendor_item = QStandardItem(modules_list_temp[i][0])
+            module_item = QStandardItem(modules_list_temp[i][1])
+
+            # 設置WLAN行的資訊
+            wlan_row = i * 2
+            function_item_WLAN = QStandardItem("WLAN")  # 在每次迴圈中創建新的物件
+            self.model.setItem(wlan_row, 0, vendor_item)
+            self.model.setItem(wlan_row, 1, module_item)
+            self.model.setItem(wlan_row, 2, function_item_WLAN)
+            temp_list = (modules_list_temp[i][3].split("\\"))[1] # 僅取 package folder name
+            self.model.setItem(wlan_row, 3, QStandardItem(temp_list))
+
+            # 設置BT行的資訊
+            bt_row = i * 2 + 1
+            function_item_BT = QStandardItem("BT")  # 在每次迴圈中創建新的物件
+            self.model.setItem(bt_row, 0, vendor_item.clone())  # 使用clone方法以避免相同對象的重複添加
+            self.model.setItem(bt_row, 1, module_item.clone())
+            self.model.setItem(bt_row, 2, function_item_BT)
+            temp_list = (modules_list_temp[i][5].split("\\"))[1] # 僅取 package folder name
+            self.model.setItem(bt_row, 3, QStandardItem(temp_list))
+
+        self.tableView_wlanbt.setModel(self.model)
+        self.tableView_wlanbt.resizeColumnsToContents()
+
+    def testing_function(self, testarg):
+        for i in range(0, len(testarg)):
+            print(testarg[i])
+
 
 
     def when_confirm_buttom_clicked(self):
+        global modules_list_temp
+        
         try:
             vendor_name = self.comboBox_vender_select.currentText()
             module_name = self.lineEdit_module_name.text()
+            module_name = re.sub(r"\s+", "", module_name) # remove white space
+            module_name_split = module_name.split(",") # e.g.:["Ax211", "Be200"]
 
-        except:
+            for i in range(0, len(module_name_split)): # format: [Vendor, Module, wlan_real_path, wlan_gui_path, bt_real_path, bt_gui_path]
+                modules_info_str_temp = (vendor_name, module_name_split[i], wlanbt_path_list[0][self.wlan_row], 
+                                                                            wlanbt_path_list[1][self.wlan_row], 
+                                                                            wlanbt_path_list[0][self.bt_row],
+                                                                            wlanbt_path_list[1][self.bt_row])
+                modules_list_temp.append(modules_info_str_temp)
+
+
+            try:
+                self.set_to_wlanbt_tableview(modules_list_temp)
+
+            except Exception:
+                print("set table error")
+
+        except Exception : # if error values found
             QMessageBox.about(self, "Error: Null values found", "Please check the following items for empty fields.: \n{} \n{} \n{}".format("1. Module", "2. Wlan Package", "3. BT Package"))
             return 0
             
 
 
     def wlan_cell_was_clicked(self, row, column):
-        wlan_item = self.tableWidget_wlan_package_select.item(row, column)
-        self.temp_string_wlan = wlan_item.text()
+        # wlan_item = self.tableWidget_wlan_package_select.item(row, column)
+        # self.temp_string_wlan = wlan_item.text()
+        self.wlan_row = row
 
     def bt_cell_was_clicked(self, row, column):
-        bt_item = self.tableWidget_bt_package_select.item(row, column)
-        self.temp_string_bt = bt_item.text()   
+        # bt_item = self.tableWidget_bt_package_select.item(row, column)
+        # self.temp_string_bt = bt_item.text()   
+        self.bt_row = row
 
     
     def complete_and_create_list(self):
@@ -116,11 +171,17 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         #這裡需要過載一下mywindow，同時也包含了QtWidgets.QMainWindow的預載入項。
         super(mywindow, self).__init__()
         self.setupUi(self)
-        self.wlanbtSelectWindos_ = wlanbtSelectWindos()
+        # self.wlanbtSelectWindos_ = wlanbtSelectWindos()
+        self.wlanbtSelectWindos_ = wlanbtSelectWindos(self.tableView_wlanbt)
         self.enter_path_lineEdit.setEnabled(False)
 
         # 監聽 Radio Button 的狀態變化，並連接槽函數
         self.radio_enter_path.toggled.connect(self.toggle_line_edit)
+
+        self.model = QStandardItemModel(1,4)
+        self.model.setHorizontalHeaderLabels(["Vender", "Module", "Function", "Path"])
+        self.tableView_wlanbt.setModel(self.model)
+
 
         # greeting message
         cls()
@@ -133,15 +194,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # run button click
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
         self.pushButton_addModule.clicked.connect(self.when_addModule_pushButton_click)
-    
-
-    def insert_data(self, tableView_wlanbt, data):
-        row0 = data[0] if len(data) else []
-        tableView_wlanbt.setRowCount(len(data))
-        tableView_wlanbt.setColumnCount(len(row0))
-        for r, row in enumerate(data):
-            for c, item in enumerate(row):
-                tableView_wlanbt.setItem(r, c, QtWidgets.QTableWidgetItem(str(item))
 
 
     def toggle_line_edit(self, state):
@@ -172,6 +224,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # self.wlanbtSelectWindos_.show() # enter create list main code
 
     def when_addModule_pushButton_click(self):
+        global wlanbt_path_list
+
         if self.radio_current_path.isChecked():
             isCurrentPath = True
             local_dir_path = os.getcwd()
@@ -199,11 +253,11 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         wlanbt_list_realpath = DLC_info_catch.search_wlanbt(batch_in_folder_path_list) # format: List
         wlanbt_list_for_gui = [os.path.join(os.path.basename(os.path.dirname(path)), os.path.basename(path)) for path in wlanbt_list_realpath] # 將完整path列表解析成最末尾兩個Path   
         
-        wlan_path_list = [] # output: [[realpath_1, realpath_2, ...], [forGuiPath_1, forGuiPath_2, ...]]
-        wlan_path_list.append(wlanbt_list_realpath)
-        wlan_path_list.append(wlanbt_list_for_gui)
+        wlanbt_path_list = [] # output: [[realpath_1, realpath_2, ...], [forGuiPath_1, forGuiPath_2, ...]]
+        wlanbt_path_list.append(wlanbt_list_realpath)
+        wlanbt_path_list.append(wlanbt_list_for_gui)
 
-        self.wlanbtSelectWindos_.loaddata(wlan_path_list)
+        self.wlanbtSelectWindos_.loaddata(wlanbt_path_list)
         self.wlanbtSelectWindos_.show()
 
     # main button

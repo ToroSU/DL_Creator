@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
-    <height>501</height>
+    <width>432</width>
+    <height>523</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,297 +38,285 @@
     <string>Confirm</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_vender_select">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>15</y>
-     <width>141</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <item>
-    <property name="text">
-     <string>Intel</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Azwave-MTK</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Azwave-RTK</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Liteon-RTK</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Liteon-Qualc</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLabel" name="label_vendor">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>15</x>
-     <y>15</y>
-     <width>43</width>
-     <height>16</height>
+     <y>10</y>
+     <width>198</width>
+     <height>50</height>
     </rect>
    </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Vendor:</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_vendor">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Vendor:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="comboBox_vender_select">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <item>
+       <property name="text">
+        <string>Intel</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Azwave-MTK</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Azwave-RTK</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Liteon-RTK</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Liteon-Qualc</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_module">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Module:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lineEdit_module_name">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="placeholderText">
+       <string>e.g. Ax211, Be200</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <widget class="QLabel" name="label_module">
-   <property name="geometry">
-    <rect>
-     <x>15</x>
-     <y>40</y>
-     <width>46</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Module:</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_module_name">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>40</y>
-     <width>141</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="placeholderText">
-    <string>e.g. Ax211, Be200</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_wlan_package">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>15</x>
      <y>70</y>
-     <width>161</width>
-     <height>16</height>
+     <width>401</width>
+     <height>219</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>WLAN Package:</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_wlan_package">
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>WLAN Package:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QTableWidget" name="tableWidget_wlan_package_select">
+      <property name="font">
+       <font>
+        <family>Caladea</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="textElideMode">
+       <enum>Qt::ElideRight</enum>
+      </property>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>25</number>
+      </attribute>
+      <attribute name="verticalHeaderHighlightSections">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>20</number>
+      </attribute>
+      <row>
+       <property name="text">
+        <string>1</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+        </font>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>Package</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+        </font>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <widget class="QTableWidget" name="tableWidget_wlan_package_select">
-   <property name="geometry">
-    <rect>
-     <x>15</x>
-     <y>85</y>
-     <width>400</width>
-     <height>190</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Caladea</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="sizeAdjustPolicy">
-    <enum>QAbstractScrollArea::AdjustIgnored</enum>
-   </property>
-   <property name="editTriggers">
-    <set>QAbstractItemView::NoEditTriggers</set>
-   </property>
-   <property name="textElideMode">
-    <enum>Qt::ElideRight</enum>
-   </property>
-   <attribute name="verticalHeaderDefaultSectionSize">
-    <number>25</number>
-   </attribute>
-   <attribute name="verticalHeaderHighlightSections">
-    <bool>true</bool>
-   </attribute>
-   <attribute name="verticalHeaderMinimumSectionSize">
-    <number>20</number>
-   </attribute>
-   <row>
-    <property name="text">
-     <string>1</string>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-     </font>
-    </property>
-   </row>
-   <column>
-    <property name="text">
-     <string>Package</string>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-     </font>
-    </property>
-   </column>
-   <item row="0" column="0">
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLabel" name="label_bt_package">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>15</x>
      <y>285</y>
-     <width>141</width>
-     <height>16</height>
+     <width>401</width>
+     <height>219</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>BT Package:</string>
-   </property>
-  </widget>
-  <widget class="QTableWidget" name="tableWidget_bt_package_select">
-   <property name="geometry">
-    <rect>
-     <x>15</x>
-     <y>300</y>
-     <width>400</width>
-     <height>190</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Caladea</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="sizeAdjustPolicy">
-    <enum>QAbstractScrollArea::AdjustIgnored</enum>
-   </property>
-   <property name="editTriggers">
-    <set>QAbstractItemView::NoEditTriggers</set>
-   </property>
-   <property name="textElideMode">
-    <enum>Qt::ElideRight</enum>
-   </property>
-   <attribute name="verticalHeaderDefaultSectionSize">
-    <number>25</number>
-   </attribute>
-   <attribute name="verticalHeaderHighlightSections">
-    <bool>true</bool>
-   </attribute>
-   <attribute name="verticalHeaderMinimumSectionSize">
-    <number>20</number>
-   </attribute>
-   <row>
-    <property name="text">
-     <string>1</string>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-     </font>
-    </property>
-   </row>
-   <column>
-    <property name="text">
-     <string>Package</string>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-     </font>
-    </property>
-   </column>
-   <item row="0" column="0">
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-   </item>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_bt_package">
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>BT Package:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QTableWidget" name="tableWidget_bt_package_select">
+      <property name="font">
+       <font>
+        <family>Caladea</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="textElideMode">
+       <enum>Qt::ElideRight</enum>
+      </property>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>25</number>
+      </attribute>
+      <attribute name="verticalHeaderHighlightSections">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>20</number>
+      </attribute>
+      <row>
+       <property name="text">
+        <string>1</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+        </font>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>Package</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+        </font>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
