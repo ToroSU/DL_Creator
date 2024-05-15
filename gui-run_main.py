@@ -40,7 +40,7 @@ batch_in_folder_path_list = []
 AUMIDs_in_folder_path_list = []
 wlan_final_item_list = []
 wlan_final_path_list = []
-modules_list_temp = []
+modules_list = []
 
 
 class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
@@ -65,15 +65,14 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             self.tableWidget_bt_package_select.setItem(row, 0, QtWidgets.QTableWidgetItem(wlanbt_path_list[1][row]))
 
 
-    def set_to_wlanbt_tableview(self, modules_list_temp):
-        #TODO: add module 24/05/15
-        row_count = len(modules_list_temp)
+    def set_to_wlanbt_tableview(self, modules_list):
+        row_count = len(modules_list)
         self.model = QStandardItemModel(row_count * 2, 5)  # 每個模組有兩行，一個用於WLAN，一個用於BT
         self.model.setHorizontalHeaderLabels(["Vendor", "Module", "Function", "Package", "Path"])
 
         for i in range(row_count):
-            vendor_item = QStandardItem(modules_list_temp[i][0])
-            module_item = QStandardItem(modules_list_temp[i][1])
+            vendor_item = QStandardItem(modules_list[i][0])
+            module_item = QStandardItem(modules_list[i][1])
 
             # 設置WLAN行的資訊
             wlan_row = i * 2
@@ -81,9 +80,9 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             self.model.setItem(wlan_row, 0, vendor_item)
             self.model.setItem(wlan_row, 1, module_item)
             self.model.setItem(wlan_row, 2, function_item_WLAN)
-            temp_list = (modules_list_temp[i][3].split("\\"))[1] # 僅取 package folder name
+            temp_list = (modules_list[i][3].split("\\"))[1] # 僅取 package folder name
             self.model.setItem(wlan_row, 3, QStandardItem(temp_list))
-            self.model.setItem(wlan_row, 4, QStandardItem(modules_list_temp[i][2]))
+            self.model.setItem(wlan_row, 4, QStandardItem(modules_list[i][2]))
 
             # 設置BT行的資訊
             bt_row = i * 2 + 1
@@ -91,10 +90,9 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             self.model.setItem(bt_row, 0, vendor_item.clone())  # 使用clone方法以避免相同對象的重複添加
             self.model.setItem(bt_row, 1, module_item.clone())
             self.model.setItem(bt_row, 2, function_item_BT)
-            temp_list = (modules_list_temp[i][5].split("\\"))[1] # 僅取 package folder name
+            temp_list = (modules_list[i][5].split("\\"))[1] # 僅取 package folder name
             self.model.setItem(bt_row, 3, QStandardItem(temp_list))
-            self.model.setItem(bt_row, 4, QStandardItem(modules_list_temp[i][4]))
-
+            self.model.setItem(bt_row, 4, QStandardItem(modules_list[i][4]))
         self.tableView_wlanbt.setModel(self.model)
         self.tableView_wlanbt.resizeColumnsToContents()
 
@@ -105,7 +103,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
 
 
     def when_confirm_buttom_clicked(self):
-        global modules_list_temp
+        global modules_list
         
         try:
             vendor_name = self.comboBox_vender_select.currentText()
@@ -118,11 +116,11 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
                                                                             wlanbt_path_list[1][self.wlan_row], 
                                                                             wlanbt_path_list[0][self.bt_row],
                                                                             wlanbt_path_list[1][self.bt_row])
-                modules_list_temp.append(modules_info_str_temp)
+                modules_list.append(modules_info_str_temp)
 
 
             try:
-                self.set_to_wlanbt_tableview(modules_list_temp)
+                self.set_to_wlanbt_tableview(modules_list)
 
             except Exception:
                 print("set table error")
@@ -194,10 +192,14 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         if os.path.isfile(config_filename):
             self.read_config_to_GUI()
     
-        # run button click
-        self.run_pushButton.clicked.connect(self.when_run_pushButton_click)
+        # button click
+        self.run_pushButton.clicked.connect(self.when_run_pushButton_click) # main button 
         self.pushButton_addModule.clicked.connect(self.when_addModule_pushButton_click)
+        self.pushButton_updateToCurrentDate.clicked.connect(self.when_updateToCurrentDate_click)
 
+
+    def when_updateToCurrentDate_click(self):
+        self.dateEdit_updateDate.setDate(QtCore.QDate().currentDate())
 
     def toggle_line_edit(self, state):
         # 當 Radio Button 狀態變化時，判斷其狀態，並設置 Line Edit 的啟用狀態
@@ -254,7 +256,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, [isCurrentPath, local_dir_path])
         wlanbt_list_realpath = DLC_info_catch.search_wlanbt(batch_in_folder_path_list) # format: List
-        wlanbt_list_for_gui = [os.path.join(os.path.basename(os.path.dirname(path)), os.path.basename(path)) for path in wlanbt_list_realpath] # 將完整path列表解析成最末尾兩個Path   
+        wlanbt_list_for_gui = [r"{0}\{1}".format(os.path.basename(os.path.dirname(path)), os.path.basename(path)) for path in wlanbt_list_realpath]
+        # wlanbt_list_for_gui = [os.path.join(os.path.basename(os.path.dirname(path)), os.path.basename(path)) for path in wlanbt_list_realpath] # 將完整path列表解析成最末尾兩個Path   
         
         wlanbt_path_list = [] # output: [[realpath_1, realpath_2, ...], [forGuiPath_1, forGuiPath_2, ...]]
         wlanbt_path_list.append(wlanbt_list_realpath)
@@ -340,15 +343,11 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         customer_content = self.customer_comboBox.currentText()
         projectName_content = self.projectName_lineEdit.text()
         listVersion_content = self.listVersion_lineEdit.text()
-        # updateDate_content = self.updateDate_lineEdit.text()
+        updateDate_content = self.dateEdit_updateDate.date().toString("yyyy/MM/dd")
         osEdition_content = self.osEdition_lineEdit.text()
         osVersion_content = self.osVersion_lineEdit.text()
         osBuild_content = self.osBuild_lineEdit.text()
-        # wlanbt_intel_content = self.wlanbt_intel_lineEdit.text()
-        # wlanbt_azwaveMTK_content = self.wlanbt_AzwaveMTK_lineEdit.text()
-        # wlanbt_azwaveRTK_content = self.wlanbt_AzwaveRTK_lineEdit.text()
-        # wlanbt_liteonRTK_content = self.wlanbt_liteonRTK_lineEdit.text()
-        # wlanbt_liteonQualc_content = self.wlanbt_liteonQualc_lineEdit.text()
+        wlanbtModule_content = repr([list(item.replace("\\\\", "\\") for item in module) for module in modules_list])
         exportDriverList_bool_content = self.radioButton_exportDriverList.isChecked()
         listChecking_bool_content = self.radioButton_listChecking.isChecked()
         # package2zip_bool_content = self.package2zip_checkBox.isChecked()
@@ -363,10 +362,11 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("List_Info/Customer", customer_content)
         settings.setValue("List_Info/ProjectName", projectName_content)
         settings.setValue("List_Info/ListVersion", listVersion_content)
-        # settings.setValue("List_Info/UpdateDate", updateDate_content)
+        settings.setValue("List_Info/UpdateDate", updateDate_content)
         settings.setValue("OS_Info/OSEdition", osEdition_content)
         settings.setValue("OS_Info/OSVersion", osVersion_content)
         settings.setValue("OS_Info/OSBuild", osBuild_content)
+        settings.setValue("WlanBtInfo/Modules", wlanbtModule_content)
         settings.setValue("Other_Setting/ExportDriverList", exportDriverList_bool_content)
         settings.setValue("Other_Setting/ListChecking", listChecking_bool_content)
         settings.setValue("Path_Info/IsCurrentPath", is_current_path)
@@ -380,7 +380,9 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # if has DLC_config.ini file, load setting in GUI
         self.projectName_lineEdit.setText(settings.value("List_Info/ProjectName"))
         self.listVersion_lineEdit.setText(settings.value("List_Info/ListVersion"))
-        # self.updateDate_lineEdit.setText(settings.value("List_Info/UpdateDate"))
+        date_str = settings.value("List_Info/UpdateDate")
+        qdate = QtCore.QDate.fromString(date_str, "yyyy/MM/dd")
+        self.dateEdit_updateDate.setDate(qdate)
         self.osEdition_lineEdit.setText(settings.value("OS_Info/OSEdition"))
         self.osVersion_lineEdit.setText(settings.value("OS_Info/OSVersion"))
         self.osBuild_lineEdit.setText(settings.value("OS_Info/OSBuild"))
