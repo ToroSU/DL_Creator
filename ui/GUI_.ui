@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>798</width>
-    <height>600</height>
+    <width>785</width>
+    <height>550</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>9</x>
      <y>10</y>
      <width>771</width>
-     <height>581</height>
+     <height>531</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_21">
@@ -213,181 +213,175 @@
                 <property name="title">
                  <string>List Info</string>
                 </property>
-                <widget class="QWidget" name="">
-                 <property name="geometry">
-                  <rect>
-                   <x>10</x>
-                   <y>30</y>
-                   <width>351</width>
-                   <height>122</height>
-                  </rect>
-                 </property>
-                 <layout class="QGridLayout" name="gridLayout_9">
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_6">
-                    <property name="font">
-                     <font>
-                      <family>Calibri</family>
-                      <pointsize>12</pointsize>
-                      <weight>50</weight>
-                      <italic>false</italic>
-                      <bold>false</bold>
-                      <underline>false</underline>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Customer:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QComboBox" name="customer_comboBox">
-                    <property name="font">
-                     <font>
-                      <family>Calibri</family>
-                      <pointsize>12</pointsize>
-                      <weight>50</weight>
-                      <bold>false</bold>
-                     </font>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>Asus</string>
+                <layout class="QGridLayout" name="gridLayout_12">
+                 <item row="0" column="0">
+                  <layout class="QGridLayout" name="gridLayout_9">
+                   <item row="0" column="1">
+                    <widget class="QComboBox" name="customer_comboBox">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
                      </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Gigabyte</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_7">
-                    <property name="font">
-                     <font>
-                      <family>Calibri</family>
-                      <pointsize>12</pointsize>
-                      <weight>50</weight>
-                      <italic>false</italic>
-                      <bold>false</bold>
-                      <underline>false</underline>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Project Name:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QLineEdit" name="projectName_lineEdit">
-                    <property name="font">
-                     <font>
-                      <family>Calibri</family>
-                      <pointsize>12</pointsize>
-                      <weight>50</weight>
-                      <bold>false</bold>
-                     </font>
-                    </property>
-                    <property name="placeholderText">
-                     <string>e.g. A5402_A5702WVAR</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_8">
-                    <property name="font">
-                     <font>
-                      <family>Calibri</family>
-                      <pointsize>12</pointsize>
-                      <weight>50</weight>
-                      <italic>false</italic>
-                      <bold>false</bold>
-                      <underline>false</underline>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>List Version:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1">
-                   <widget class="QLineEdit" name="listVersion_lineEdit">
-                    <property name="font">
-                     <font>
-                      <family>Calibri</family>
-                      <pointsize>12</pointsize>
-                      <weight>50</weight>
-                      <bold>false</bold>
-                     </font>
-                    </property>
-                    <property name="placeholderText">
-                     <string>e.g. 2.00</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_9">
-                    <property name="font">
-                     <font>
-                      <family>Calibri</family>
-                      <pointsize>12</pointsize>
-                      <weight>50</weight>
-                      <italic>false</italic>
-                      <bold>false</bold>
-                      <underline>false</underline>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Update Date:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
-                   <layout class="QHBoxLayout" name="horizontalLayout_3">
-                    <item>
-                     <widget class="QDateEdit" name="dateEdit_updateDate">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <weight>50</weight>
-                        <bold>false</bold>
-                       </font>
-                      </property>
-                      <property name="displayFormat">
-                       <string>yyyy/MM/dd</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_updateToCurrentDate">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                        <weight>50</weight>
-                        <bold>false</bold>
-                       </font>
-                      </property>
+                     <item>
                       <property name="text">
-                       <string>Now</string>
+                       <string>Asus</string>
                       </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </widget>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Gigabyte</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <layout class="QHBoxLayout" name="horizontalLayout_3">
+                     <item>
+                      <widget class="QDateEdit" name="dateEdit_updateDate">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <weight>50</weight>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="displayFormat">
+                        <string>yyyy/MM/dd</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="pushButton_updateToCurrentDate">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>10</pointsize>
+                         <weight>50</weight>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Now</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_6">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Customer:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_7">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Project Name:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_8">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>List Version:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_9">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                       <underline>false</underline>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Update Date:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="listVersion_lineEdit">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="placeholderText">
+                      <string>e.g. 2.00</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="projectName_lineEdit">
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="placeholderText">
+                      <string>e.g. A5402_A5702WVAR</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
                </widget>
               </item>
               <item row="1" column="0">
@@ -531,31 +525,55 @@
               <property name="title">
                <string>Wlan/BT Info</string>
               </property>
-              <layout class="QGridLayout" name="gridLayout_12">
+              <layout class="QGridLayout" name="gridLayout_11">
                <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_11">
+                <layout class="QGridLayout" name="gridLayout_10">
                  <item row="0" column="0">
-                  <widget class="QPushButton" name="pushButton_addModule">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>10</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="text">
-                    <string>Add Module</string>
-                   </property>
-                  </widget>
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <item>
+                    <widget class="QPushButton" name="pushButton_addModule">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::LeftToRight</enum>
+                     </property>
+                     <property name="text">
+                      <string>Add Module</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_clearAllModules">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Clear All</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                  <item row="1" column="0">
                   <widget class="QTableView" name="tableView_wlanbt">
@@ -568,7 +586,7 @@
                    <property name="font">
                     <font>
                      <family>Calibri</family>
-                     <pointsize>8</pointsize>
+                     <pointsize>9</pointsize>
                     </font>
                    </property>
                   </widget>

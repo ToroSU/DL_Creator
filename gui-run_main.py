@@ -203,7 +203,13 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click) # main button 
         self.pushButton_addModule.clicked.connect(self.when_addModule_pushButton_click)
         self.pushButton_updateToCurrentDate.clicked.connect(self.when_updateToCurrentDate_click)
+        self.pushButton_clearAllModules.clicked.connect(self.when_clearAllModules_click)
 
+
+    def when_clearAllModules_click(self):
+        global modules_list
+        modules_list = []
+        self.wlanbtSelectWindos_.set_to_wlanbt_tableview(modules_list)
 
     def when_updateToCurrentDate_click(self):
         self.dateEdit_updateDate.setDate(QtCore.QDate().currentDate())
