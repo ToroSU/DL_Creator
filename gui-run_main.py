@@ -96,10 +96,11 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.tableView_wlanbt.setModel(self.model)
         self.tableView_wlanbt.resizeColumnsToContents()
 
+
     def testing_function(self, testarg):
+        # for temporary test function 
         for i in range(0, len(testarg)):
             print(testarg[i])
-
 
 
     def when_confirm_buttom_clicked(self):
@@ -107,6 +108,11 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         
         try:
             vendor_name = self.comboBox_vender_select.currentText()
+
+            if self.lineEdit_module_name.text() == "":
+                QMessageBox.about(self, "Error: Empty values found", "The Module block can not be empty.")
+                return 0
+            
             module_name = self.lineEdit_module_name.text()
             module_name = re.sub(r"\s+", "", module_name) # remove white space
             module_name_split = module_name.split(",") # e.g.:["Ax211", "Be200"]
@@ -118,15 +124,11 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
                                                                             wlanbt_path_list[1][self.bt_row])
                 modules_list.append(modules_info_str_temp)
 
+            # set to tableview
+            self.set_to_wlanbt_tableview(modules_list)
 
-            try:
-                self.set_to_wlanbt_tableview(modules_list)
-
-            except Exception:
-                print("set table error")
-
-        except Exception : # if error values found
-            QMessageBox.about(self, "Error: Null values found", "Please check the following items for empty fields.: \n{} \n{} \n{}".format("1. Module", "2. Wlan Package", "3. BT Package"))
+        except Exception: # if WLAN/BT Package block values is null
+            QMessageBox.about(self, "Error: Null values found", "Please make sure the following two fields have been selected: \n{} \n{} ".format("WLAN Package", "BT Package"))
             return 0
             
 
