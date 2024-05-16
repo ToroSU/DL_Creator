@@ -57,6 +57,9 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.tableView_wlanbt = table_view
         
     def loaddata(self, wlanbt_path_list):
+        # Clear table widget status when every time user click add module button
+        self.tableWidget_wlan_package_select.clearSelection()
+        self.tableWidget_bt_package_select.clearSelection()
         # set path to GUI
         self.tableWidget_wlan_package_select.setRowCount(len(wlanbt_path_list[1]))
         self.tableWidget_bt_package_select.setRowCount(len(wlanbt_path_list[1]))
@@ -274,6 +277,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         wlanbt_path_list.append(wlanbt_list_for_gui)
 
         self.wlanbtSelectWindos_.loaddata(wlanbt_path_list)
+        self.wlanbtSelectWindos_.lineEdit_module_name.setText("") # 每次點選時
         self.wlanbtSelectWindos_.show()
 
     # main button
