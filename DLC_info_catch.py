@@ -611,7 +611,7 @@ def batch_and_aumids_file_get(package_list, path_info):
                     else:
                         AUMIDs_in_folder_path_list.append(root)
                         aumid_check = True
-    
+                        
     return batch_in_folder_path_list, AUMIDs_in_folder_path_list
 
 
