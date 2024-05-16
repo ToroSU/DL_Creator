@@ -191,12 +191,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # 監聽 Radio Button 的狀態變化，並連接槽函數
         self.radio_enter_path.toggled.connect(self.toggle_line_edit)
 
-        #TODO: load config.ini貼上
-        # self.model = QStandardItemModel(1, 5)
-        # self.model.setHorizontalHeaderLabels(["Vender", "Module", "Function", "Package", "Path"])
-        # self.tableView_wlanbt.setModel(self.model)
-
-
         # greeting message
         cls()
         print("--Program startup--")
@@ -204,7 +198,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # if config file is exist, load config to GUI
         if os.path.isfile(config_filename):
             self.read_config_to_GUI()
-    
+
         # button click
         self.run_pushButton.clicked.connect(self.when_run_pushButton_click) # main button 
         self.pushButton_addModule.clicked.connect(self.when_addModule_pushButton_click)
@@ -361,7 +355,19 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         osEdition_content = self.osEdition_lineEdit.text()
         osVersion_content = self.osVersion_lineEdit.text()
         osBuild_content = self.osBuild_lineEdit.text()
-        wlanbtModule_content = repr([list(item.replace("\\\\", "\\") for item in module) for module in modules_list])
+        
+        # module info save
+        for i, module in enumerate(modules_list):
+            module_key = f"WlanBtInfo/Module_{i+1}" # f-string 寫法，等價於 module_key = "WlanBtInfo/Module_{}".format(str(i+1)) 
+            settings.beginGroup(module_key)
+            settings.setValue("Vendor", module[0])
+            settings.setValue("Name", module[1])
+            settings.setValue("WlanGUIPath", module[2])
+            settings.setValue("WlanRealPath", module[3])
+            settings.setValue("BTGUIPath", module[4])
+            settings.setValue("BTRealPath", module[5])
+            settings.endGroup()
+
         exportDriverList_bool_content = self.radioButton_exportDriverList.isChecked()
         listChecking_bool_content = self.radioButton_listChecking.isChecked()
         # package2zip_bool_content = self.package2zip_checkBox.isChecked()
@@ -380,7 +386,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("OS_Info/OSEdition", osEdition_content)
         settings.setValue("OS_Info/OSVersion", osVersion_content)
         settings.setValue("OS_Info/OSBuild", osBuild_content)
-        settings.setValue("WlanBtInfo/Modules", wlanbtModule_content)
         settings.setValue("Other_Setting/ExportDriverList", exportDriverList_bool_content)
         settings.setValue("Other_Setting/ListChecking", listChecking_bool_content)
         settings.setValue("Path_Info/IsCurrentPath", is_current_path)
@@ -391,6 +396,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
 
     def read_config_to_GUI(self):
+        global modules_list
+
         # if has DLC_config.ini file, load setting in GUI
         self.projectName_lineEdit.setText(settings.value("List_Info/ProjectName"))
         self.listVersion_lineEdit.setText(settings.value("List_Info/ListVersion"))
@@ -409,6 +416,36 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         else:
             self.radio_enter_path.setChecked(True)
         self.enter_path_lineEdit.setText(settings.value("Path_Info/PackagePath"))
+
+        # read modules
+        allkeys_ = settings.allKeys() # 先列出 config.ini 中的所有的key，輸出為list
+        num_list=[]
+
+        # 先取Modules 的數量 # 由於格式為: WlanBtInfo/Module_{i}/Vendor
+        for key_ in allkeys_:                          # 遍歷所有key
+            if key_.startswith("WlanBtInfo/Module_"):  # 找到以"WlanBtInfo/Module_"為開頭的key
+                _ = key_.split("_")[1]                 # 切分("_")取後值: {i}/Vendor
+                num_list.append(int(_.split("/")[0]))  # 切分("/")取前值: {i}，並把每次數字紀錄到 num_list
+
+        num_modules = max(num_list) # 取num_list中最大值，即為module數量
+                
+        #根據配置文件中的模塊數量，讀取每個模塊的信息
+        for i in range(1, num_modules+1):
+            vendor_temp = settings.value(f"WlanBtInfo/Module_{i}/Vendor")
+            moduleName_temp = settings.value(f"WlanBtInfo/Module_{i}/Name")
+            wlan_gui_path = settings.value(f"WlanBtInfo/Module_{i}/WlanGUIPath")
+            wlan_real_path = settings.value(f"WlanBtInfo/Module_{i}/WlanRealPath")
+            bt_gui_path = settings.value(f"WlanBtInfo/Module_{i}/BTGUIPath")
+            bt_real_path = settings.value(f"WlanBtInfo/Module_{i}/BTRealPath")
+            
+            # 將資訊存為跟函數:when_confirm_buttom_clicked 相同格式，並同樣的append到modules_list
+            modules_info_str_temp = (vendor_temp, moduleName_temp, wlan_gui_path, 
+                                                                        wlan_real_path, 
+                                                                        bt_gui_path,
+                                                                        bt_real_path)
+            modules_list.append(modules_info_str_temp)
+        # set to tableview
+        self.wlanbtSelectWindos_.set_to_wlanbt_tableview(modules_list)
 
 
 if __name__ == '__main__': # Main progress start
