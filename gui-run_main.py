@@ -293,6 +293,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         
         # after click run button load all config settings 
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info, self.path_info= DLC_config_reader_main()
+
         if str2bool(self.path_info[0]):
             dir_path = os.getcwd() # get current path (as know as driver package path)
         else:
