@@ -72,26 +72,34 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
 
         for i in range(row_count):
             vendor_item = QStandardItem(modules_list[i][0])
+            vendor_item.setTextAlignment(Qt.AlignCenter)
             module_item = QStandardItem(modules_list[i][1])
+            module_item.setTextAlignment(Qt.AlignCenter)
 
             # 設置WLAN行的資訊
             wlan_row = i * 2
             function_item_WLAN = QStandardItem("WLAN")  # 在每次迴圈中創建新的物件
+            function_item_WLAN.setTextAlignment(Qt.AlignCenter)
             self.model.setItem(wlan_row, 0, vendor_item)
             self.model.setItem(wlan_row, 1, module_item)
             self.model.setItem(wlan_row, 2, function_item_WLAN)
             temp_list = (modules_list[i][3].split("\\"))[1] # 僅取 package folder name
-            self.model.setItem(wlan_row, 3, QStandardItem(temp_list))
+            wlan_package_item = QStandardItem(temp_list)
+            wlan_package_item.setTextAlignment(Qt.AlignCenter)
+            self.model.setItem(wlan_row, 3, wlan_package_item)
             self.model.setItem(wlan_row, 4, QStandardItem(modules_list[i][2]))
 
             # 設置BT行的資訊
             bt_row = i * 2 + 1
             function_item_BT = QStandardItem("BT")  # 在每次迴圈中創建新的物件
+            function_item_BT.setTextAlignment(Qt.AlignCenter)
             self.model.setItem(bt_row, 0, vendor_item.clone())  # 使用clone方法以避免相同對象的重複添加
             self.model.setItem(bt_row, 1, module_item.clone())
             self.model.setItem(bt_row, 2, function_item_BT)
             temp_list = (modules_list[i][5].split("\\"))[1] # 僅取 package folder name
-            self.model.setItem(bt_row, 3, QStandardItem(temp_list))
+            bt_package_item = QStandardItem(temp_list)
+            bt_package_item.setTextAlignment(Qt.AlignCenter)
+            self.model.setItem(bt_row, 3, bt_package_item)
             self.model.setItem(bt_row, 4, QStandardItem(modules_list[i][4]))
         self.tableView_wlanbt.setModel(self.model)
         self.tableView_wlanbt.resizeColumnsToContents()
@@ -105,7 +113,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
 
     def when_confirm_buttom_clicked(self):
         global modules_list
-        
+
         try:
             vendor_name = self.comboBox_vender_select.currentText()
 
