@@ -143,7 +143,6 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             return 0
             
 
-
     def wlan_cell_was_clicked(self, row, column):
         # wlan_item = self.tableWidget_wlan_package_select.item(row, column)
         # self.temp_string_wlan = wlan_item.text()
@@ -376,14 +375,14 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
                 settings.setValue("BTRealPath", module[4])
                 settings.setValue("BTGUIPath", module[5])
                 settings.endGroup()
-        else: # 若module_list 為空，儲存預設的位址給config.ini，避免開程式時讀值error
+        else: # 若module_list 為空，儲存預設的empty str給config.ini，避免開程式時讀值error
             settings.beginGroup("WlanBtInfo/Module_1")
-            settings.setValue("Vendor", "Clear")
-            settings.setValue("Name", "All")
-            settings.setValue("WlanRealPath", "temp") # because temp_list = (modules_list[i][3].split("\\"))[1] (see function:set_to_wlanbt_tableview, 
-            settings.setValue("WlanGUIPath", "temp\\temp")
-            settings.setValue("BTRealPath", "temp")
-            settings.setValue("BTGUIPath", "temp\\temp")
+            settings.setValue("Vendor", "")
+            settings.setValue("Name", "")
+            settings.setValue("WlanRealPath", "") 
+            settings.setValue("WlanGUIPath", "")
+            settings.setValue("BTRealPath", "")
+            settings.setValue("BTGUIPath", "")
             settings.endGroup()
 
         exportDriverList_bool_content = self.radioButton_exportDriverList.isChecked()
@@ -435,35 +434,41 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             self.radio_enter_path.setChecked(True)
         self.enter_path_lineEdit.setText(settings.value("Path_Info/PackagePath"))
 
+
         # read modules 本來應該用 beginGroup 取key值，但有一個暫時未知的 bug 無法取值，先採取如下的切分方法取值
         allkeys_ = settings.allKeys() # 先列出 config.ini 中的所有的key，輸出為list
         num_list=[]
 
-        # 先取Modules 的數量 # 由於格式為: WlanBtInfo/Module_{i}/Vendor
-        for key_ in allkeys_:                          # 遍歷所有key
-            if key_.startswith("WlanBtInfo/Module_"):  # 找到以"WlanBtInfo/Module_"為開頭的key
-                _ = key_.split("_")[1]                 # 切分("_")取後值: {i}/Vendor
-                num_list.append(int(_.split("/")[0]))  # 切分("/")取前值: {i}，並把每次數字紀錄到 num_list
+        modules1_str_check = settings.value(f"WlanBtInfo/Module_1/Vendor")
+        if  not modules1_str_check: # 檢查字串是否為空，若為空，代表 modules info 僅存了預設的Empty value
+            modules_list = [] #直接將 modules_list 清空
 
-        num_modules = max(num_list) # 取num_list中最大值，即為module數量
+        else: #若有值，再讀取 modules info
+            # 先取Modules 的數量 # 由於格式為: WlanBtInfo/Module_{i}/Vendor
+            for key_ in allkeys_:                          # 遍歷所有key
+                if key_.startswith("WlanBtInfo/Module_"):  # 找到以"WlanBtInfo/Module_"為開頭的key
+                    _ = key_.split("_")[1]                 # 切分("_")取後值: {i}/Vendor
+                    num_list.append(int(_.split("/")[0]))  # 切分("/")取前值: {i}，並把每次數字紀錄到 num_list
+
+            num_modules = max(num_list) # 取num_list中最大值，即為module數量
+                    
+            #根據 config.ini 中的 module 數量，讀取每個 module info
+            for i in range(1, num_modules+1):
+                vendor_temp = settings.value(f"WlanBtInfo/Module_{i}/Vendor")
+                moduleName_temp = settings.value(f"WlanBtInfo/Module_{i}/Name")
+                wlan_real_path = settings.value(f"WlanBtInfo/Module_{i}/WlanRealPath")
+                wlan_gui_path = settings.value(f"WlanBtInfo/Module_{i}/WlanGUIPath")
+                bt_real_path = settings.value(f"WlanBtInfo/Module_{i}/BTRealPath")
+                bt_gui_path = settings.value(f"WlanBtInfo/Module_{i}/BTGUIPath")
                 
-        #根據配置文件中的模塊數量，讀取每個模塊的信息
-        for i in range(1, num_modules+1):
-            vendor_temp = settings.value(f"WlanBtInfo/Module_{i}/Vendor")
-            moduleName_temp = settings.value(f"WlanBtInfo/Module_{i}/Name")
-            wlan_real_path = settings.value(f"WlanBtInfo/Module_{i}/WlanRealPath")
-            wlan_gui_path = settings.value(f"WlanBtInfo/Module_{i}/WlanGUIPath")
-            bt_real_path = settings.value(f"WlanBtInfo/Module_{i}/BTRealPath")
-            bt_gui_path = settings.value(f"WlanBtInfo/Module_{i}/BTGUIPath")
-            
-            # 將資訊存為跟函數:when_confirm_buttom_clicked 相同格式，並同樣的append到modules_list
-            modules_info_str_temp = (vendor_temp, moduleName_temp, wlan_real_path, 
-                                                                        wlan_gui_path, 
-                                                                        bt_real_path,
-                                                                        bt_gui_path)
-            modules_list.append(modules_info_str_temp)
-        # set to tableview
-        self.wlanbtSelectWindos_.set_to_wlanbt_tableview(modules_list)
+                # 將資訊存為跟函數:when_confirm_buttom_clicked 相同格式，並同樣的append到modules_list
+                modules_info_str_temp = (vendor_temp, moduleName_temp, wlan_real_path, 
+                                                                            wlan_gui_path, 
+                                                                            bt_real_path,
+                                                                            bt_gui_path)
+                modules_list.append(modules_info_str_temp)
+            # set to tableview
+            self.wlanbtSelectWindos_.set_to_wlanbt_tableview(modules_list)
 
 
 if __name__ == '__main__': # Main progress start
