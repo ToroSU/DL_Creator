@@ -233,6 +233,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
         # Those 2 output will feed in wlanbtSelectWindos_ to continue progress,
         batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, self.path_info)
+        for item in batch_in_folder_path_list:
+            print(item)
 
         # self.wlanbtSelectWindos_.show() # enter create list main code
 
@@ -259,7 +261,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
                     if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
                         package_list.append(root_folder[i])
         else:
-            QMessageBox.about(self, "Path Error", "The path isn't exist.")
+            QMessageBox.about(self, "Path Error", "The enter path isn't exist.")
             return 0
 
         batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, [isCurrentPath, local_dir_path])
@@ -289,19 +291,26 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # after click run button load all config settings 
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info, self.path_info= DLC_config_reader_main()
 
+
         if str2bool(self.path_info[0]):
             dir_path = os.getcwd() # get current path (as know as driver package path)
         else:
             dir_path = self.path_info[1] #e.g. "C:\Users\EddieYW_Su\Desktop\A5Test"
 
+
+        if not os.path.exists(dir_path):
+            QMessageBox.about(self, "Path Error", "The enter path isn't exist.")
+            return 0
+
         # if list checking is True, run List checking function.
+        # TODO: 後續update list function會加入
         if str2bool(self.other_setting[1]): # ListChecking=true
             DLC_list_checking.list_checking_main()
             QMessageBox.about(self, "List checking", "Checking Complete")
 
         # TODO Refactor the code this part
         else: 
-            self.export_driver_list()
+            self.export_driver_list() # create driver list
 
 
     def when_package2zip_enable(self, path_info):
