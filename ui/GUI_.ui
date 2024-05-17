@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>DL Creator</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -725,14 +725,14 @@
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout">
                  <item>
-                  <widget class="QRadioButton" name="radioButton">
+                  <widget class="QRadioButton" name="radioButton_zipToPackage">
                    <property name="text">
                     <string>Zip to Package</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QRadioButton" name="radioButton_2">
+                  <widget class="QRadioButton" name="radioButton_Unzip">
                    <property name="text">
                     <string>Unzip</string>
                    </property>
@@ -741,7 +741,7 @@
                 </layout>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="pushButton_packingRun">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                    <horstretch>0</horstretch>
