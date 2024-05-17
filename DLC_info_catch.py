@@ -119,7 +119,7 @@ def search_wlanbt(package_list_):
     return wlanbt_list_for_gui
 
 
-def final_list_sort(raw_path_list_input, raw_AUMIDs_list_input, wlan_final_item_list, wlan_final_path_list, wlan_info):
+def final_list_sort(raw_path_list_input, raw_AUMIDs_list_input, modules_list):
     # 先以相同規則創建出 item_list
     raw_item_list = []
     for i in range(0, len(raw_path_list_input)):
@@ -147,11 +147,25 @@ def final_list_sort(raw_path_list_input, raw_AUMIDs_list_input, wlan_final_item_
         del raw_item_list[i]
 
     # 插入由使用者在 wlanbt select GUI 選定的 driver path, 及當時自動生成的 item string (item string: e.g. Bluetooth (Ax201)), AUMIDS 插入"NA"
-    raw_item_list[first_index:first_index] = wlan_final_item_list # 插入 wlanbt item
-    raw_path_list_input[first_index:first_index] = wlan_final_path_list # 插入 wlanbt path
+    wlanbt_final_item_list = []
+    wlanbt_final_path_list = []
+    for i in range(0, len(modules_list)):
+        wlan_str_temp = f"Wlan ({modules_list[i][1]})"
+        bt_str_temp = f"Bluetooth ({modules_list[i][1]})"
+        wlan_path_temp = modules_list[i][2]
+        bt_path_temp = modules_list[i][4]
+        #item part
+        wlanbt_final_item_list.append(wlan_str_temp)
+        wlanbt_final_item_list.append(bt_str_temp)
+        #path part
+        wlanbt_final_path_list.append(wlan_path_temp)
+        wlanbt_final_path_list.append(bt_path_temp)
+
+    raw_item_list[first_index:first_index] = wlanbt_final_item_list # 插入 wlanbt item
+    raw_path_list_input[first_index:first_index] = wlanbt_final_path_list # 插入 wlanbt path
     aumids_insert_NA_list = []
     # 計算wlanbt 的數量，加入同等數量的"NA"
-    for i in range(0, len(wlan_final_item_list)):
+    for i in range(0, len(wlanbt_final_item_list)):
         aumids_insert_NA_list.append("NA") 
     
     raw_AUMIDs_list_input[first_index:first_index] = aumids_insert_NA_list

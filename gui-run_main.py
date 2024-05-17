@@ -6,7 +6,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from Ui_GUI_ import Ui_Form
 import DLC_info_catch, DLC_list_checking
-from DLC_list2excel import create_list
+import DLC_list2excel
 from DLC_config_reader import DLC_config_reader_main
 from Ui_wlanbt_select import Ui_wlanbt_select_Form
 
@@ -38,8 +38,6 @@ settings = QtCore.QSettings(config_filename, QtCore.QSettings.IniFormat)
 first_click_loaddate = True
 batch_in_folder_path_list = []
 AUMIDs_in_folder_path_list = []
-wlan_final_item_list = []
-wlan_final_path_list = []
 modules_list = []
 
 
@@ -149,26 +147,6 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
     def bt_cell_was_clicked(self, row, column):
         self.bt_row = row
 
-    
-    def complete_and_create_list(self):
-        global batch_in_folder_path_list
-        global AUMIDs_in_folder_path_list
-
-        final_item_list, final_bat_path_list, final_aumids_path_list = DLC_info_catch.final_list_sort(batch_in_folder_path_list, AUMIDs_in_folder_path_list, wlan_final_item_list, wlan_final_path_list, self.wlanbt_info)
-        all_list = DLC_info_catch.all_List_get(final_item_list, final_bat_path_list, final_aumids_path_list, self.os_info)
-        if str2bool(self.other_setting[0]):
-            output_file_name = create_list(self.list_info, self.os_info, final_item_list, all_list)
-            # print(output_file_name)
-            #QMessageBox.about(self, "Export List", "File output completed, path is: \n{}".format(dir_path))
-            QMessageBox.about(self, "Export List", "File output completed, file name is: \n{}".format(str(output_file_name)))
-
-        else:
-            QMessageBox.about(self, "Export List", "\nExportDriverList= {},\ndo not export excel files.".format(self.other_setting[0]))
-        
-        # reset all
-        # self.reset_all()
-        self.close() # close wlanbt select window
-        return 0  # exit
 
 
 # Main Window
@@ -213,6 +191,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # 當 Radio Button 狀態變化時，判斷其狀態，並設置 Line Edit 的啟用狀態
         self.enter_path_lineEdit.setEnabled(state)
 
+
     def export_driver_list(self):
         global batch_in_folder_path_list
         global AUMIDs_in_folder_path_list
@@ -233,10 +212,14 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # Main output 2 : list of AUMIDS file path. list amount same as Mina output 1. 
         # Those 2 output will feed in wlanbtSelectWindos_ to continue progress,
         batch_in_folder_path_list, AUMIDs_in_folder_path_list = DLC_info_catch.batch_and_aumids_file_get(package_list, self.path_info)
-        for item in batch_in_folder_path_list:
-            print(item)
+        final_item_list, final_bat_path_list, final_aumids_path_list = DLC_info_catch.final_list_sort(batch_in_folder_path_list, AUMIDs_in_folder_path_list, modules_list)
+        # for i in range(0, len(final_item_list)):
+        #     print(f"final item:{final_item_list[i]}\nbatch path:{final_bat_path_list[i]}\naumids path:{final_aumids_path_list[i]}\n")
 
-        # self.wlanbtSelectWindos_.show() # enter create list main code
+        all_list = DLC_info_catch.all_List_get(final_item_list, final_bat_path_list, final_aumids_path_list, self.os_info)
+        output_file_name = DLC_list2excel.create_list(self.list_info, self.os_info, final_item_list, all_list)
+        QMessageBox.about(self, "Export List", "File output completed, file name is: \n{}".format(str(output_file_name)))
+        
 
     def when_addModule_pushButton_click(self):
         global wlanbt_path_list
