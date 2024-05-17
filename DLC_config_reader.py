@@ -21,7 +21,8 @@ def if_config_file_exist(file_name):
 
         other_setting = config["Other_Setting"]
         other_setting_return = [other_setting["ExportDriverList"],
-                                other_setting["ListChecking"]]
+                                other_setting["ListChecking"],
+                                other_setting[""]]
 
         wlanbt_info_return = []
 

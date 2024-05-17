@@ -177,6 +177,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.pushButton_addModule.clicked.connect(self.when_addModule_pushButton_click)
         self.pushButton_updateToCurrentDate.clicked.connect(self.when_updateToCurrentDate_click)
         self.pushButton_clearAllModules.clicked.connect(self.when_clearAllModules_click)
+        self.pushButton_packingRun.clicked.connect(self.when_packingRun_click)
 
 
     def when_clearAllModules_click(self):
@@ -190,6 +191,9 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
     def toggle_line_edit(self, state):
         # 當 Radio Button 狀態變化時，判斷其狀態，並設置 Line Edit 的啟用狀態
         self.enter_path_lineEdit.setEnabled(state)
+
+    def when_packingRun_click(self):
+        pass
 
 
     def export_driver_list(self):
