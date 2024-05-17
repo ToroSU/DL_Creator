@@ -269,11 +269,9 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # save config.ini
         self.config_save()
         time.sleep(1) # For config.ini file, save buffering
-
         
         # after click run button load all config settings 
         self.list_info, self.os_info, self.other_setting, self.wlanbt_info, self.path_info= DLC_config_reader_main()
-
 
         if str2bool(self.path_info[0]):
             dir_path = os.getcwd() # get current path (as know as driver package path)
@@ -287,13 +285,17 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         # if list checking is True, run List checking function.
         # TODO: 後續update list function會加入
-        if str2bool(self.other_setting[1]): # ListChecking=true
+        if str2bool(self.other_setting[0]):
+            self.export_driver_list() # create driver list
+
+        elif str2bool(self.other_setting[1]): # ListChecking=true
             DLC_list_checking.list_checking_main()
             QMessageBox.about(self, "List checking", "Checking Complete")
 
         # TODO Refactor the code this part
         else: 
-            self.export_driver_list() # create driver list
+            QMessageBox.about(self, "Sorry", "This feature is still under development.")
+            return 0
 
 
     def when_package2zip_enable(self, path_info):
