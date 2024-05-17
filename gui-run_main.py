@@ -144,13 +144,9 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
             
 
     def wlan_cell_was_clicked(self, row, column):
-        # wlan_item = self.tableWidget_wlan_package_select.item(row, column)
-        # self.temp_string_wlan = wlan_item.text()
         self.wlan_row = row
 
     def bt_cell_was_clicked(self, row, column):
-        # bt_item = self.tableWidget_bt_package_select.item(row, column)
-        # self.temp_string_bt = bt_item.text()   
         self.bt_row = row
 
     
