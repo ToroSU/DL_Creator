@@ -22,11 +22,13 @@ def if_config_file_exist(file_name):
         other_setting = config["Other_Setting"]
         other_setting_return = [other_setting["ExportDriverList"],
                                 other_setting["ListChecking"],
-                                other_setting[""]]
+                                other_setting["ListUpdate"]]
 
         # Check for WLANBT module info
         wlanbt_info_return=[]
         num_list=[]
+
+
         for key_ in config["WlanBtInfo"]:
             _ = key_.split("_")[1]                 # 切分("_")取後值: {i}/Vendor
             num_list.append(int(_.split("\\")[0]))  # 切分("\\")取前值: {i}，並把每次數字紀錄到 num_list # 這裡跟gui-run_main的規則有點不同，因為import的module不同
@@ -49,11 +51,12 @@ def if_config_file_exist(file_name):
             wlanbt_info_return.append(modules_info_str_temp)
 
 
-        path_info = config["Path_Info"]
+            path_info = config["Path_Info"]
 
-        # Normalize path before returning
-        package_path = os.path.normpath(path_info["PackagePath"])
-        path_info_return = [path_info["IsCurrentPath"], package_path]
+            # Normalize path before returning
+            package_path = os.path.normpath(path_info["PackagePath"])
+            path_info_return = [path_info["IsCurrentPath"], package_path]
+
 
         return list_info_return, os_info_return, other_setting_return, wlanbt_info_return, path_info_return
 

@@ -288,15 +288,17 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             return 0
 
         # if list checking is True, run List checking function.
-        # TODO: 後續update list function會加入
+        # if export driver list is True, run export driver list function.
+        # other setting is still under development.
         if str2bool(self.other_setting[0]):
             self.export_driver_list() # create driver list
+            return 0
 
         elif str2bool(self.other_setting[1]): # ListChecking=true
             DLC_list_checking.list_checking_main()
             QMessageBox.about(self, "List checking", "Checking Complete")
+            return 0
 
-        # TODO Refactor the code this part
         else: 
             QMessageBox.about(self, "Sorry", "This feature is still under development.")
             return 0
@@ -381,6 +383,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
 
         exportDriverList_bool_content = self.radioButton_exportDriverList.isChecked()
         listChecking_bool_content = self.radioButton_listChecking.isChecked()
+        listUpdate_bool_content = self.radioButton_listUpdate.isChecked()
         # package2zip_bool_content = self.package2zip_checkBox.isChecked()
 
         if self.radio_current_path.isChecked():
@@ -399,6 +402,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         settings.setValue("OS_Info/OSBuild", osBuild_content)
         settings.setValue("Other_Setting/ExportDriverList", exportDriverList_bool_content)
         settings.setValue("Other_Setting/ListChecking", listChecking_bool_content)
+        settings.setValue("Other_Setting/ListUpdate", listUpdate_bool_content)
         settings.setValue("Path_Info/IsCurrentPath", is_current_path)
         settings.setValue("Path_Info/PackagePath", enter_path_content)
 
@@ -420,6 +424,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         self.osBuild_lineEdit.setText(settings.value("OS_Info/OSBuild"))
         self.radioButton_exportDriverList.setChecked(str2bool(settings.value("Other_Setting/ExportDriverList")))
         self.radioButton_listChecking.setChecked(str2bool(settings.value("Other_Setting/ListChecking")))
+        self.radioButton_listUpdate.setChecked(str2bool(settings.value("Other_Setting/ListUpdate")))
         #self.package2zip_checkBox.setChecked(str2bool(settings.value("Other_Setting/Package2Zip")))
         is_current_path = str2bool(settings.value("Path_Info/IsCurrentPath")) # 判斷該值是否為True
         if is_current_path:
