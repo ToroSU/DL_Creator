@@ -10,7 +10,7 @@ import DLC_list2excel
 from DLC_config_reader import DLC_config_reader_main
 from Ui_wlanbt_select import Ui_wlanbt_select_Form
 
-
+# git message test
 ## def function
 def str2bool(v):
     return str(v).lower() in ("yes", "true", "t")
