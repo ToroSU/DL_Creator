@@ -192,8 +192,44 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # 當 Radio Button 狀態變化時，判斷其狀態，並設置 Line Edit 的啟用狀態
         self.enter_path_lineEdit.setEnabled(state)
 
+    def msgBox_select(self, title_msg, test_msg):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Information)
+        msgBox.setWindowTitle(title_msg)
+        msgBox.setText(test_msg)
+        msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.No)
+
+        return msgBox.exec_()
+
     def when_packingRun_click(self):
-        pass
+        if self.radio_current_path.isChecked():
+            isCurrentPath = True
+            local_dir_path = os.getcwd()
+        elif self.radio_enter_path.isChecked():
+            isCurrentPath = False
+            local_dir_path = self.enter_path_lineEdit.text()
+
+        if self.radioButton_zipToPackage.isChecked():
+            root_folder = os.listdir(local_dir_path) # all file and folder under current path
+            package_list = [] # list of root foder
+
+            for i in range(0, len(root_folder)): 
+                realpath_root = os.path.join(local_dir_path, root_folder[i])
+                if os.path.isdir(realpath_root):
+                    if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
+                        package_list.append(root_folder[i])
+
+            batch_in_folder_path_list_packing, _ = DLC_info_catch.batch_and_aumids_file_get(package_list, [isCurrentPath, local_dir_path])
+
+            title_msg = "Package to ZIP"
+            test_msg = "Please confirm the tree view is correct, \nand then click Ok to start the compression process."
+            if self.msgBox_select(title_msg, test_msg) == QMessageBox.Ok: # if user click OK
+                print("Start compression")
+                self.when_package2zip_enable([isCurrentPath, local_dir_path], batch_in_folder_path_list_packing)
+
+
+        if self.radioButton_Unzip.isChecked():
+            self.when_unzip_enable(self.path_info)
 
 
     def export_driver_list(self):
@@ -304,8 +340,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             return 0
 
 
-    def when_package2zip_enable(self, path_info):
-        global batch_in_folder_path_list
+    def when_package2zip_enable(self, path_info, batch_path_list):
         driverPackageZip_folder = "ZIP_DriverPackage"
 
         # progressBar UI
@@ -315,17 +350,17 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         progress.setCancelButtonText("Cancel")
         progress.setMinimumDuration(2)
         progress.setWindowModality(Qt.WindowModal)
-        progress.setRange(0, len(batch_in_folder_path_list)) # set progressBar range 
+        progress.setRange(0, len(batch_path_list)) # set progressBar range 
 
         # Zip the file and place it in the corresponding folder
-        for i in range(0, len(batch_in_folder_path_list)):
+        for i in range(0, len(batch_path_list)):
             progress.setValue(i) 
             if progress.wasCanceled():
                 QMessageBox.warning(self,"WARNING","User interrupt") 
                 break 
 
             # compression main
-            ori_package_path = batch_in_folder_path_list[i] # e.g. (if use current path) 14_WLANBT_Intel\BT\BT_Intel_22.150.0.6 (bat file path), (if use specify path) [specify_path]\14_WLANBT_Intel\BT\BT_Intel_22.150.0.6
+            ori_package_path = batch_path_list[i] 
             if str2bool(path_info[0]): # if use program current path (path_info[0])
                 temp_path = ori_package_path
             else:
@@ -345,7 +380,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
         # when compression done
         else:
             progress.setValue(len(batch_in_folder_path_list))
-            QMessageBox.information(self,"Message","Compression complete\nPath: {}".format(driverPackageZip_folder))         
+            QMessageBox.information(self,"Message","Compression complete\nPath: {}".format(driverPackageZip_folder))
 
 
     def config_save(self):
