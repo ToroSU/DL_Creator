@@ -24,8 +24,6 @@ def if_config_file_exist(file_name):
                                 other_setting["ListChecking"],
                                 other_setting[""]]
 
-        wlanbt_info_return = []
-
         # Check for WLANBT module info
         wlanbt_info_return=[]
         num_list=[]
