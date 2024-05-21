@@ -40,6 +40,35 @@ batch_in_folder_path_list = []
 AUMIDs_in_folder_path_list = []
 modules_list = []
 
+# for package2zip set
+class CompressionThread(QThread):
+    progress = pyqtSignal(int)
+    finished = pyqtSignal()
+
+    def __init__(self, path_info, batch_path_list, parent=None):
+        super().__init__(parent)
+        self.path_info = path_info
+        self.batch_path_list = batch_path_list
+
+    def run(self):
+        driverPackageZip_folder = "ZIP_DriverPackage"
+        for i in range(len(self.batch_path_list)):
+            self.progress.emit(i)
+            ori_package_path = self.batch_path_list[i]
+            if str2bool(self.path_info[0]): 
+                temp_path = ori_package_path
+            else:
+                temp_path = compare_paths(ori_package_path, self.path_info[1])
+
+            zip_file_final_path = os.path.join(driverPackageZip_folder, temp_path)
+            zip_folder_root = os.path.dirname(zip_file_final_path)
+            if not os.path.exists(zip_folder_root):
+                os.makedirs(zip_folder_root)
+            
+            shutil.make_archive(zip_file_final_path, format='zip', root_dir=ori_package_path)
+        self.progress.emit(len(self.batch_path_list))
+        self.finished.emit()
+
 
 class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
     def __init__(self, table_view):
@@ -148,7 +177,6 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
         self.bt_row = row
 
 
-
 # Main Window
 class mywindow(QtWidgets.QMainWindow, Ui_Form):
     #__init__:解構函式，Class被建立後就會預先載入的專案。
@@ -210,27 +238,42 @@ class mywindow(QtWidgets.QMainWindow, Ui_Form):
             local_dir_path = self.enter_path_lineEdit.text()
 
         if self.radioButton_zipToPackage.isChecked():
-            root_folder = os.listdir(local_dir_path) # all file and folder under current path
-            package_list = [] # list of root foder
+            root_folder = os.listdir(local_dir_path)
+            package_list = [] 
 
-            for i in range(0, len(root_folder)): 
+            for i in range(len(root_folder)): 
                 realpath_root = os.path.join(local_dir_path, root_folder[i])
                 if os.path.isdir(realpath_root):
-                    if root_folder[i][0:2].isdigit(): #暴力分法，看前兩個字元是不是數字，之後再優化
+                    if root_folder[i][0:2].isdigit():
                         package_list.append(root_folder[i])
 
             batch_in_folder_path_list_packing, _ = DLC_info_catch.batch_and_aumids_file_get(package_list, [isCurrentPath, local_dir_path])
 
             title_msg = "Package to ZIP"
             test_msg = "Please confirm the tree view is correct, \nand then click Ok to start the compression process."
-            if self.msgBox_select(title_msg, test_msg) == QMessageBox.Ok: # if user click OK
+            if self.msgBox_select(title_msg, test_msg) == QMessageBox.Ok:
                 print("Start compression")
-                self.when_package2zip_enable([isCurrentPath, local_dir_path], batch_in_folder_path_list_packing)
-
+                self.start_compression([isCurrentPath, local_dir_path], batch_in_folder_path_list_packing)
 
         if self.radioButton_Unzip.isChecked():
             self.when_unzip_enable(self.path_info)
 
+    def start_compression(self, path_info, batch_path_list):
+        self.progress = QProgressDialog(self)
+        self.progress.setWindowTitle("Please wait")  
+        self.progress.setLabelText("Compressing...")
+        self.progress.setCancelButtonText("Cancel")
+        self.progress.setMinimumDuration(2)
+        self.progress.setWindowModality(Qt.WindowModal)
+        self.progress.setRange(0, len(batch_path_list))
+
+        self.thread = CompressionThread(path_info, batch_path_list)
+        self.thread.progress.connect(self.progress.setValue)
+        self.thread.finished.connect(self.compression_finished)
+        self.thread.start()
+
+    def compression_finished(self):
+        QMessageBox.information(self, "Message", "Compression complete\nPath: ZIP_DriverPackage")
 
     def export_driver_list(self):
         global batch_in_folder_path_list
