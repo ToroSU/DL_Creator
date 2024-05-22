@@ -94,7 +94,6 @@ def file_reader(file_):
     except:
         try :
             f = open(file_, encoding="iso_8859_1")  # ANSI
-            # print(file_, " not utf-8 encode")
             lines_ = f.readlines()
             f.close()
         except :
@@ -169,6 +168,7 @@ def list_checking_main():
     whql_column = 11
     checkCounter_column = 24 # just for tool use
 
+    # lines = file_reader("device_chk.txt") # for test
     lines = file_reader(sys_inf_chk_file)
 
     instanceID_str = "Instance ID"
@@ -209,17 +209,18 @@ def list_checking_main():
     for i in index_for_del:
         del block_list[i]
 
-
     # 開讀 excel
     excel_file_name = excel_reader()
-    print(excel_file_name)
     rd_wb = openpyxl.load_workbook(excel_file_name)
 
     sheet_release_note = rd_wb[rd_wb.sheetnames[0]]
     sheet_driver_list = rd_wb[rd_wb.sheetnames[1]] # [1] list sheet 目前用這個就好
 
     max_row = sheet_driver_list.max_row  
+    if max_row >= 100:
+        max_row = 100 # set the max row for improve performance
     max_col = sheet_driver_list.max_column
+    
 
     # 讀取 Target INF Name col
     targetInfName_column_rows = []
@@ -236,7 +237,7 @@ def list_checking_main():
     # 得到 "有在系統中找到的inf" ， 與block的對應關係 (match_inf, match_block) 
     for i in range(2, len(targetInfName_column_rows)-1):
         current_inf = targetInfName_column_rows[i]
-        try:
+        if current_inf != None:
             for block_i in range(0, len(block_list)):
                 for block_i_line in block_list[block_i]:
                     if current_inf.lower() in block_i_line.lower():
@@ -251,9 +252,10 @@ def list_checking_main():
                     match_block_index.append(block_i)
                     have_one_match = False
                     break
-        except:
-            print(current_inf) # bug waive : search until none 
-            break
+        # else :
+
+        #     # print(f"None Value in Driver List Cell:{i}, the value is {current_inf}") # bug waive : search until none 
+        #     # break
 
 
     ## 在有找到inf的前提下(match_inf_index)，尋找description/HWID/Date/Ver
@@ -266,7 +268,6 @@ def list_checking_main():
     for i in range(0, len(match_inf_index)): # 先遍歷 targetInfName_column_rows ，索引為有對應到系統inf的項目 match_inf，也就是把excel中有對到系統的Inf一個個抓出來
         index_i = match_inf_index[i] # match_inf_index:[2, 4, 5, 6] => index_i: 2,...
         current_inf = targetInfName_column_rows[index_i]
-        # print(current_inf)
 
         find_current_inf = False # 讀到有 current_inf 後才開始偵測 "Driver Version" ，才會是剛好對應的 version/date
         for block_line_i in range(0, len(block_list[match_block_index[i]])):
