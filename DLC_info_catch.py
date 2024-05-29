@@ -617,7 +617,7 @@ def batch_and_aumids_file_get(package_list, path_info):
                 if file == "AUMIDs.txt":  # 有bug 檢查中10/01
                     if os.path.split(root)[0] == bat_root_checkpoint:
                         aumid_check = False
-                        try:
+                        try: # 這邊寫法不好，應該透過If Else 判斷而非try except 後續修正
                             AUMIDs_in_folder_path_list.pop()
                             AUMIDs_in_folder_path_list.append(root)
                         except:
