@@ -1,9 +1,13 @@
 # DL_Creator
 Create driver list for Customer History:  
 
-Dev 1.6.3: (onGoing)  
+
+Dev 1.6.3:   
 This version will modify the Main GUI platform, WLAN/BT coding logic, add checking function, and include zip/unzip functionality, as well as a folder creator.
-When this version has be complete, it will update to stable 2.00 branch.  
+Feat: Modify the Main GUI
+Feat: Modify the Wlan/BT GUI and coding logic
+Add: Checking function
+Feat: Modify package zip logic, and via multithreading
 
 Dev 1.6.2:
 Feat: Add path validation feature and modify related programs that reference the path.  
