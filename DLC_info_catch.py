@@ -1,7 +1,9 @@
 import re
 import os
+import zipfile
+import xml.etree.ElementTree as ET
 
-# Version dev1.6.2 for new SOW format:
+# Version dev1.6.3 for new SOW format:
 # SOW Date:2024/05
 # Driver List templet version:v3
 # ODM Driver 宣導事項:20240502 
@@ -183,6 +185,34 @@ def category_list_get(item_list):
     
     return category_list
 
+def get_appx_version(appx_bundle_path):
+    """ get the version from appxbundle file """
+
+    namespaces = { # namespace for appxbundle file
+    '': 'http://schemas.microsoft.com/appx/2013/bundle',
+    'b4': 'http://schemas.microsoft.com/appx/2018/bundle',
+    'b5': 'http://schemas.microsoft.com/appx/2019/bundle'
+    }
+    
+    with zipfile.ZipFile(appx_bundle_path, 'r') as zip_file:
+        # 找到 AppxManifest.xml 檔案
+        for file_name in zip_file.namelist():
+            if file_name.endswith('AppxBundleManifest.xml'):
+                # 讀取 AppxManifest.xml 的內容
+                with zip_file.open(file_name) as manifest_file:
+                    manifest_xml = manifest_file.read()
+
+                    
+                # 解析 XML 資訊
+                root = ET.fromstring(manifest_xml)
+                package_elements = root.findall('./{{{}}}Packages/{{{}}}Package'.format(namespaces[''], namespaces['']))
+
+                # package_elements = root.findall('/Packages/Package')
+                for package_element in package_elements:
+                    version = package_element.get('Version')
+
+                return version
+
 
 def infFile_ver_date_list_get(item_list_path):
     # 待完成指定inf功能，目前是選程式找到的其中一個inf來使用
@@ -242,10 +272,12 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
                     driverDate_list_root.append(driverDate_str)
                     inf_File_list_root.append(file)
 
-                elif file == "AUMIDs.txt":
-                    file_str = "" # if AUMIDs, then set set .inf name is empty. 
-                    driverVersion_str = ""
+                elif ".appxbundle" in file:
+                    file_str = "" # if appxbundle file exist, set as empty string 
+                    appVersion = get_appx_version(os.path.join(root, file))
+                    driverVersion_str = appVersion
                     driverDate_str = ""
+
                     break
 
         for i in range(0, len(inf_File_list_root)): # TODO reverse detect method, from inf_check_list_lower for loop name.
