@@ -1,6 +1,8 @@
 # DL_Creator
 Create driver list for Customer History:  
 
+Dev 1.6.4:
+Feat: Complete app version get method by using AppxBundleManifest.xml in .appxbundle file
 
 Dev 1.6.3:   
 This version will modify the Main GUI platform, WLAN/BT coding logic, add checking function, and include zip/unzip functionality, as well as a folder creator.

@@ -189,6 +189,7 @@ def get_appx_version(appx_bundle_path):
     """ get the version from appxbundle file """
 
     namespaces = { # namespace for appxbundle file
+    'a1': 'http://schemas.microsoft.com/appx/manifest/foundation/windows10',
     '': 'http://schemas.microsoft.com/appx/2013/bundle',
     'b4': 'http://schemas.microsoft.com/appx/2018/bundle',
     'b5': 'http://schemas.microsoft.com/appx/2019/bundle'
@@ -198,20 +199,32 @@ def get_appx_version(appx_bundle_path):
         # 找到 AppxManifest.xml 檔案
         for file_name in zip_file.namelist():
             if file_name.endswith('AppxBundleManifest.xml'):
-                # 讀取 AppxManifest.xml 的內容
+                # 讀取 AppxBundleManifest.xml 的內容
                 with zip_file.open(file_name) as manifest_file:
                     manifest_xml = manifest_file.read()
-
                     
                 # 解析 XML 資訊
                 root = ET.fromstring(manifest_xml)
-                package_elements = root.findall('./{{{}}}Packages/{{{}}}Package'.format(namespaces[''], namespaces['']))
+                package_elements = root.findall(f"./{{{namespaces['']}}}Packages/{{{namespaces['']}}}Package")
 
-                # package_elements = root.findall('/Packages/Package')
                 for package_element in package_elements:
                     version = package_element.get('Version')
 
-                return version
+                    return version
+
+            elif file_name.endswith('AppxManifest.xml'):
+                # 讀取 AppxBundleManifest.xml 的內容
+                with zip_file.open(file_name) as manifest_file:
+                    manifest_xml = manifest_file.read()
+                    
+                # 解析 XML 資訊
+                root = ET.fromstring(manifest_xml)
+                
+                package_elements = root.findall(f"./{{{namespaces['a1']}}}Identity")
+                for package_element in package_elements:
+                    version = package_element.get('Version')
+
+                    return version
 
 
 def infFile_ver_date_list_get(item_list_path):
@@ -272,7 +285,7 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
                     driverDate_list_root.append(driverDate_str)
                     inf_File_list_root.append(file)
 
-                elif ".appxbundle" in file:
+                elif ".appxbundle" in file or ".msix" in file:
                     file_str = "" # if appxbundle file exist, set as empty string 
                     appVersion = get_appx_version(os.path.join(root, file))
                     driverVersion_str = appVersion
