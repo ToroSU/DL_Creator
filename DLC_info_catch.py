@@ -185,46 +185,58 @@ def category_list_get(item_list):
     
     return category_list
 
-def get_appx_version(appx_bundle_path):
+def get_appx_version(appx_bundle_path, root_path):
     """ get the version from appxbundle file """
 
     namespaces = { # namespace for appxbundle file
-    'a1': 'http://schemas.microsoft.com/appx/manifest/foundation/windows10',
     '': 'http://schemas.microsoft.com/appx/2013/bundle',
+    'a1': 'http://schemas.microsoft.com/appx/manifest/foundation/windows10',
     'b4': 'http://schemas.microsoft.com/appx/2018/bundle',
     'b5': 'http://schemas.microsoft.com/appx/2019/bundle'
     }
     
+    root_split = root_path.split("_") # e.g. ['C:\\Users\\EddieYW', 'Su\\Desktop\\A5Test\\18', 'Audio', 'Dolby', 'UI\\DolbyAccess', '3.18.872.0']
+    for function_keyword in root_split:
+        if "dolby" in function_keyword.lower():
+            case = "dolby"
+            break
+
+        elif "icps" in function_keyword.lower():
+            case = "icps"
+            break
+        
+        else:
+            case = "other"
+
     with zipfile.ZipFile(appx_bundle_path, 'r') as zip_file:
         # 找到 AppxManifest.xml 檔案
         for file_name in zip_file.namelist():
             if file_name.endswith('AppxBundleManifest.xml'):
-                # 讀取 AppxBundleManifest.xml 的內容
-                with zip_file.open(file_name) as manifest_file:
-                    manifest_xml = manifest_file.read()
-                    
-                # 解析 XML 資訊
-                root = ET.fromstring(manifest_xml)
-                package_elements = root.findall(f"./{{{namespaces['']}}}Packages/{{{namespaces['']}}}Package")
-
-                for package_element in package_elements:
-                    version = package_element.get('Version')
-
-                    return version
-
+                bundle_name = file_name
             elif file_name.endswith('AppxManifest.xml'):
-                # 讀取 AppxBundleManifest.xml 的內容
-                with zip_file.open(file_name) as manifest_file:
-                    manifest_xml = manifest_file.read()
-                    
-                # 解析 XML 資訊
-                root = ET.fromstring(manifest_xml)
-                
-                package_elements = root.findall(f"./{{{namespaces['a1']}}}Identity")
-                for package_element in package_elements:
-                    version = package_element.get('Version')
+                bundle_name = file_name
 
-                    return version
+        # 讀取 AppxBundleManifest.xml 的內容
+        with zip_file.open(bundle_name) as manifest_file:
+            manifest_xml = manifest_file.read()
+
+        # 解析 XML 資訊
+        root = ET.fromstring(manifest_xml)        
+
+        if case == "dolby":
+            package_elements = root.findall(f"./{{{namespaces['a1']}}}Identity")
+        
+        elif case == "icps":
+            package_elements = root.findall(f"./{{{namespaces['a1']}}}Identity")
+
+        elif case == "other":
+            package_elements = root.findall(f"./{{{namespaces['']}}}Packages/{{{namespaces['']}}}Package")
+
+        for package_element in package_elements:
+            version = package_element.get('Version')
+            break
+
+    return version
 
 
 def infFile_ver_date_list_get(item_list_path):
@@ -274,6 +286,8 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
         inf_File_list_root = []
         driverVersion_list_root = []
         driverDate_list_root = []
+        valid_extensions = [".appxbundle", ".msix", "icps.appx"] # define the valid extensions for appx file
+
         for root, dirs, files in os.walk(item_list_path[root_i]):
             for file in files:
                 # TODO 加入check list的小判斷，後續可以改掉或優化，
@@ -285,12 +299,17 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
                     driverDate_list_root.append(driverDate_str)
                     inf_File_list_root.append(file)
 
-                elif ".appxbundle" in file or ".msix" in file:
+                elif file == "AUMIDs.txt": # 
+                    appVersion = ""  # 預設版本號為空字符串
+                    for appFile in files:
+                        if any(ext in appFile.lower() for ext in valid_extensions): # check if the file is appxbundle file we need
+                            appxbundle_path = os.path.join(root, appFile)
+                            appVersion = get_appx_version(appxbundle_path, root)  # get the version from appxbundle file
+                            break  
+
                     file_str = "" # if appxbundle file exist, set as empty string 
-                    appVersion = get_appx_version(os.path.join(root, file))
                     driverVersion_str = appVersion
                     driverDate_str = ""
-
                     break
 
         for i in range(0, len(inf_File_list_root)): # TODO reverse detect method, from inf_check_list_lower for loop name.
