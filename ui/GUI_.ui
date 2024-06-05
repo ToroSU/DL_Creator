@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DL Creator</string>
+   <string>DL Creator v1.6.4</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">

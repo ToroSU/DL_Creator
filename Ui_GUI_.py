@@ -496,12 +496,12 @@ class Ui_Form(object):
         self.gridLayout_11.addWidget(self.tabWidget, 1, 0, 1, 1)
 
         self.retranslateUi(Form)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "DL Creator"))
+        Form.setWindowTitle(_translate("Form", "DL Creator v1.6.4"))
         self.path_groupBox.setTitle(_translate("Form", "Path Select"))
         self.radio_current_path.setText(_translate("Form", "Current Path"))
         self.radio_enter_path.setText(_translate("Form", "Enter Path:"))
