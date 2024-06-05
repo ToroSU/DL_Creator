@@ -299,12 +299,12 @@ def infFile_ver_date_list_get_with_checklist(item_list_path):
                     driverDate_list_root.append(driverDate_str)
                     inf_File_list_root.append(file)
 
-                elif file == "AUMIDs.txt": # 
+                elif file == "AUMIDs.txt": # if AUMIDs.txt exist, try to get the appVersion from appxbundle file
                     appVersion = ""  # 預設版本號為空字符串
                     for appFile in files:
                         if any(ext in appFile.lower() for ext in valid_extensions): # check if the file is appxbundle file we need
                             appxbundle_path = os.path.join(root, appFile)
-                            appVersion = get_appx_version(appxbundle_path, root)  # get the version from appxbundle file
+                            appVersion = get_appx_version(appxbundle_path, root) 
                             break  
 
                     file_str = "" # if appxbundle file exist, set as empty string 
