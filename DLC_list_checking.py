@@ -237,7 +237,7 @@ def list_checking_main():
     # 得到 "有在系統中找到的inf" ， 與block的對應關係 (match_inf, match_block) 
     for i in range(2, len(targetInfName_column_rows)-1):
         current_inf = targetInfName_column_rows[i]
-        if current_inf != None:
+        if current_inf != None and current_inf.lower() != "na" and current_inf.lower() != "n/a" and current_inf != "":
             for block_i in range(0, len(block_list)):
                 for block_i_line in block_list[block_i]:
                     if current_inf.lower() in block_i_line.lower():
