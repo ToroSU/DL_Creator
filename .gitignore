@@ -7,6 +7,9 @@ DLC_config.ini
 # package function test files
 ZIP_DriverPackage/
 
-# test driver list files
+# test file
+test.py
+test_Check.py
+test_main.py
 *.xlsx
 A5Test/
