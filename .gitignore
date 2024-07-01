@@ -1,4 +1,12 @@
+# python compiled files
 __pycache__/
-*.xlsx
-ZIP_DriverPackage/
+
+# config.ini by project
 DLC_config.ini
+
+# package function test files
+ZIP_DriverPackage/
+
+# test driver list files
+*.xlsx
+A5Test/
