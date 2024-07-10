@@ -6,21 +6,19 @@ import sys
 import logging
 
 def excel_reader():
-    # 若有複數個 excel檔案，回傳第一個檔名
     excels = []
-    dir_path = os.getcwd() 
+    dir_path = os.getcwd()
     files = os.listdir(dir_path)
+    for file in files:
+        if ".xlsx" in file:
+            excels.append(file)
     try:
-        for file in files:
-            if ".xlsx" in file:
-                excels.append(file)
         return excels[0]
-
-    # 無 Driver list file, 強制結束
-    except:
+    except IndexError:
         app = QApplication(sys.argv)
         QMessageBox.about(None, "WARNING", "No Driver List in current path")
-        return 0
+        sys.exit(0)  # 使用 sys.exit(0) 來代替 return 0，以便於在 GUI 應用中統一處理退出。
+
     
     
 def version_checking(ver_1, ver_2):
@@ -96,8 +94,6 @@ def file_reader(file_):
         except UnicodeDecodeError:
             with open(file_, encoding="utf-16-le") as f:  # UTF16-LE
                 lines_ = f.readlines()
-    return lines_
-
     return lines_
 
 
