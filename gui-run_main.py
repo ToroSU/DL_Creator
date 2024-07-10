@@ -1,14 +1,21 @@
+# Description: This is the main program of the GUI version of the DLC tool.
 from genericpath import isfile
 import sys, os, re, time, shutil
+
+# py file import
+import DLC_info_catch, DLC_list_checking
+import DLC_list2excel
+from DLC_config_reader import DLC_config_reader_main
+
+# PyQt5 import
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMessageBox, QProgressDialog, QTableView
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from Ui_GUI_ import Ui_Form
-import DLC_info_catch, DLC_list_checking
-import DLC_list2excel
-from DLC_config_reader import DLC_config_reader_main
-from Ui_wlanbt_select import Ui_wlanbt_select_Form
+
+# py UI import
+from ui.Ui_GUI_ import Ui_Form
+from ui.Ui_wlanbt_select import Ui_wlanbt_select_Form
 
 
 ## def function
