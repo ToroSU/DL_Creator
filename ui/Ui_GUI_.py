@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\EddieYW_Su\Desktop\DL_Creator\ui\GUI_.ui'
+# Form implementation generated from reading ui file 'c:\Users\EddieYW_Su\Desktop\DL_Creator\ui_QTDesigner\GUI_.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.5
 #
@@ -14,16 +14,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(931, 605)
-        self.layoutWidget = QtWidgets.QWidget(Form)
-        self.layoutWidget.setGeometry(QtCore.QRect(9, 9, 911, 585))
-        self.layoutWidget.setObjectName("layoutWidget")
-        self.gridLayout_11 = QtWidgets.QGridLayout(self.layoutWidget)
-        self.gridLayout_11.setContentsMargins(0, 0, 0, 0)
+        Form.resize(889, 605)
+        self.gridLayout_12 = QtWidgets.QGridLayout(Form)
+        self.gridLayout_12.setObjectName("gridLayout_12")
+        self.gridLayout_11 = QtWidgets.QGridLayout()
         self.gridLayout_11.setObjectName("gridLayout_11")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.path_groupBox = QtWidgets.QGroupBox(self.layoutWidget)
+        self.path_groupBox = QtWidgets.QGroupBox(Form)
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(12)
@@ -73,7 +71,7 @@ class Ui_Form(object):
         self.verticalLayout_3.addLayout(self.horizontalLayout)
         self.gridLayout.addLayout(self.verticalLayout_3, 0, 0, 1, 1)
         self.horizontalLayout_6.addWidget(self.path_groupBox)
-        self.groupBox_5 = QtWidgets.QGroupBox(self.layoutWidget)
+        self.groupBox_5 = QtWidgets.QGroupBox(Form)
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(12)
@@ -121,7 +119,7 @@ class Ui_Form(object):
         self.gridLayout_2.addLayout(self.verticalLayout_4, 0, 0, 1, 1)
         self.horizontalLayout_6.addWidget(self.groupBox_5)
         self.gridLayout_11.addLayout(self.horizontalLayout_6, 0, 0, 1, 1)
-        self.tabWidget = QtWidgets.QTabWidget(self.layoutWidget)
+        self.tabWidget = QtWidgets.QTabWidget(Form)
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(10)
@@ -494,9 +492,10 @@ class Ui_Form(object):
         self.gridLayout_16.addWidget(self.groupBox_6, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_2, "")
         self.gridLayout_11.addWidget(self.tabWidget, 1, 0, 1, 1)
+        self.gridLayout_12.addLayout(self.gridLayout_11, 0, 0, 1, 1)
 
         self.retranslateUi(Form)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
