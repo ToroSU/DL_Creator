@@ -20,25 +20,27 @@ def excel_reader():
         sys.exit(0)  # 使用 sys.exit(0) 來代替 return 0，以便於在 GUI 應用中統一處理退出。
 
     
-    
 def version_checking(ver_1, ver_2):
     ver_1_split = ver_1.split(".")
     ver_2_split = ver_2.split(".")
+
+    # 確保版本號列表長度相同，如果不同則填充短的列表尾部以0
+    # e.g. version 1.2 equal to 1.2.0
+    max_length = max(len(ver_1_split), len(ver_2_split))
+    ver_1_split.extend(['0'] * (max_length - len(ver_1_split)))
+    ver_2_split.extend(['0'] * (max_length - len(ver_2_split)))
+
     try:
-        ver_checking_status = 0
-        for i in range(0, len(ver_1_split)):
+        for i in range(max_length):
             if int(ver_1_split[i]) != int(ver_2_split[i]):
-                ver_checking_status += 1
-
-    except:
-        print("error in version checking")
-
-    if ver_checking_status == 0:
-        ckecking_status_return = True
-    else:
-        ckecking_status_return = False
-
-    return ckecking_status_return
+                return False
+        return True
+    except ValueError:
+        print("版本號格式錯誤，版本號應只包含數字和點。")
+        return False
+    except Exception as e:
+        print(f"未預期的錯誤: {e}")
+        return False
 
 
 def set_all_row_font(font_input, max_col, index_i, sheet_driver_list):
