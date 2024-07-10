@@ -10,14 +10,27 @@ def excel_reader():
     dir_path = os.getcwd()
     files = os.listdir(dir_path)
     for file in files:
-        if ".xlsx" in file:
+        if file.endswith(".xlsx"):
             excels.append(file)
-    try:
-        return excels[0]
-    except IndexError:
+    
+    if not excels:
         app = QApplication(sys.argv)
-        QMessageBox.about(None, "WARNING", "No Driver List in current path")
-        sys.exit(0)  # 使用 sys.exit(0) 來代替 return 0，以便於在 GUI 應用中統一處理退出。
+        QMessageBox.about(None, "WARNING", "No .xlsx files found in the current directory.")
+        sys.exit(0)
+
+    for excel_file in excels:
+        try:
+            # 嘗試打開Excel文件以確認其有效性
+            wb = openpyxl.load_workbook(os.path.join(dir_path, excel_file))
+            wb.close()  # 關閉工作簿，因為這裡只是為了檢查
+            return excel_file
+        except openpyxl.utils.exceptions.InvalidFileException:
+            continue  # 如果文件無效，則繼續檢查下一個文件
+
+    # 如果所有文件都不是有效的Excel文件
+    app = QApplication(sys.argv)
+    QMessageBox.about(None, "ERROR", "No valid .xlsx files were found in the current directory.")
+    sys.exit(0)
 
     
 def version_checking(ver_1, ver_2):
@@ -206,6 +219,7 @@ def list_checking_main():
 
     # 開讀 excel
     excel_file_name = excel_reader()
+    print("Found Excel file:", excel_file_name)
     rd_wb = openpyxl.load_workbook(excel_file_name)
 
     sheet_release_note = rd_wb[rd_wb.sheetnames[0]]
