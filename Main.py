@@ -556,7 +556,7 @@ class mywindow(QtWidgets.QFrame, Ui_Form):
 
 
 if __name__ == '__main__': # Main progress start
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QtWidgets.QApplication(sys.argv)
     window = mywindow()
     window.show()
