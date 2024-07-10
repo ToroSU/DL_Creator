@@ -77,7 +77,7 @@ class CompressionThread(QThread):
         self.finished.emit()
 
 
-class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
+class wlanbtSelectWindos(QtWidgets.QFrame, Ui_wlanbt_select_Form):
     def __init__(self, table_view):
         super(wlanbtSelectWindos, self).__init__()
         self.setupUi(self)
@@ -185,7 +185,7 @@ class wlanbtSelectWindos(QtWidgets.QMainWindow, Ui_wlanbt_select_Form):
 
 
 # Main Window
-class mywindow(QtWidgets.QMainWindow, Ui_Form):
+class mywindow(QtWidgets.QFrame, Ui_Form):
     #__init__:解構函式，Class被建立後就會預先載入的專案。
     # 馬上執行，這個方法可以用來對物件做一些希望的初始化。
     def __init__(self):
