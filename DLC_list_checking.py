@@ -86,20 +86,17 @@ def excel_typesetting_and_save(current_sheet, workbook, excel_file_name):
 
 #另外用一個file reader 來開 sys_inf_check_list.txt 編碼問題 機歪
 def file_reader(file_):
-    # Open the .inf file. If open faild, try to use "utf-16" decode and ignore the error.
-    try:  #utf-8 & utf-16 
-        f = open(file_, encoding="utf-8")
-        lines_ = f.readlines()
-        f.close()
-    except:
-        try :
-            f = open(file_, encoding="iso_8859_1")  # ANSI
+    try:
+        with open(file_, encoding="utf-8") as f:
             lines_ = f.readlines()
-            f.close()
-        except :
-            f = open(file_, encoding="utf-16-le") # UTF16-LE 
-            lines_ = f.readlines()
-            f.close()
+    except UnicodeDecodeError:
+        try:
+            with open(file_, encoding="iso_8859_1") as f:  # ANSI
+                lines_ = f.readlines()
+        except UnicodeDecodeError:
+            with open(file_, encoding="utf-16-le") as f:  # UTF16-LE
+                lines_ = f.readlines()
+    return lines_
 
     return lines_
 
@@ -146,7 +143,7 @@ def list_checking_main():
     logging.basicConfig(level=logging.DEBUG, filename='Checking.log', filemode='a', format=FORMAT)
 
     ## Main start
-    sys_inf_chk_file = "syschecklist.txt"
+    sys_inf_chk_file = "System_Inf_List.txt"
 
     # create sys inf check list
     # TODO from system and from package can use it
