@@ -9,7 +9,7 @@ from DLC_config_reader import DLC_config_reader_main
 
 # PyQt5 import
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMessageBox, QProgressDialog, QTableView
+from PyQt5.QtWidgets import QApplication, QMessageBox, QProgressDialog, QTableView, QFileDialog
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
@@ -17,6 +17,12 @@ from PyQt5.QtGui import *
 from ui.Ui_GUI_ import Ui_Form
 from ui.Ui_wlanbt_select import Ui_wlanbt_select_Form
 
+
+if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+
+if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 ## def function
 def str2bool(v):
@@ -47,33 +53,72 @@ batch_in_folder_path_list = []
 AUMIDs_in_folder_path_list = []
 modules_list = []
 
-# for package2zip set
+# package to Zip
 class CompressionThread(QThread):
+    progress = pyqtSignal(int)
+    total_dirs = pyqtSignal(int)
+    finished = pyqtSignal()
+
+    def __init__(self, root_folder_path, parent=None):  # 确保这里的参数名与调用时使用的关键字参数名相匹配
+        super().__init__(parent)
+        self.root_folder_path = root_folder_path
+        self.zip_folder_path = root_folder_path + "_ZipPackage"
+
+    def run(self):
+        if not os.path.exists(self.zip_folder_path):
+            os.makedirs(self.zip_folder_path)
+
+        directories = [d for d in os.listdir(self.root_folder_path) if os.path.isdir(os.path.join(self.root_folder_path, d))]
+        total_dirs = len(directories)
+        self.total_dirs.emit(total_dirs)
+
+        processed_dirs = 0
+        for directory in directories:
+            dir_path = os.path.join(self.root_folder_path, directory)
+            zip_file_path = os.path.join(self.zip_folder_path, directory + '.zip')
+            shutil.make_archive(base_name=zip_file_path, format='zip', root_dir=dir_path)
+            processed_dirs += 1
+            self.progress.emit(processed_dirs)
+
+        self.finished.emit()
+
+
+# Zip package to unzip
+class DecompressionThread(QThread):
     progress = pyqtSignal(int)
     finished = pyqtSignal()
 
-    def __init__(self, path_info, batch_path_list, parent=None):
+    def __init__(self, root_folder_path, parent=None):
         super().__init__(parent)
-        self.path_info = path_info
-        self.batch_path_list = batch_path_list
+        self.root_folder_path = root_folder_path
+        self.unzip_folder_path = root_folder_path + "_UnzipPackage"
 
     def run(self):
-        driverPackageZip_folder = "ZIP_DriverPackage"
-        for i in range(len(self.batch_path_list)):
-            self.progress.emit(i)
-            ori_package_path = self.batch_path_list[i]
-            if str2bool(self.path_info[0]): 
-                temp_path = ori_package_path
-            else:
-                temp_path = compare_paths(ori_package_path, self.path_info[1])
+        if not os.path.exists(self.unzip_folder_path):
+            os.makedirs(self.unzip_folder_path)
 
-            zip_file_final_path = os.path.join(driverPackageZip_folder, temp_path)
-            zip_folder_root = os.path.dirname(zip_file_final_path)
-            if not os.path.exists(zip_folder_root):
-                os.makedirs(zip_folder_root)
-            
-            shutil.make_archive(zip_file_final_path, format='zip', root_dir=ori_package_path)
-        self.progress.emit(len(self.batch_path_list))
+        # 收集所有.zip檔案
+        zip_files = []
+        for root, dirs, files in os.walk(self.root_folder_path):
+            for file in files:
+                if file.endswith('.zip'):
+                    zip_files.append(os.path.join(root, file))
+
+        total_files = len(zip_files)
+        processed_files = 0
+
+        # 解壓每個檔案
+        for zip_path in zip_files:
+            relative_path = os.path.relpath(os.path.dirname(zip_path), self.root_folder_path)
+            file_name = os.path.splitext(os.path.basename(zip_path))[0]
+            extract_to_folder = os.path.join(self.unzip_folder_path, relative_path, file_name)
+            if not os.path.exists(extract_to_folder):
+                os.makedirs(extract_to_folder)
+            shutil.unpack_archive(zip_path, extract_to_folder)
+
+            processed_files += 1
+            self.progress.emit(int((processed_files / total_files) * 100))
+
         self.finished.emit()
 
 
@@ -245,42 +290,73 @@ class mywindow(QtWidgets.QFrame, Ui_Form):
             local_dir_path = self.enter_path_lineEdit.text()
 
         if self.radioButton_zipToPackage.isChecked():
-            root_folder = os.listdir(local_dir_path)
-            package_list = [] 
+            self.when_zip_enable()
+            # root_folder = os.listdir(local_dir_path)
+            # package_list = [] 
 
-            for i in range(len(root_folder)): 
-                realpath_root = os.path.join(local_dir_path, root_folder[i])
-                if os.path.isdir(realpath_root):
-                    if root_folder[i][0:2].isdigit():
-                        package_list.append(root_folder[i])
+            # for i in range(len(root_folder)): 
+            #     realpath_root = os.path.join(local_dir_path, root_folder[i])
+            #     if os.path.isdir(realpath_root):
+            #         if root_folder[i][0:2].isdigit():
+            #             package_list.append(root_folder[i])
 
-            batch_in_folder_path_list_packing, _ = DLC_info_catch.batch_and_aumids_file_get(package_list, [isCurrentPath, local_dir_path])
+            # batch_in_folder_path_list_packing, _ = DLC_info_catch.batch_and_aumids_file_get(package_list, [isCurrentPath, local_dir_path])
 
-            title_msg = "Package to ZIP"
-            test_msg = "Please confirm the tree view is correct, \nand then click Ok to start the compression process."
-            if self.msgBox_select(title_msg, test_msg) == QMessageBox.Ok:
-                print("Start compression")
-                self.start_compression([isCurrentPath, local_dir_path], batch_in_folder_path_list_packing)
+            # title_msg = "Package to ZIP"
+            # test_msg = "Please confirm the tree view is correct, \nand then click Ok to start the compression process."
+            # if self.msgBox_select(title_msg, test_msg) == QMessageBox.Ok:
+            #     print("Start compression")
+            #     self.start_compression([isCurrentPath, local_dir_path], batch_in_folder_path_list_packing)
 
         if self.radioButton_Unzip.isChecked():
-            self.when_unzip_enable(self.path_info)
+            self.when_upzip_enable()
 
-    def start_compression(self, path_info, batch_path_list):
+    # pack to zip
+    def when_zip_enable(self):
+        root_folder_path = QFileDialog.getExistingDirectory(self, "Select Root Folder")
+        if root_folder_path:
+            self.start_compression(root_folder_path)
+
+    def start_compression(self, root_folder_path):
         self.progress = QProgressDialog(self)
-        self.progress.setWindowTitle("Please wait")  
+        self.progress.setWindowTitle("Please wait")
         self.progress.setLabelText("Compressing...")
         self.progress.setCancelButtonText("Cancel")
         self.progress.setMinimumDuration(2)
         self.progress.setWindowModality(Qt.WindowModal)
-        self.progress.setRange(0, len(batch_path_list))
+        # 初始化进度条范围，实际范围将在线程中设置
+        self.progress.setRange(0, 100)
 
-        self.thread = CompressionThread(path_info, batch_path_list)
+        self.thread = CompressionThread(root_folder_path=root_folder_path)
         self.thread.progress.connect(self.progress.setValue)
-        self.thread.finished.connect(self.compression_finished)
+        self.thread.total_dirs.connect(self.progress.setMaximum)  # 设置最大值
+        self.thread.finished.connect(lambda: self.compression_finished(root_folder_path))
         self.thread.start()
 
-    def compression_finished(self):
-        QMessageBox.information(self, "Message", "Compression complete\nPath: ZIP_DriverPackage")
+    def compression_finished(self, root_folder_path):
+        QMessageBox.information(self, "Message", f"Compression complete\nPath: {root_folder_path}")
+
+
+    # zip to package
+    def when_upzip_enable(self):
+        root_folder_path = QFileDialog.getExistingDirectory(self, "Select Root Folder")
+        if root_folder_path:
+            self.start_auto_decompression(root_folder_path)
+
+    def start_auto_decompression(self, root_folder_path):
+        self.progress = QProgressDialog("Decompressing...", "Cancel", 0, 100, self)
+        self.progress.setWindowTitle("Please wait")
+        self.progress.setWindowModality(Qt.WindowModal)
+        self.progress.show()
+
+        self.thread = DecompressionThread(root_folder_path)
+        self.thread.progress.connect(self.progress.setValue)
+        self.thread.finished.connect(lambda: self.decompression_finished(root_folder_path))
+        self.thread.start()
+
+    def decompression_finished(self, root_folder_path):
+        self.progress.close()
+        QMessageBox.information(self, "Message", f"Decompression complete\nPath: {root_folder_path}")
 
     def export_driver_list(self):
         global batch_in_folder_path_list
@@ -432,7 +508,6 @@ class mywindow(QtWidgets.QFrame, Ui_Form):
             progress.setValue(len(batch_in_folder_path_list))
             QMessageBox.information(self,"Message","Compression complete\nPath: {}".format(driverPackageZip_folder))
 
-
     def config_save(self):
         settings.clear()
         # save
@@ -556,7 +631,7 @@ class mywindow(QtWidgets.QFrame, Ui_Form):
 
 
 if __name__ == '__main__': # Main progress start
-    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
+    # QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QtWidgets.QApplication(sys.argv)
     window = mywindow()
     window.show()
