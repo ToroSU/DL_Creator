@@ -334,7 +334,9 @@ class mywindow(QtWidgets.QFrame, Ui_Form):
         self.thread.start()
 
     def compression_finished(self, root_folder_path):
-        QMessageBox.information(self, "Message", f"Compression complete\nPath: {root_folder_path}")
+        final_folder_name = root_folder_path + "_ZipPackage"
+        self.progress.close()
+        QMessageBox.information(self, "Message", f"Compression complete\nPath: {final_folder_name}")
 
 
     # zip to package
@@ -355,8 +357,9 @@ class mywindow(QtWidgets.QFrame, Ui_Form):
         self.thread.start()
 
     def decompression_finished(self, root_folder_path):
+        final_folder_name = root_folder_path + "_UnzipPackage"
         self.progress.close()
-        QMessageBox.information(self, "Message", f"Decompression complete\nPath: {root_folder_path}")
+        QMessageBox.information(self, "Message", f"Decompression complete\nPath: {final_folder_name}")
 
     def export_driver_list(self):
         global batch_in_folder_path_list
