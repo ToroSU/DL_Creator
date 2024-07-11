@@ -59,28 +59,42 @@ class CompressionThread(QThread):
     total_dirs = pyqtSignal(int)
     finished = pyqtSignal()
 
-    def __init__(self, root_folder_path, parent=None):  # 确保这里的参数名与调用时使用的关键字参数名相匹配
+    def __init__(self, root_folder_path, parent=None):
         super().__init__(parent)
         self.root_folder_path = root_folder_path
         self.zip_folder_path = root_folder_path + "_ZipPackage"
-
-    def run(self):
         if not os.path.exists(self.zip_folder_path):
             os.makedirs(self.zip_folder_path)
 
-        directories = [d for d in os.listdir(self.root_folder_path) if os.path.isdir(os.path.join(self.root_folder_path, d))]
-        total_dirs = len(directories)
-        self.total_dirs.emit(total_dirs)
+    def run(self):
+        total_dirs_count = 0
+        # 遍历根目录下的所有子目录，计算孙目录数量
+        for subdir in os.listdir(self.root_folder_path):
+            subdir_path = os.path.join(self.root_folder_path, subdir)
+            if os.path.isdir(subdir_path):
+                total_dirs_count += len([name for name in os.listdir(subdir_path) if os.path.isdir(os.path.join(subdir_path, name))])
 
+        self.total_dirs.emit(total_dirs_count)
         processed_dirs = 0
-        for directory in directories:
-            dir_path = os.path.join(self.root_folder_path, directory)
-            zip_file_path = os.path.join(self.zip_folder_path, directory + '.zip')
-            shutil.make_archive(base_name=zip_file_path, format='zip', root_dir=dir_path)
-            processed_dirs += 1
-            self.progress.emit(processed_dirs)
+
+        # 再次遍历根目录下的所有子目录，并压缩
+        for subdir in os.listdir(self.root_folder_path):
+            subdir_path = os.path.join(self.root_folder_path, subdir)
+            if os.path.isdir(subdir_path):
+                # 遍历子目录下的所有孙目录
+                for grandchild in os.listdir(subdir_path):
+                    grandchild_path = os.path.join(subdir_path, grandchild)
+                    if os.path.isdir(grandchild_path):
+                        zip_file_path = os.path.join(self.zip_folder_path, subdir, grandchild + '.zip')
+                        if not os.path.exists(os.path.dirname(zip_file_path)):
+                            os.makedirs(os.path.dirname(zip_file_path))
+                        # 使用 base_dir 使压缩后的目录结构不包含父目录
+                        shutil.make_archive(base_name=zip_file_path[:-4], format='zip', root_dir=grandchild_path)
+                        processed_dirs += 1
+                        self.progress.emit(processed_dirs)
 
         self.finished.emit()
+
 
 
 # Zip package to unzip
