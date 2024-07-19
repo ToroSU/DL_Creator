@@ -23,7 +23,7 @@ import xml.etree.ElementTree as ET
 
 inf_check_list = ['AlderLakePCH-PSystem.inf', 'heci.inf', 'iaStorVD.inf', 'iaLPSS2_GPIO2_ADL.inf', 
                 'iaLPSS2_I2C_ADL.inf', 'iigd_dch_d.inf', 'iigd_dch.inf', 'intcaudiobus.inf', 
-                'HDXSSTASUS.inf', 'e1d.inf', 'HidEventFilter.inf', 'gna.inf', 'ISH.inf', 'Netwtw08.INF', 
+                'HDXSSTASUS.inf', 'e1d.inf', 'HidEventFilter.inf', 'gna.inf', 'ISH.inf', 'Netwtw06.INF', 
                 'ibtusb.inf', 'ICPSComponent.inf', 'mtkwl6ex.inf', 'mtkbtfilter.inf', 'RtsUer.inf', 
                 'RtAsus.inf', 'snDMFT.inf', 'WbfUsbDriver.inf', 'HDX_AsusExt_XPERI4_DSP_iGo_Ext_Capx_DMVP_VPNR.inf', 'AsusNUMPADFilter.inf', 
                 'AsusPTPFilter.inf', 'dax3_ext_rtk.inf', 'RaptorLakePCH-SSystem.inf', 'iaLPSS2_GPIO2_RPL.inf',
